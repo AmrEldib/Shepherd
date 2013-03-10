@@ -69,6 +69,9 @@
     <Content Include="bootstrap\img\glyphicons-halflings.png" />
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="images\GreenCheckMark.png" />
+    <Content Include="images\QuestionMark.png" />
+    <Content Include="images\RedXMark.png" />
     <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="scripts\jquery-1.9.1.intellisense.js" />
@@ -94,6 +97,8 @@
     <Content Include="scripts\themes\default\d.png" />
     <Content Include="scripts\themes\default\style.css" />
     <Content Include="scripts\themes\default\throbber.gif" />
+    <Content Include="scripts\underscore.js" />
+    <Content Include="scripts\underscore.min.js" />
     <Content Include="scripts\_demo\file.png" />
     <Content Include="scripts\_demo\folder.png" />
     <Content Include="scripts\_demo\index.html" />
@@ -162,6 +167,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
