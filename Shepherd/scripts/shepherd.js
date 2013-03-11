@@ -695,18 +695,22 @@ function writeExtentObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
 
     var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
 
-    //XMin: -9835077.1346837
-    output += "XMin: " + metadataEntryValue.xmin + "<br />";
-    //YMin: 5106205.549332272
-    output += "YMin: " + metadataEntryValue.ymin + "<br />";
-    //XMax: -9786978.591968672
-    output += "XMax: " + metadataEntryValue.xmax + "<br />";
-    //YMax: 5147391.143600403
-    output += "YMax: " + metadataEntryValue.ymax + "<br />";
-    //Spatial Reference: 102726  (102726) 
-    //{"wkid":102726,"latestWkid":102726}}
-    output += "Spatial Reference: " + metadataEntryValue.spatialReference.wkid + " (" + metadataEntryValue.spatialReference.latestWkid + ")" + "<br />";
-    
+    if (metadataEntryValue) {
+        //XMin: -9835077.1346837
+        output += "XMin: " + metadataEntryValue.xmin + "<br />";
+        //YMin: 5106205.549332272
+        output += "YMin: " + metadataEntryValue.ymin + "<br />";
+        //XMax: -9786978.591968672
+        output += "XMax: " + metadataEntryValue.xmax + "<br />";
+        //YMax: 5147391.143600403
+        output += "YMax: " + metadataEntryValue.ymax + "<br />";
+        //Spatial Reference: 102726  (102726) 
+        //{"wkid":102726,"latestWkid":102726}}
+        output += "Spatial Reference: " + metadataEntryValue.spatialReference.wkid + " (" + metadataEntryValue.spatialReference.latestWkid + ")" + "<br />";
+    }
+    else {
+        output += "N/A";
+    };
 
     output += '</p>';
     return output;
@@ -727,34 +731,50 @@ function writeLayersObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
-    function writeLayerObjectMetadataEntryToHtml(layerObject) {
-        //{"id":0,"name":"Census Block Points","parentLayerId":-1,"defaultVisibility":true,"subLayerIds":null,"minScale":99999.99998945338,"maxScale":0}
-        var output = "<ul><b>" + layerObject.name + "</b>";
-        // id:0
-        output += "<li>ID: <i>" + layerObject.id + "</i></li>";
-        // name:Census Block Points
-        output += "<li>Name: <i>" + layerObject.name + "</i></li>";
-        // parentLayerId:-1
-        output += "<li>Parent Layer ID: <i>" + layerObject.parentLayerId + "</i></li>";
-        // defaultVisibility:true
-        output += "<li>Visible by default: <i>" + layerObject.defaultVisibility + "</i></li>";
-        // subLayerIds:null 
-        output += "<li>SubLayer IDs: <i>" + layerObject.subLayerIds + "</i></li>";
-        // minScale:99999.99998945338
-        output += "<li>Minimum Scale: <i>" + layerObject.minScale + "</i></li>";
-        // maxScale:0
-        output += "<li>Maximum Scale: <i>" + layerObject.maxScale + "</i></li>";
+    var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
+    if (metadataEntryValue.length === 0) {
+        listHtml += ' N/A </p>';
+    }
+    else {
+        listHtml += '<table class="table table-hover"><thead>'
+        + '<tr><th>ID</th>'
+        + '<th>Name</th>'
+        + '<th>Parent Layer ID</th>'
+        + '<th>Default Visibility</th>'
+        + '<th>Sub Layer Ids</th>'
+        + '<th>Min Scale</th>'
+        + '<th>Max Scale</th>'
+        + '</tr></thead> '
+        + '<tbody>';
 
-        output += "</ul>";
-        listHtml += output;
+        function writeLayerObjectMetadataEntryToHtml(layerObject) {
+            //{"id":0,"name":"Census Block Points","parentLayerId":-1,"defaultVisibility":true,"subLayerIds":null,"minScale":99999.99998945338,"maxScale":0}
+            // id:0
+            var output = "<tr><td>" + layerObject.id + "</td>";
+            // name:Census Block Points
+            output += "<td><b>" + layerObject.name + "</b></td>";
+            // parentLayerId:-1
+            output += "<td>" + (layerObject.parentLayerId ? layerObject.parentLayerId : "N/A") + "</td>";
+            // defaultVisibility:true
+            output += "<td>" + (layerObject.defaultVisibility
+                ? '<img src="images/GreenCheckMark.png" alt="Visible by default" />'
+                : '<img src="images/RedXMark.png" alt="Hidden by default" />') + "</td>";
+            // subLayerIds:null 
+            output += "<td>" + (layerObject.subLayerIds ? layerObject.subLayerIds : "N/A") + "</td>";
+            // minScale:99999.99998945338
+            output += "<td>" + (layerObject.minScale ? layerObject.minScale : "N/A") + "</td>";
+            // maxScale:0
+            output += "<td>" + (layerObject.maxScale ? layerObject.maxScale : "N/A") + "</td>";
+            output += "</tr>";
+            listHtml += output;
+        };
+        metadataEntryValue.forEach(writeLayerObjectMetadataEntryToHtml);
+        listHtml += "</tbody>";
+        listHtml += '</table></p>';
     };
-    metadataEntryValue.forEach(writeLayerObjectMetadataEntryToHtml);
-    listHtml += "</ul>" + '</p>';
+
     return listHtml;
 }
-
-
 
 function writeTablesObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with Tables object type to the Service Info Div.</summary>
@@ -762,20 +782,31 @@ function writeTablesObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
-    function writeTableObjectMetadataEntryToHtml(tableObject) {
-        // "tables":[{"id":1,"name":"ServiceRequestComment"}]
-        var output = "<ul><b>" + tableObject.name + "</b>";
-        // id:1
-        output += "<li>ID: <i>" + tableObject.id + "</i></li>";
-        // name:ServiceRequestComment
-        output += "<li>Name: <i>" + tableObject.name + "</i></li>";
+    var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
+    if (metadataEntryValue.length === 0) {
+        listHtml += ' N/A </p>';
+    }
+    else {
+        listHtml += '<table class="table table-hover"><thead>'
+        + '<tr><th>ID</th>'
+        + '<th>Name</th>'
+        + '</tr></thead> '
+        + '<tbody>';
 
-        output += "</ul>";
-        listHtml += output;
+        function writeTableObjectMetadataEntryToHtml(tableObject) {
+            // "tables":[{"id":1,"name":"ServiceRequestComment"}]
+            // id:1
+            var output = "<tr><td><b>" + tableObject.id + "</b></td>";
+            // name:ServiceRequestComment
+            output += "<td>" + tableObject.name + "</td>";
+            output += "</tr>";
+            listHtml += output;
+        };
+        metadataEntryValue.forEach(writeTableObjectMetadataEntryToHtml);
+        listHtml += "</tbody>";
+        listHtml += '</table></p>';
     };
-    metadataEntryValue.forEach(writeTableObjectMetadataEntryToHtml);
-    listHtml += "</ul>" + '</p>';
+    
     return listHtml;
 }
 
@@ -788,21 +819,21 @@ function writeDocumentInfoObjectMetadataEntryToHtml(metadataEntryTitle, metadata
     var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
     
     //Title: Damage Assessment
-    output += "Title: " + writeStringValueOrEmptyAlt(metadataEntryValue.Title) + "<br />";
+    output += "Title: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Title) + "</i><br />";
     //Author: Esri., Inc.
-    output += "Author: " + writeStringValueOrEmptyAlt(metadataEntryValue.Author) + "<br />";
+    output += "Author: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Author) + "</i><br />";
     //Comments: This map is used with ArcGIS Mobile to collect structural damage assessment.
-    output += "Comments: " + writeStringValueOrEmptyAlt(metadataEntryValue.Comments) + "<br />";
+    output += "Comments: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Comments) + "</i><br />";
     //Subject: This map is used with ArcGIS Mobile to collect structural damage assessment.
-    output += "Subject: " + writeStringValueOrEmptyAlt(metadataEntryValue.Subject) + "<br />";
+    output += "Subject: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Subject) + "</i><br />";
     //Category:
-    output += "Category: " + writeStringValueOrEmptyAlt(metadataEntryValue.Category) + "<br />";
+    output += "Category: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Category) + "</i><br />";
     //Keywords: Emergency Management,Damage Assessment,Public Safety
-    output += "Keywords: " + writeStringValueOrEmptyAlt(metadataEntryValue.Keywords) + "<br />";
+    output += "Keywords: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Keywords) + "</i><br />";
     //AntialiasingMode: None
-    output += "Antialiasing Mode: " + writeStringValueOrEmptyAlt(metadataEntryValue.AntialiasingMode) + "<br />";
+    output += "Antialiasing Mode: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.AntialiasingMode) + "</i><br />";
     //TextAntialiasingMode: Force
-    output += "Text Antialiasing Mode: " + writeStringValueOrEmptyAlt(metadataEntryValue.TextAntialiasingMode) + "<br />";
+    output += "Text Antialiasing Mode: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.TextAntialiasingMode) + "</i><br />";
     
     output += '</p>';
     return output;
@@ -823,7 +854,7 @@ function writeUnitsObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryVa
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue.substring(4) + '</p>';
 }
 
 function writeRasterTypeInfosObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -850,7 +881,7 @@ function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryVal
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
 
     var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
-    listHtml += '<table class="table table-striped"><thead>'
+    listHtml += '<table class="table table-hover"><thead>'
         + '<tr><th>Name</th>'
         + '<th>Alias</th>'
         + '<th>Type</th>'
@@ -863,7 +894,7 @@ function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryVal
         // {"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID","domain":null}
         
         // name:OBJECTID
-        var output = "<td><b>" + fieldObject.name + "</b></td>";
+        var output = "<tr><td><b>" + fieldObject.name + "</b></td>";
         // alias:OBJECTID
         output += "<td>" + fieldObject.alias + "</td>";
         // type:esriFieldTypeOID
@@ -877,13 +908,18 @@ function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryVal
         else {
             output += "<td>" + fieldObject.domain.name + " (" + fieldObject.domain.type + ")</td>";
         }
-        
-        output += "</tbody>";
+        output += "</tr>";
         listHtml += output;
     };
     metadataEntryValue.forEach(writeFieldObjectMetadataEntryToHtml);
+    listHtml += "</tbody>";
     listHtml += '</table></p>';
     return listHtml;
+}
+
+function setServerUrl(serverUrl) {
+    $("#txtServerUrl").val(serverUrl);
+    btnGetServerInfo_Click(serverUrl);
 }
 
 String.prototype.endsWith = function (suffix) {

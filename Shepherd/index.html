@@ -66,7 +66,39 @@
                     <p>Server URL</p>
                 </div>
                 <div class="span8">
-                    <input class="input-block-level" type="text" id="txtServerUrl" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services" />
+                    <!--<input class="input-block-level" type="text" id="txtServerUrl" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services" />-->
+                    <div class="input-prepend">
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">Sample Servers <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" onclick="setServerUrl('http://sampleserver6.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10.1 SP1</a></li>
+                                <li><a href="#" onclick="setServerUrl('http://psstldemo3.esri.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10.1 SP1 PSSTLDemo</a></li>
+                                
+                                <li class="divider"></li>
+                                
+                                <li><a href="#" onclick="setServerUrl('http://sampleserver3.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 - SampleServer 3</a></li>
+                                <li><a href="#" onclick="setServerUrl('http://sampleserver5.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 - SampleServer 5</a></li>
+                                <li><a href="#" onclick="setServerUrl('http://sampleserver1.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 SP1 - SampleServer1</a></li>
+                                <li><a href="#" onclick="setServerUrl('http://services.arcgisonline.com/ArcGIS/rest/services/'); return false;">
+                                    ArcGIS 10 SP1 - Services - World Basemaps</a></li>
+                                <li><a href="#" onclick="setServerUrl('http://sampleserver4.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 SP2 - SampleServer4</a></li>
+                                <li><a href="#" onclick="setServerUrl('http://tasks.arcgisonline.com/ArcGIS/rest/services'); return false;">
+                                    ArcGIS 10 SP4 - Tasks</a></li>
+                                
+                                <li class="divider"></li>
+                                
+                                <li><a href="#" onclick="setServerUrl('http://sampleserver2.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 9.3 SP1 - SampleServer2</a></li>
+                            </ul>
+                        </div>
+                        <input class="input-block-level" id="txtServerUrl" type="text" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services" />
+                    </div>
                 </div>
                 <div class="span2">
                     <button class="btn btn-primary" id="btnGetServerInfo" data-dojo-type="dijit.form.Button" onclick="btnGetServerInfo_Click(txtServerUrl.value)">Get Server Info</button>
