@@ -849,7 +849,41 @@ function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryVal
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + writeStringValueOrEmptyAlt(metadataEntryValue) + '</p>';
+    var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
+    listHtml += '<table class="table table-striped"><thead>'
+        + '<tr><th>Name</th>'
+        + '<th>Alias</th>'
+        + '<th>Type</th>'
+        + '<th>Domain</th>'
+        + '</tr></thead> '
+        + '<tbody>';
+
+    function writeFieldObjectMetadataEntryToHtml(fieldObject) {
+        
+        // {"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID","domain":null}
+        
+        // name:OBJECTID
+        var output = "<td><b>" + fieldObject.name + "</b></td>";
+        // alias:OBJECTID
+        output += "<td>" + fieldObject.alias + "</td>";
+        // type:esriFieldTypeOID
+        output += "<td>" + fieldObject.type.substring(13) + "</td>";
+        // domain:null
+        // OR
+        // {"name":"Category","type":"esriFieldTypeInteger","alias":"Category","domain":{"type":"codedValue","name":"MosaicCatalogItemCategoryDomain","codedValues":[{"name":"Unknown","code":0},{"name":"Primary","code":1},{"name":"Overview","code":2},{"name":"Unprocessed Overview","code":3},{"name":"Partial Overview","code":4},{"name":"Uploaded","code":253},{"name":"Incomplete","code":254},{"name":"Custom","code":255}]}}
+        if (!fieldObject.domain) {
+            output += "<td>N/A</td>";
+        }
+        else {
+            output += "<td>" + fieldObject.domain.name + " (" + fieldObject.domain.type + ")</td>";
+        }
+        
+        output += "</tbody>";
+        listHtml += output;
+    };
+    metadataEntryValue.forEach(writeFieldObjectMetadataEntryToHtml);
+    listHtml += '</table></p>';
+    return listHtml;
 }
 
 String.prototype.endsWith = function (suffix) {
