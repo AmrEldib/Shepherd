@@ -226,19 +226,25 @@ function listServiceInfo(serviceUrl, serviceName, serviceType, infoDivName) {
 
         // Clear div
         $("#" + infoDivName).empty();
+        var htmlOutput = "";
 
         // Service name
-        $("#" + infoDivName).append('<div class="text-right"><p><h2>' + serviceName + '</h2><a href="' + serviceUrl + '" target="_blank"><i>' + serviceType + '</i></a></p></div>');
-        $("#" + infoDivName).append('<hr />');
+        htmlOutput += '<div class="text-right"><p><h2>' + serviceName + '</h2>';
+        htmlOutput += '<i>' + serviceType + '</i>  ';
+        htmlOutput += '<a href="' + serviceUrl + '" target="_blank"><img src="images/OpenLinkInNewTabSmall.png" alt="View service in Services Directory" /></a></p></div>';
+        // '<img src="images/GreenCheckMark.png" alt="True" />'
+        htmlOutput += '<hr />';
 
         // Service description
-        $("#" + infoDivName).append('<p><b>Service Description: </b>');
+        htmlOutput += '<p><b>Service Description: </b>';
         if (json.serviceDescription != "") {
-            $("#" + infoDivName).append(json.serviceDescription + '</p>');
+            htmlOutput += json.serviceDescription + '</p>';
         }
         else {
-            $("#" + infoDivName).append('N/A </p>');
+            htmlOutput += 'N/A </p>';
         }
+
+        $("#" + infoDivName).append(htmlOutput);
 
         switch (serviceType) {
             case "GPServer":
@@ -262,18 +268,19 @@ function listServiceInfo(serviceUrl, serviceName, serviceType, infoDivName) {
         }
 
         if (isDebug) {
-            $("#" + infoDivName).append('<hr/>');
-            $("#" + infoDivName).append('<span class="label label-info">Service Full Details: </span>');
+
+            var debugHtml = '<hr/>';
+            debugHtml += '<span class="label label-info">Service Full Details: </span>';
             // List all keys and values
             $.each(json, function (key, value) {
-                $("#" + infoDivName).append('<p>' + key + ': ' + value + '</p>');
+                debugHtml += '<p>' + key + ': ' + value + '</p>';
             });
-        }
+        
+            debugHtml += '<hr/>';
+            debugHtml += '<span class="label label-info">JSON String: </span><br/>';
+            debugHtml += JSON.stringify(json);
 
-        if (isDebug) {
-            $("#" + infoDivName).append('<hr/>');
-            $("#" + infoDivName).append('<span class="label label-info">JSON String: </span><br/>');
-            $("#" + infoDivName).append(JSON.stringify(json));
+            $("#" + infoDivName).append(debugHtml);
         }
     });
 }
@@ -283,19 +290,23 @@ function listGPServerServiceInfo(json, infoDivName) {
     /// <param name="json" type="String">Description of service in JSON format.</param>
     /// <param name="infoDivName" type="String">Name of the info div.</param>
 
+    var serviceInfoHtml = "";
+
     //serviceDescription: The tool filters 911 calls based on the query provided by the client and creates a hotspot raster based on the frequency of calls. The hotspot raster is created using the Spatial Statistics Hot Spot Analysis tool, which ... (see Description)
     // serviceDescription is already displayed.
 
     //tasks: 911 Calls Hotspot
 
     //executionType: esriExecutionTypeAsynchronous
-    addStringMetadataEntryToServiceInfoDiv("Execution Type", json.executionType, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Execution Type", json.executionType);
 
     //resultMapServerName: 911CallsHotspot
-    addStringMetadataEntryToServiceInfoDiv("Result Map Server Name", json.resultMapServerName, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Result Map Server Name", json.resultMapServerName);
 
     //maximumRecords: 1000
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Records", json.maximumRecords, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Maximum Records", json.maximumRecords);
+
+    $("#" + infoDivName).append(serviceInfoHtml);
 }
 
 function listMapServerServiceInfo(json, infoDivName) {
@@ -304,68 +315,72 @@ function listMapServerServiceInfo(json, infoDivName) {
     /// <param name="json" type="String">Description of service in JSON format.</param>
     /// <param name="infoDivName" type="String">Name of the info div.</param>
 
+    var serviceInfoHtml = "";
+
     // serviceDescription: 
     // serviceDescription is already displayed.
 
     //mapName: Layers
-    addStringMetadataEntryToServiceInfoDiv("Map Name", json.mapName, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Map Name", json.mapName);
 
     //description: FOR DEMO PURPOSES ONLY. The process of blending the elevation datasets is not complete.
-    addStringMetadataEntryToServiceInfoDiv("Description", json.description, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Description", json.description);
 
     //copyrightText: SRTM, GTopo30, GEBCO
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Copyright Text", json.copyrightText, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Copyright Text", json.copyrightText);
 
     //supportsDynamicLayers: false
-    addBooleanMetadataEntryToServiceInfoDiv("Supports Dynamic Layers", json.supportsDynamicLayers, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Supports Dynamic Layers", json.supportsDynamicLayers);
 
     //layers: [object Object]
-    addLayersObjectMetadataEntryToServiceInfoDiv("Layers", "", infoDivName);
+    serviceInfoHtml += writeLayersObjectMetadataEntryToHtml("Layers", json.layers);
 
     //tables:
-    addTablesObjectMetadataEntryToServiceInfoDiv("Tables", "", infoDivName);
+    serviceInfoHtml += writeTablesObjectMetadataEntryToHtml("Tables", json.tables);
 
     //spatialReference: [object Object]
-    addSpatialReferenceObjectMetadataEntryToServiceInfoDiv("Spatial Reference", "", infoDivName);
+    serviceInfoHtml += writeSpatialReferenceObjectMetadataEntryToHtml("Spatial Reference", json.spatialReference);
 
     //singleFusedMapCache: false
-    addBooleanMetadataEntryToServiceInfoDiv("Single Fused Map Cache", json.singleFusedMapCache, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Single Fused Map Cache", json.singleFusedMapCache);
 
     //initialExtent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Initial Extent", "", infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Initial Extent", json.initialExtent);
 
     //fullExtent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Full Extent", "", infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Full Extent", json.fullExtent);
 
     //minScale: 0
-    addNumberMetadataEntryToServiceInfoDiv("Minimum Scale", json.minScale, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Minimum Scale", json.minScale);
 
     //maxScale: 0
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Scale", json.maxScale, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Scale", json.maxScale);
 
     //units: esriMeters
-    addUnitsObjectMetadataEntryToServiceInfoDiv("Units", json.units, infoDivName);
+    serviceInfoHtml += writeUnitsObjectMetadataEntryToHtml("Units", json.units);
 
     //supportedImageFormatTypes: PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Supported Image Format Types", json.supportedImageFormatTypes, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Supported Image Format Types", json.supportedImageFormatTypes);
 
     //documentInfo: [object Object]
-    addDocumentInfoObjectMetadataEntryToServiceInfoDiv("Document Info", json.documentInfo, infoDivName);
-
+    serviceInfoHtml += writeDocumentInfoObjectMetadataEntryToHtml("Document Info", json.documentInfo);
+    
     //capabilities: Map,Query,Data
-    addStringMetadataEntryToServiceInfoDiv("Capabilities", json.capabilities, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Capabilities", json.capabilities);
 
     //supportedQueryFormats: JSON, AMF
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Supported Query Formats", json.supportedQueryFormats, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Supported Query Formats", json.supportedQueryFormats);
 
     //maxRecordCount: 1000
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Record Count", json.maxRecordCount, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Record Count", json.maxRecordCount);
 
     //maxImageHeight: 2048
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Image Height", json.maxImageHeight, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Image Height", json.maxImageHeight);
 
     //maxImageWidth: 2048
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Image Width", json.maxImageWidth, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Image Width", json.maxImageWidth);
+
+    $("#" + infoDivName).append(serviceInfoHtml);
 }
 
 function listImageServerServiceInfo(json, infoDivName) {
@@ -373,143 +388,147 @@ function listImageServerServiceInfo(json, infoDivName) {
     /// <param name="json" type="String">Description of service in JSON format.</param>
     /// <param name="infoDivName" type="String">Name of the info div.</param>
 
+    var serviceInfoHtml = "";
+
     //serviceDescription: This image service contains 9 LAS files covering North Carolina’s, City of Charlotte downtown area. The lidar data was collected in 2007. First return points are used to generate an on-the-fly seamless elevation surface with a 10-foot pixel resolution. The elevation unit is foot. LAS files were provided by Mecklenburg County, NC and are managed using a mosaic dataset. Esri reserves the right to change or remove this service at any time and without notice.
     // serviceDescription is already displayed.
 
     //    name: CharlotteLAS
-    addStringMetadataEntryToServiceInfoDiv("Name", json.name, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Name", json.name);
 
     //description: This image service contains 9 LAS files covering North Carolina’s, City of Charlotte downtown area. The lidar data was collected in 2007. First return points are used to generate an on-the-fly seamless elevation surface with a 10-foot pixel resolution. The elevation unit is foot. LAS files were provided by Mecklenburg County, NC and are managed using a mosaic dataset. Esri reserves the right to change or remove this service at any time and without notice.
-    addStringMetadataEntryToServiceInfoDiv("Description", json.description, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Description", json.description);
 
     //    extent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Extent", json.extent, infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Extent", json.extent);
 
     //initialExtent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Initial Extent", json.initialExtent, infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Initial Extent", json.initialExtent);
 
     //fullExtent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Full Extent", json.fullExtent, infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Full Extent", json.fullExtent);
 
     //pixelSizeX: 10
-    addNumberMetadataEntryToServiceInfoDiv("Pixel Size X", json.pixelSizeX, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Pixel Size X", json.pixelSizeX);
 
     //pixelSizeY: 10
-    addNumberMetadataEntryToServiceInfoDiv("Pixel Size Y", json.pixelSizeY, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Pixel Size Y", json.pixelSizeY);
 
     //bandCount: 1
-    addNumberMetadataEntryToServiceInfoDiv("Band Count", json.bandCount, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Band Count", json.bandCount);
 
     //pixelType: F32
-    addStringMetadataEntryToServiceInfoDiv("Pixel Type", json.pixelType, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Pixel Type", json.pixelType);
 
     //minPixelSize: 0
-    addNumberMetadataEntryToServiceInfoDiv("Minimum Pixel Size", json.minPixelSize, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Minimum Pixel Size", json.minPixelSize);
 
     //maxPixelSize: 0
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Pixel Size", json.maxPixelSize, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Pixel Size", json.maxPixelSize);
 
     //copyrightText: Copyright © 2007 Mecklenburg County
-    addStringMetadataEntryToServiceInfoDiv("Copyright Text", json.copyrightText, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Copyright Text", json.copyrightText);
 
     //serviceDataType: esriImageServiceDataTypeElevation
-    addServiceDataTypeObjectMetadataEntryToServiceInfoDiv("Service Data Type", json.serviceDataType, infoDivName);
+    serviceInfoHtml += writeServiceDataTypeObjectMetadataEntryToHtml("Service Data Type", json.serviceDataType);
 
     //minValues: 515.6699829101562
-    addNumberMetadataEntryToServiceInfoDiv("Minimum Value", json.minValues, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Minimum Value", json.minValues);
 
     //maxValues: 1611.125
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Value", json.maxValues, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Value", json.maxValues);
 
     //meanValues: 712.371337411377
-    addNumberMetadataEntryToServiceInfoDiv("Mean Value", json.meanValues, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Mean Value", json.meanValues);
 
     //stdvValues: 45.56883666949917
-    addNumberMetadataEntryToServiceInfoDiv("Standard Value", json.stdvValues, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Standard Value", json.stdvValues);
 
     //objectIdField: OBJECTID
-    addStringMetadataEntryToServiceInfoDiv("Object ID Field", json.objectIdField, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Object ID Field", json.objectIdField);
 
     //fields: [object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]
-    addFieldsListMetadataEntryToServiceInfoDiv("Fields", json.fields, infoDivName);
+    serviceInfoHtml += writeFieldsListMetadataEntryToHtml("Fields", json.fields);
 
     //capabilities: Image,Metadata,Catalog,Mensuration
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Capabilities", json.capabilities, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Capabilities", json.capabilities);
 
     //defaultMosaicMethod: Northwest
-    addStringMetadataEntryToServiceInfoDiv("Default Mosaic Method", json.defaultMosaicMethod, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Default Mosaic Method", json.defaultMosaicMethod);
 
     //allowedMosaicMethods: NorthWest,Center,LockRaster,ByAttribute,Nadir,Viewpoint,Seamline,None
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Allowed Mosaic Methods", json.allowedMosaicMethods, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Allowed Mosaic Methods", json.allowedMosaicMethods);
 
     //sortField:
-    addStringMetadataEntryToServiceInfoDiv("Sort Field", json.sortField, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Sort Field", json.sortField);
 
     //sortValue: null
-    addStringMetadataEntryToServiceInfoDiv("Sort Value", json.sortValue, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Sort Value", json.sortValue);
 
     //mosaicOperator: First
-    addStringMetadataEntryToServiceInfoDiv("Mosaic Operator", json.mosaicOperator, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Mosaic Operator", json.mosaicOperator);
 
     //defaultCompressionQuality: 75
-    addNumberMetadataEntryToServiceInfoDiv("Default Compression Quality", json.defaultCompressionQuality, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Default Compression Quality", json.defaultCompressionQuality);
 
     //defaultResamplingMethod: Bilinear
-    addStringMetadataEntryToServiceInfoDiv("Default Resampling Method", json.defaultResamplingMethod, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Default Resampling Method", json.defaultResamplingMethod);
 
     //maxImageHeight: 4100
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Image Height", json.maxImageHeight, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Image Height", json.maxImageHeight);
 
     //maxImageWidth: 15000
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Image Width", json.maxImageWidth, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Image Width", json.maxImageWidth);
 
     //maxRecordCount: 1000
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Record Count", json.maxRecordCount, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Record Count", json.maxRecordCount);
 
     //maxDownloadImageCount: 0
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Download Image Count", json.maxDownloadImageCount, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Download Image Count", json.maxDownloadImageCount);
 
     //maxDownloadSizeLimit: 0
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Download Size Limit", json.maxDownloadSizeLimit, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Download Size Limit", json.maxDownloadSizeLimit);
 
     //maxMosaicImageCount: 20
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Mosaic Image Count", json.maxMosaicImageCount, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Mosaic Image Count", json.maxMosaicImageCount);
 
     //allowRasterFunction: true
-    addBooleanMetadataEntryToServiceInfoDiv("Allow Raster Function", json.allowRasterFunction, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Allow Raster Function", json.allowRasterFunction);
 
     //rasterFunctionInfos: [object Object],[object Object],[object Object],[object Object]
-    addRasterFunctionInfosObjectMetadataEntryToServiceInfoDiv("Raster Function Infos", json.rasterFunctionInfos, infoDivName);
+    serviceInfoHtml += writeRasterFunctionInfosObjectMetadataEntryToHtml("Raster Function Infos", json.rasterFunctionInfos);
 
     //rasterTypeInfos: [object Object]
-    addRasterTypeInfosObjectMetadataEntryToServiceInfoDiv("Raster Type Infos", json.rasterTypeInfos, infoDivName);
-
+    serviceInfoHtml += writeRasterTypeInfosObjectMetadataEntryToHtml("Raster Type Infos", json.rasterTypeInfos);
+    
     //mensurationCapabilities: Basic
-    addStringMetadataEntryToServiceInfoDiv("Mensuration Capabilities", json.mensurationCapabilities, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Mensuration Capabilities", json.mensurationCapabilities);
 
     //hasHistograms: true
-    addBooleanMetadataEntryToServiceInfoDiv("Has Histograms", json.hasHistograms, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Has Histograms", json.hasHistograms);
 
     //hasColormap: false
-    addBooleanMetadataEntryToServiceInfoDiv("Has Colormap", json.hasColormap, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Has Colormap", json.hasColormap);
 
     //hasRasterAttributeTable: false
-    addBooleanMetadataEntryToServiceInfoDiv("Has Raster Attribute Table", json.hasRasterAttributeTable, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Has Raster Attribute Table", json.hasRasterAttributeTable);
 
     //minScale: 0
-    addNumberMetadataEntryToServiceInfoDiv("Minimum Scale", json.minScale, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Minimum Scale", json.minScale);
 
     //maxScale: 0
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Scale", json.maxScale, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Scale", json.maxScale);
 
     //editFieldsInfo: null
-    addStringMetadataEntryToServiceInfoDiv("Edit Fields Info", json.editFieldsInfo, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Edit Fields Info", json.editFieldsInfo);
 
     //ownershipBasedAccessControlForRasters: null
-    addStringMetadataEntryToServiceInfoDiv("Ownership Based Access Control for Rasters", json.ownershipBasedAccessControlForRasters, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Ownership Based Access Control for Rasters", json.ownershipBasedAccessControlForRasters);
 
     //spatialReference: [object Object]
-    addSpatialReferenceObjectMetadataEntryToServiceInfoDiv("Spatial Reference", json.spatialReference, infoDivName);
+    serviceInfoHtml += writeSpatialReferenceObjectMetadataEntryToHtml("Spatial Reference", json.spatialReference);
+
+    $("#" + infoDivName).append(serviceInfoHtml);
 }
 
 function listFeatureServerServiceInfo(json, infoDivName) {
@@ -517,56 +536,60 @@ function listFeatureServerServiceInfo(json, infoDivName) {
     /// <param name="json" type="String">Description of service in JSON format.</param>
     /// <param name="infoDivName" type="String">Name of the info div.</param>
 
+    var serviceInfoHtml = "";
+
     //serviceDescription: This is a sample map of data entered by city residents. This is a sample service hosted by ESRI, powered by ArcGIS Server. ESRI reserves the right to change or remove this service at any time and without notice.
     // serviceDescription is already displayed.
 
     //hasVersionedData: false
-    addBooleanMetadataEntryToServiceInfoDiv("Has Version Data", json.hasVersionedData, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Has Version Data", json.hasVersionedData);
 
     //supportsDisconnectedEditing: true
-    addBooleanMetadataEntryToServiceInfoDiv("Supports Disconnected Editing", json.supportsDisconnectedEditing, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Supports Disconnected Editing", json.supportsDisconnectedEditing);
 
     //supportedQueryFormats: JSON, AMF
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Supported Query Formats", json.supportedQueryFormats, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Supported Query Formats", json.supportedQueryFormats);
 
     //maxRecordCount: 1000
-    addNumberMetadataEntryToServiceInfoDiv("Maximum Record Count", json.maxRecordCount, infoDivName);
+    serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Record Count", json.maxRecordCount);
 
     //capabilities: Create,Delete,Query,Update,Uploads,Editing
-    addCommaSeparatedListMetadataEntryToServiceInfoDiv("Capabilities", json.capabilities, infoDivName);
+    serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Capabilities", json.capabilities);
 
     //description: This is a sample map of data entered by city residents. This is a sample service hosted by ESRI, powered by ArcGIS Server. ESRI reserves the right to change or remove this service at any time and without notice.
-    addStringMetadataEntryToServiceInfoDiv("Description", json.description, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Description", json.description);
 
     //copyrightText:
-    addStringMetadataEntryToServiceInfoDiv("Copyright Text", json.copyrightText, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Copyright Text", json.copyrightText);
 
     //spatialReference: [object Object]
-    addSpatialReferenceObjectMetadataEntryToServiceInfoDiv("Spatial Reference", json.spatialReference, infoDivName);
+    serviceInfoHtml += writeSpatialReferenceObjectMetadataEntryToHtml("Spatial Reference", json.spatialReference);
 
     //initialExtent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Initial Extent", json.initialExtent, infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Initial Extent", json.initialExtent);
 
     //fullExtent: [object Object]
-    addGeometryObjectMetadataEntryToServiceInfoDiv("Full Extent", json.fullExtent, infoDivName);
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Full Extent", json.fullExtent);
 
     //allowGeometryUpdates: true
-    addBooleanMetadataEntryToServiceInfoDiv("Allow Geometry Updates", json.allowGeometryUpdates, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Allow Geometry Updates", json.allowGeometryUpdates);
 
     //units: esriDecimalDegrees
-    addStringMetadataEntryToServiceInfoDiv("Units", json.units, infoDivName);
+    serviceInfoHtml += writeUnitsObjectMetadataEntryToHtml("Units", json.units);
 
     //documentInfo: [object Object]
-    addStringMetadataEntryToServiceInfoDiv("Document Info", json.documentInfo, infoDivName);
+    serviceInfoHtml += writeDocumentInfoObjectMetadataEntryToHtml("Document Info", json.documentInfo);
 
     //layers: [object Object]
-    addLayersObjectMetadataEntryToServiceInfoDiv("Layers", json.layers, infoDivName);
+    serviceInfoHtml += writeLayersObjectMetadataEntryToHtml("Layers", json.layers);
 
     //tables: [object Object]
-    addTablesObjectMetadataEntryToServiceInfoDiv("Tables", json.tables, infoDivName);
+    serviceInfoHtml += writeTablesObjectMetadataEntryToHtml("Tables", json.tables);
 
     //enableZDefaults: false
-    addBooleanMetadataEntryToServiceInfoDiv("Enable ZDefaults", json.enableZDefaults, infoDivName);
+    serviceInfoHtml += writeBooleanMetadataEntryToHtml("Enable ZDefaults", json.enableZDefaults);
+
+    $("#" + infoDivName).append(serviceInfoHtml);
 }
 
 function listNAServerServiceInfo(json, infoDivName) {
@@ -574,147 +597,259 @@ function listNAServerServiceInfo(json, infoDivName) {
     /// <param name="json" type="String">Description of service in JSON format.</param>
     /// <param name="infoDivName" type="String">Name of the info div.</param>
 
+    var serviceInfoHtml = "";
+
     //serviceDescription: null
     // serviceDescription is already displayed.
 
     //routeLayers: Route
-    addStringMetadataEntryToServiceInfoDiv("Route Layers", json.routeLayers, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Route Layers", json.routeLayers);
 
     //serviceAreaLayers: ServiceArea
-    addStringMetadataEntryToServiceInfoDiv("Service Area Layers", json.serviceAreaLayers, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Service Area Layers", json.serviceAreaLayers);
 
     //closestFacilityLayers: ClosestFacility
-    addStringMetadataEntryToServiceInfoDiv("Closest Facility Layers", json.closestFacilityLayers, infoDivName);
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Closest Facility Layers", json.closestFacilityLayers);
+
+    $("#" + infoDivName).append(serviceInfoHtml);
 }
 
-function addStringMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+function writeStringValueOrEmptyAlt(stringValue, altText) {
+    /// <summary>Writes the value of a string variable or an alternative "Not specified" if the string is empty.</summary>
+    /// <param name="stringValue" type="String">Value of a string variable.</param>
+    /// <returns type="String">Html value.</returns>
+    
+    altText = altText || "Not specified";
+    return ((stringValue != "") ? stringValue : altText);
+}
+
+function writeStringMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with 'String' formatting to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + writeStringValueOrEmptyAlt(metadataEntryValue) + '</p>';
 }
 
-function addNumberMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+function writeNumberMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with 'Number' formatting to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+    
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
 }
 
-function addBooleanMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+function writeBooleanMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with 'Boolean' formatting to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    
-    $("#" + infoDivName).append('<p>'
+    /// <returns type="String">Html value.</returns>
+
+    return '<p>'
         + ((metadataEntryValue)
             ? '<img src="images/GreenCheckMark.png" alt="True" />'
             : '<img src="images/RedXMark.png" alt="False" />')
-        + '<b>   ' + metadataEntryTitle + '</b></p>');
+        + '<b>   ' + metadataEntryTitle + '</b></p>';
 }
 
-function addCommaSeparatedListMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with a value of comma-separated list to the Service Info Div.</summary>
+function writeCommaSeparatedListMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Writes a comma-separated list to the Service Info Div as an HTML bulleted list.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    
-    if (metadataEntryValue == "") {
-        $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + "Not specified" + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    var listItems = metadataEntryValue.split(',');
+    if (listItems.length == 0) {
+        return '<p><b>' + metadataEntryTitle + ':</b> ' + "Not specified" + '</p>';
     }
     else {
-        var listItems = metadataEntryValue.split(',');
         var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
         function writeListItem(item) {
             listHtml += "<li>" + item + "</li>";
         };
-        listItems.forEach(writeListItem);        
+        listItems.forEach(writeListItem);
         listHtml += "</ul>" + '</p>';
-        $("#" + infoDivName).append(listHtml);
+        return listHtml;
     }
 }
 
-function addSpatialReferenceObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with 'Spatial Reference' object to the Service Info Div.</summary>
+function writeSpatialReferenceObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with 'SpatialReference' object type to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+    //"spatialReference":{"wkid":102726,"latestWkid":102726}
+    var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
+
+    output += metadataEntryValue.wkid + " (" + metadataEntryValue.latestWkid + ")" + "<br /></p>";
+    return output;
 }
 
-function addGeometryObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with 'Geometry' object to the Service Info Div.</summary>
+function writeExtentObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with 'Extent' object type to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
+
+    //XMin: -9835077.1346837
+    output += "XMin: " + metadataEntryValue.xmin + "<br />";
+    //YMin: 5106205.549332272
+    output += "YMin: " + metadataEntryValue.ymin + "<br />";
+    //XMax: -9786978.591968672
+    output += "XMax: " + metadataEntryValue.xmax + "<br />";
+    //YMax: 5147391.143600403
+    output += "YMax: " + metadataEntryValue.ymax + "<br />";
+    //Spatial Reference: 102726  (102726) 
+    //{"wkid":102726,"latestWkid":102726}}
+    output += "Spatial Reference: " + metadataEntryValue.spatialReference.wkid + " (" + metadataEntryValue.spatialReference.latestWkid + ")" + "<br />";
+    
+
+    output += '</p>';
+    return output;
 }
 
-function addLayersObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with 'Layers' object to the Service Info Div.</summary>
+function writeGeometryObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with 'Geometry' object type to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
 }
 
-function addTablesObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with 'Tables' object to the Service Info Div.</summary>
+function writeLayersObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with Layers object type to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
+    function writeLayerObjectMetadataEntryToHtml(layerObject) {
+        //{"id":0,"name":"Census Block Points","parentLayerId":-1,"defaultVisibility":true,"subLayerIds":null,"minScale":99999.99998945338,"maxScale":0}
+        var output = "<ul><b>" + layerObject.name + "</b>";
+        // id:0
+        output += "<li>ID: <i>" + layerObject.id + "</i></li>";
+        // name:Census Block Points
+        output += "<li>Name: <i>" + layerObject.name + "</i></li>";
+        // parentLayerId:-1
+        output += "<li>Parent Layer ID: <i>" + layerObject.parentLayerId + "</i></li>";
+        // defaultVisibility:true
+        output += "<li>Visible by default: <i>" + layerObject.defaultVisibility + "</i></li>";
+        // subLayerIds:null 
+        output += "<li>SubLayer IDs: <i>" + layerObject.subLayerIds + "</i></li>";
+        // minScale:99999.99998945338
+        output += "<li>Minimum Scale: <i>" + layerObject.minScale + "</i></li>";
+        // maxScale:0
+        output += "<li>Maximum Scale: <i>" + layerObject.maxScale + "</i></li>";
+
+        output += "</ul>";
+        listHtml += output;
+    };
+    metadataEntryValue.forEach(writeLayerObjectMetadataEntryToHtml);
+    listHtml += "</ul>" + '</p>';
+    return listHtml;
 }
 
-function addDocumentInfoObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+
+
+function writeTablesObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with Tables object type to the Service Info Div.</summary>
+    /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
+    /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
+    /// <returns type="String">Html value.</returns>
+
+    var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
+    function writeTableObjectMetadataEntryToHtml(tableObject) {
+        // "tables":[{"id":1,"name":"ServiceRequestComment"}]
+        var output = "<ul><b>" + tableObject.name + "</b>";
+        // id:1
+        output += "<li>ID: <i>" + tableObject.id + "</i></li>";
+        // name:ServiceRequestComment
+        output += "<li>Name: <i>" + tableObject.name + "</i></li>";
+
+        output += "</ul>";
+        listHtml += output;
+    };
+    metadataEntryValue.forEach(writeTableObjectMetadataEntryToHtml);
+    listHtml += "</ul>" + '</p>';
+    return listHtml;
+}
+
+function writeDocumentInfoObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with 'Document Info' object to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
+    
+    //Title: Damage Assessment
+    output += "Title: " + writeStringValueOrEmptyAlt(metadataEntryValue.Title) + "<br />";
+    //Author: Esri., Inc.
+    output += "Author: " + writeStringValueOrEmptyAlt(metadataEntryValue.Author) + "<br />";
+    //Comments: This map is used with ArcGIS Mobile to collect structural damage assessment.
+    output += "Comments: " + writeStringValueOrEmptyAlt(metadataEntryValue.Comments) + "<br />";
+    //Subject: This map is used with ArcGIS Mobile to collect structural damage assessment.
+    output += "Subject: " + writeStringValueOrEmptyAlt(metadataEntryValue.Subject) + "<br />";
+    //Category:
+    output += "Category: " + writeStringValueOrEmptyAlt(metadataEntryValue.Category) + "<br />";
+    //Keywords: Emergency Management,Damage Assessment,Public Safety
+    output += "Keywords: " + writeStringValueOrEmptyAlt(metadataEntryValue.Keywords) + "<br />";
+    //AntialiasingMode: None
+    output += "Antialiasing Mode: " + writeStringValueOrEmptyAlt(metadataEntryValue.AntialiasingMode) + "<br />";
+    //TextAntialiasingMode: Force
+    output += "Text Antialiasing Mode: " + writeStringValueOrEmptyAlt(metadataEntryValue.TextAntialiasingMode) + "<br />";
+    
+    output += '</p>';
+    return output;
 }
 
-function addServiceDataTypeObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with 'Service Data Type' object to the Service Info Div.</summary>
+function writeServiceDataTypeObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with 'Service Data Type' object type to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
 }
 
-function addUnitsObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
-    /// <summary>Adds a metadata entry with 'Service Data Type' object to the Service Info Div.</summary>
+function writeUnitsObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
+    /// <summary>Adds a metadata entry with 'Units' object type to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
 }
 
-function addRasterTypeInfosObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+function writeRasterTypeInfosObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with 'Raster Type Infos' object to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
 }
 
-function addRasterFunctionInfosObjectMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+function writeRasterFunctionInfosObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with 'Raster Function Infos' object to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+    /// <returns type="String">Html value.</returns>
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
 }
 
-function addFieldsListMetadataEntryToServiceInfoDiv(metadataEntryTitle, metadataEntryValue, infoDivName) {
+function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
     /// <summary>Adds a metadata entry with list of 'Fields' to the Service Info Div.</summary>
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
-    /// <param name="infoDivName" type="String">Name of the info div.</param>
-    $("#" + infoDivName).append('<p><b>' + metadataEntryTitle + ':</b> ' + ((metadataEntryValue != "") ? metadataEntryValue : "Not specified") + '</p>');
+
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + writeStringValueOrEmptyAlt(metadataEntryValue) + '</p>';
 }
 
 String.prototype.endsWith = function (suffix) {

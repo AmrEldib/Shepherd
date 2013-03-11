@@ -69,7 +69,10 @@
     <Content Include="bootstrap\img\glyphicons-halflings.png" />
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
+    <Content Include="images\FavIcon.ico" />
     <Content Include="images\GreenCheckMark.png" />
+    <Content Include="images\OpenLinkInNewTab.png" />
+    <Content Include="images\OpenLinkInNewTabSmall.png" />
     <Content Include="images\QuestionMark.png" />
     <Content Include="images\RedXMark.png" />
     <Content Include="index.html" />
