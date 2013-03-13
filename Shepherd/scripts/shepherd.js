@@ -127,8 +127,8 @@ function btnGetServerInfo_Click(serverUrl) {
 }
 
 function listFolderContent(folderUrl, treeName, infoDivName) {
-    var requestUrl = folderUrl + "?f=json";
-
+    var requestUrl = folderUrl + "?f=json&callback=?";
+    
     $.getJSON(requestUrl, function (json) {
 
         var folderContents = "";
@@ -220,9 +220,27 @@ function displayFolderInfo(folderUrl, json, infoDivName) {
 }
 
 function listServiceInfo(serviceUrl, serviceName, serviceType, infoDivName) {
-    var requestUrl = serviceUrl + "?f=json";
+    var requestUrl = serviceUrl + "?f=json&callback=?";
 
     $.getJSON(requestUrl, function (json) {
+
+        // Debug info
+        if (isDebug) {
+
+            var debugHtml = "";
+            debugHtml += '<span class="label label-info">Service Full Details: </span>';
+            // List all keys and values
+            $.each(json, function (key, value) {
+                debugHtml += '<p>' + key + ': ' + value + '</p>';
+            });
+
+            debugHtml += '<hr/>';
+            debugHtml += '<span class="label label-info">JSON String: </span><br/>';
+            debugHtml += JSON.stringify(json);
+
+            $("#jsonDiv").empty();
+            $("#jsonDiv").append(debugHtml);
+        }
 
         // Clear div
         $("#" + infoDivName).empty();
@@ -262,31 +280,50 @@ function listServiceInfo(serviceUrl, serviceName, serviceType, infoDivName) {
             case "NAServer":
                 listNAServerServiceInfo(json, infoDivName);
                 break;
+            case "MobileServer":
+                listMobileServerServiceInfo(json, infoDivName);
+                break;
             default:
                 break;
 
         }
 
-        if (isDebug) {
-
-            var debugHtml = '<hr/>';
-            debugHtml += '<span class="label label-info">Service Full Details: </span>';
-            // List all keys and values
-            $.each(json, function (key, value) {
-                debugHtml += '<p>' + key + ': ' + value + '</p>';
-            });
-        
-            debugHtml += '<hr/>';
-            debugHtml += '<span class="label label-info">JSON String: </span><br/>';
-            debugHtml += JSON.stringify(json);
-
-            $("#" + infoDivName).append(debugHtml);
-        }
     });
 }
 
+function listMobileServerServiceInfo(json, infoDivName) {
+    /// <summary>List the metadata of a MobileServer service into the Service Info Div.</summary>
+    /// <param name="json" type="String">Description of service in JSON format.</param>
+    /// <param name="infoDivName" type="String">Name of the info div.</param>
+
+    var serviceInfoHtml = "";
+
+    //{"serviceDescription":"","mapName":"Layers","description":"","layers":[{"id":0,"name":"TurbineInspections"}],"spatialReference":{"wkid":3857},"initialExtent":{"xmin":-13008649.1062614,"ymin":3974076.6861476,"xmax":-12941693.6967706,"ymax":4040139.35684514,"spatialReference":{"wkid":3857}},"fullExtent":{"xmin":-13008649.1062614,"ymin":3974076.6861476,"xmax":-12941693.6967706,"ymax":4040139.35684514,"spatialReference":{"wkid":3857}},"units":"esriMeters"}
+
+    //serviceDescription:
+    //service Description is already added.
+
+    //mapName: Layers
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Map Name", json.mapName);
+    //description:
+    serviceInfoHtml += writeStringMetadataEntryToHtml("Description", json.description);
+    //layers: [object Object]
+    serviceInfoHtml += writeLayersObjectMetadataEntryToHtml("Layers", json.layers);
+    //spatialReference: [object Object]
+    serviceInfoHtml += writeSpatialReferenceObjectMetadataEntryToHtml("spatialReference", json.spatialReference);
+    //initialExtent: [object Object]
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Initial Extent", json.initialExtent);
+    //fullExtent: [object Object]
+    serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Full Extent", json.fullExtent);
+    //units: esriMeters
+    serviceInfoHtml += writeUnitsObjectMetadataEntryToHtml("Units", json.units);
+    
+    $("#" + infoDivName).append(serviceInfoHtml);
+
+}
+
 function listGPServerServiceInfo(json, infoDivName) {
-    /// <summary>List the metadata of an GPServer service into the Service Info Div.</summary>
+    /// <summary>List the metadata of a GPServer service into the Service Info Div.</summary>
     /// <param name="json" type="String">Description of service in JSON format.</param>
     /// <param name="infoDivName" type="String">Name of the info div.</param>
 
@@ -620,7 +657,12 @@ function writeStringValueOrEmptyAlt(stringValue, altText) {
     /// <returns type="String">Html value.</returns>
     
     altText = altText || "Not specified";
-    return ((stringValue != "") ? stringValue : altText);
+    if (stringValue) {
+        return ((stringValue != "") ? stringValue : altText);
+    }
+    else {
+        return altText;
+    };
 }
 
 function writeStringMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -638,7 +680,7 @@ function writeNumberMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) 
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
     
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + (metadataEntryValue ? metadataEntryValue : "Not specified") + '</p>';
 }
 
 function writeBooleanMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -660,18 +702,23 @@ function writeCommaSeparatedListMetadataEntryToHtml(metadataEntryTitle, metadata
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    var listItems = metadataEntryValue.split(',');
-    if (listItems.length == 0) {
-        return '<p><b>' + metadataEntryTitle + ':</b> ' + "Not specified" + '</p>';
+    if (metadataEntryValue) {
+        var listItems = metadataEntryValue.split(',');
+        if (listItems.length == 0) {
+            return '<p><b>' + metadataEntryTitle + ':</b> ' + "Not specified" + '</p>';
+        }
+        else {
+            var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
+            function writeListItem(item) {
+                listHtml += "<li>" + item + "</li>";
+            };
+            listItems.forEach(writeListItem);
+            listHtml += "</ul>" + '</p>';
+            return listHtml;
+        }
     }
     else {
-        var listHtml = '<p><b>' + metadataEntryTitle + ':</b> ' + "<ul>";
-        function writeListItem(item) {
-            listHtml += "<li>" + item + "</li>";
-        };
-        listItems.forEach(writeListItem);
-        listHtml += "</ul>" + '</p>';
-        return listHtml;
+        return '<p><b>' + metadataEntryTitle + ':</b> ' + "Not specified" + '</p>';
     }
 }
 
@@ -683,7 +730,12 @@ function writeSpatialReferenceObjectMetadataEntryToHtml(metadataEntryTitle, meta
     //"spatialReference":{"wkid":102726,"latestWkid":102726}
     var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
 
-    output += metadataEntryValue.wkid + " (" + metadataEntryValue.latestWkid + ")" + "<br /></p>";
+    if (metadataEntryValue) {
+        output += metadataEntryValue.wkid + " (" + metadataEntryValue.latestWkid + ")" + "<br /></p>";
+    }
+    else {
+        output += "N/A </p>";
+    };
     return output;
 }
 
@@ -722,7 +774,7 @@ function writeGeometryObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntr
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + (metadataEntryValue ? metadataEntryValue : "Not specified") + '</p>';
 }
 
 function writeLayersObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -732,45 +784,50 @@ function writeLayersObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
     /// <returns type="String">Html value.</returns>
 
     var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
-    if (metadataEntryValue.length === 0) {
-        listHtml += ' N/A </p>';
+    if (metadataEntryValue) {
+        if (metadataEntryValue.length === 0) {
+            listHtml += ' N/A </p>';
+        }
+        else {
+            listHtml += '<table class="table table-hover"><thead>'
+            + '<tr><th>ID</th>'
+            + '<th>Name</th>'
+            + '<th>Parent Layer ID</th>'
+            + '<th>Default Visibility</th>'
+            + '<th>Sub Layer Ids</th>'
+            + '<th>Min Scale</th>'
+            + '<th>Max Scale</th>'
+            + '</tr></thead> '
+            + '<tbody>';
+
+            function writeLayerObjectMetadataEntryToHtml(layerObject) {
+                //{"id":0,"name":"Census Block Points","parentLayerId":-1,"defaultVisibility":true,"subLayerIds":null,"minScale":99999.99998945338,"maxScale":0}
+                // id:0
+                var output = "<tr><td>" + layerObject.id + "</td>";
+                // name:Census Block Points
+                output += "<td><b>" + layerObject.name + "</b></td>";
+                // parentLayerId:-1
+                output += "<td>" + (layerObject.parentLayerId ? layerObject.parentLayerId : "N/A") + "</td>";
+                // defaultVisibility:true
+                output += "<td>" + (layerObject.defaultVisibility
+                    ? '<img src="images/GreenCheckMark.png" alt="Visible by default" />'
+                    : '<img src="images/RedXMark.png" alt="Hidden by default" />') + "</td>";
+                // subLayerIds:null 
+                output += "<td>" + (layerObject.subLayerIds ? layerObject.subLayerIds : "N/A") + "</td>";
+                // minScale:99999.99998945338
+                output += "<td>" + (layerObject.minScale ? layerObject.minScale : "N/A") + "</td>";
+                // maxScale:0
+                output += "<td>" + (layerObject.maxScale ? layerObject.maxScale : "N/A") + "</td>";
+                output += "</tr>";
+                listHtml += output;
+            };
+            metadataEntryValue.forEach(writeLayerObjectMetadataEntryToHtml);
+            listHtml += "</tbody>";
+            listHtml += '</table></p>';
+        };
     }
     else {
-        listHtml += '<table class="table table-hover"><thead>'
-        + '<tr><th>ID</th>'
-        + '<th>Name</th>'
-        + '<th>Parent Layer ID</th>'
-        + '<th>Default Visibility</th>'
-        + '<th>Sub Layer Ids</th>'
-        + '<th>Min Scale</th>'
-        + '<th>Max Scale</th>'
-        + '</tr></thead> '
-        + '<tbody>';
-
-        function writeLayerObjectMetadataEntryToHtml(layerObject) {
-            //{"id":0,"name":"Census Block Points","parentLayerId":-1,"defaultVisibility":true,"subLayerIds":null,"minScale":99999.99998945338,"maxScale":0}
-            // id:0
-            var output = "<tr><td>" + layerObject.id + "</td>";
-            // name:Census Block Points
-            output += "<td><b>" + layerObject.name + "</b></td>";
-            // parentLayerId:-1
-            output += "<td>" + (layerObject.parentLayerId ? layerObject.parentLayerId : "N/A") + "</td>";
-            // defaultVisibility:true
-            output += "<td>" + (layerObject.defaultVisibility
-                ? '<img src="images/GreenCheckMark.png" alt="Visible by default" />'
-                : '<img src="images/RedXMark.png" alt="Hidden by default" />') + "</td>";
-            // subLayerIds:null 
-            output += "<td>" + (layerObject.subLayerIds ? layerObject.subLayerIds : "N/A") + "</td>";
-            // minScale:99999.99998945338
-            output += "<td>" + (layerObject.minScale ? layerObject.minScale : "N/A") + "</td>";
-            // maxScale:0
-            output += "<td>" + (layerObject.maxScale ? layerObject.maxScale : "N/A") + "</td>";
-            output += "</tr>";
-            listHtml += output;
-        };
-        metadataEntryValue.forEach(writeLayerObjectMetadataEntryToHtml);
-        listHtml += "</tbody>";
-        listHtml += '</table></p>';
+        listHtml += ' N/A </p>';
     };
 
     return listHtml;
@@ -783,28 +840,33 @@ function writeTablesObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
     /// <returns type="String">Html value.</returns>
 
     var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
-    if (metadataEntryValue.length === 0) {
-        listHtml += ' N/A </p>';
+    if (metadataEntryValue) {
+        if (metadataEntryValue.length === 0) {
+            listHtml += ' N/A </p>';
+        }
+        else {
+            listHtml += '<table class="table table-hover"><thead>'
+            + '<tr><th>ID</th>'
+            + '<th>Name</th>'
+            + '</tr></thead> '
+            + '<tbody>';
+
+            function writeTableObjectMetadataEntryToHtml(tableObject) {
+                // "tables":[{"id":1,"name":"ServiceRequestComment"}]
+                // id:1
+                var output = "<tr><td><b>" + tableObject.id + "</b></td>";
+                // name:ServiceRequestComment
+                output += "<td>" + tableObject.name + "</td>";
+                output += "</tr>";
+                listHtml += output;
+            };
+            metadataEntryValue.forEach(writeTableObjectMetadataEntryToHtml);
+            listHtml += "</tbody>";
+            listHtml += '</table></p>';
+        };
     }
     else {
-        listHtml += '<table class="table table-hover"><thead>'
-        + '<tr><th>ID</th>'
-        + '<th>Name</th>'
-        + '</tr></thead> '
-        + '<tbody>';
-
-        function writeTableObjectMetadataEntryToHtml(tableObject) {
-            // "tables":[{"id":1,"name":"ServiceRequestComment"}]
-            // id:1
-            var output = "<tr><td><b>" + tableObject.id + "</b></td>";
-            // name:ServiceRequestComment
-            output += "<td>" + tableObject.name + "</td>";
-            output += "</tr>";
-            listHtml += output;
-        };
-        metadataEntryValue.forEach(writeTableObjectMetadataEntryToHtml);
-        listHtml += "</tbody>";
-        listHtml += '</table></p>';
+        listHtml += ' N/A </p>';
     };
     
     return listHtml;
@@ -845,7 +907,7 @@ function writeServiceDataTypeObjectMetadataEntryToHtml(metadataEntryTitle, metad
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + (metadataEntryValue ? metadataEntryValue : "Not specified") + '</p>';
 }
 
 function writeUnitsObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -854,7 +916,12 @@ function writeUnitsObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryVa
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue.substring(4) + '</p>';
+    if (metadataEntryValue) {
+        return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue.substring(4) + '</p>';
+    }
+    else {
+        return '<p><b>' + metadataEntryTitle + ':</b> N/A</p>';
+    }
 }
 
 function writeRasterTypeInfosObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -863,7 +930,7 @@ function writeRasterTypeInfosObjectMetadataEntryToHtml(metadataEntryTitle, metad
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + (metadataEntryValue ? metadataEntryValue : "Not specified") + '</p>';
 }
 
 function writeRasterFunctionInfosObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -872,7 +939,7 @@ function writeRasterFunctionInfosObjectMetadataEntryToHtml(metadataEntryTitle, m
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
 
-    return '<p><b>' + metadataEntryTitle + ':</b> ' + metadataEntryValue + '</p>';
+    return '<p><b>' + metadataEntryTitle + ':</b> ' + (metadataEntryValue ? metadataEntryValue : "Not specified") + '</p>';
 }
 
 function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -881,39 +948,45 @@ function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryVal
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
 
     var listHtml = '<p><b>' + metadataEntryTitle + ':</b><br /> ';
-    listHtml += '<table class="table table-hover"><thead>'
-        + '<tr><th>Name</th>'
-        + '<th>Alias</th>'
-        + '<th>Type</th>'
-        + '<th>Domain</th>'
-        + '</tr></thead> '
-        + '<tbody>';
+    if (metadataEntryValue) {
+        listHtml += '<table class="table table-hover"><thead>'
+            + '<tr><th>Name</th>'
+            + '<th>Alias</th>'
+            + '<th>Type</th>'
+            + '<th>Domain</th>'
+            + '</tr></thead> '
+            + '<tbody>';
 
-    function writeFieldObjectMetadataEntryToHtml(fieldObject) {
-        
-        // {"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID","domain":null}
-        
-        // name:OBJECTID
-        var output = "<tr><td><b>" + fieldObject.name + "</b></td>";
-        // alias:OBJECTID
-        output += "<td>" + fieldObject.alias + "</td>";
-        // type:esriFieldTypeOID
-        output += "<td>" + fieldObject.type.substring(13) + "</td>";
-        // domain:null
-        // OR
-        // {"name":"Category","type":"esriFieldTypeInteger","alias":"Category","domain":{"type":"codedValue","name":"MosaicCatalogItemCategoryDomain","codedValues":[{"name":"Unknown","code":0},{"name":"Primary","code":1},{"name":"Overview","code":2},{"name":"Unprocessed Overview","code":3},{"name":"Partial Overview","code":4},{"name":"Uploaded","code":253},{"name":"Incomplete","code":254},{"name":"Custom","code":255}]}}
-        if (!fieldObject.domain) {
-            output += "<td>N/A</td>";
-        }
-        else {
-            output += "<td>" + fieldObject.domain.name + " (" + fieldObject.domain.type + ")</td>";
-        }
-        output += "</tr>";
-        listHtml += output;
+        function writeFieldObjectMetadataEntryToHtml(fieldObject) {
+
+            // {"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID","domain":null}
+
+            // name:OBJECTID
+            var output = "<tr><td><b>" + fieldObject.name + "</b></td>";
+            // alias:OBJECTID
+            output += "<td>" + fieldObject.alias + "</td>";
+            // type:esriFieldTypeOID
+            output += "<td>" + fieldObject.type.substring(13) + "</td>";
+            // domain:null
+            // OR
+            // {"name":"Category","type":"esriFieldTypeInteger","alias":"Category","domain":{"type":"codedValue","name":"MosaicCatalogItemCategoryDomain","codedValues":[{"name":"Unknown","code":0},{"name":"Primary","code":1},{"name":"Overview","code":2},{"name":"Unprocessed Overview","code":3},{"name":"Partial Overview","code":4},{"name":"Uploaded","code":253},{"name":"Incomplete","code":254},{"name":"Custom","code":255}]}}
+            if (!fieldObject.domain) {
+                output += "<td>N/A</td>";
+            }
+            else {
+                output += "<td>" + fieldObject.domain.name + " (" + fieldObject.domain.type + ")</td>";
+            }
+            output += "</tr>";
+            listHtml += output;
+        };
+        metadataEntryValue.forEach(writeFieldObjectMetadataEntryToHtml);
+        listHtml += "</tbody>";
+        listHtml += '</table></p>';
+    }
+    else {
+        listHtml += ' N/A </p>';
     };
-    metadataEntryValue.forEach(writeFieldObjectMetadataEntryToHtml);
-    listHtml += "</tbody>";
-    listHtml += '</table></p>';
+
     return listHtml;
 }
 
