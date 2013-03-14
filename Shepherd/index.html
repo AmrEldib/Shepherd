@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Shepherd: ArcGIS Server Browser</title>
-    <meta name="description" content="An ArcCatalog-Style alternative to ArcGIS Server Services Directory. Shepherd will guide you through the content of your ArcGIS Server.">
-    <meta name="author" content="Amr Eldib">
+    <meta name="description" content="An ArcCatalog-Style alternative to ArcGIS Server Services Directory. Shepherd will guide you through the content of your ArcGIS Server." />
+    <meta name="author" content="Amr Eldib" />
 
-    <link rel="shortcut icon" href="images/FavIcon.ico" type="image/png">
+    <link rel="shortcut icon" href="images/FavIcon.ico" type="image/png" />
 
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+    
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="bootstrap-tree/css/bootstrap-tree.css" rel="stylesheet" />
 
     <style type="text/css">
         body
@@ -17,36 +20,6 @@
             /*background-color: #f5f5f5;*/
         }
     </style>
-    <style type="text/css">
-        html, body
-        {
-            height: 100%;
-        }
-
-        #holder
-        {
-            min-height: 100%;
-            position: relative;
-        }
-
-        #body
-        {
-            padding-bottom: 100px; /* height of footer */
-        }
-
-        footer
-        {
-            height: 100px;
-            width: 100%;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-        }
-    </style>
-
-    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
-    <link href="bootstrap-tree/css/bootstrap-tree.css" rel="stylesheet" />
-
 
 </head>
 <body>
@@ -62,14 +35,13 @@
         <div id="body" class="container">
             <div id="serverUrl" class="row">
                 <div id="alertbox"></div>
-                <div class="span2">
+                <!--<div class="span1">
                     <p>Server URL</p>
-                </div>
-                <div class="span8">
-                    <!--<input class="input-block-level" type="text" id="txtServerUrl" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services" />-->
+                </div>-->
+                <div class="span10">
                     <div class="input-prepend">
                         <div class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">Sample Servers <span class="caret"></span></button>
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">Esri Servers<span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li><a href="#" onclick="setServerUrl('http://sampleserver6.arcgisonline.com/arcgis/rest/services/'); return false;">
                                     ArcGIS 10.1 SP1</a></li>
@@ -97,7 +69,7 @@
                                     ArcGIS 9.3 SP1 - SampleServer2</a></li>
                             </ul>
                         </div>
-                        <input class="input-block-level" id="txtServerUrl" type="text" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services" />
+                        <input class="span9" id="txtServerUrl"  placeholder="Enter Server URL of ArcGIS Server Services Directory" type="text" />
                     </div>
                 </div>
                 <div class="span2">

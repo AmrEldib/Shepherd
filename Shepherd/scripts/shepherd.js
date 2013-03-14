@@ -880,23 +880,27 @@ function writeDocumentInfoObjectMetadataEntryToHtml(metadataEntryTitle, metadata
 
     var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
     
-    //Title: Damage Assessment
-    output += "Title: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Title) + "</i><br />";
-    //Author: Esri., Inc.
-    output += "Author: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Author) + "</i><br />";
-    //Comments: This map is used with ArcGIS Mobile to collect structural damage assessment.
-    output += "Comments: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Comments) + "</i><br />";
-    //Subject: This map is used with ArcGIS Mobile to collect structural damage assessment.
-    output += "Subject: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Subject) + "</i><br />";
-    //Category:
-    output += "Category: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Category) + "</i><br />";
-    //Keywords: Emergency Management,Damage Assessment,Public Safety
-    output += "Keywords: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Keywords) + "</i><br />";
-    //AntialiasingMode: None
-    output += "Antialiasing Mode: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.AntialiasingMode) + "</i><br />";
-    //TextAntialiasingMode: Force
-    output += "Text Antialiasing Mode: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.TextAntialiasingMode) + "</i><br />";
-    
+    if (metadataEntryValue) {
+        //Title: Damage Assessment
+        output += "Title: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Title) + "</i><br />";
+        //Author: Esri., Inc.
+        output += "Author: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Author) + "</i><br />";
+        //Comments: This map is used with ArcGIS Mobile to collect structural damage assessment.
+        output += "Comments: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Comments) + "</i><br />";
+        //Subject: This map is used with ArcGIS Mobile to collect structural damage assessment.
+        output += "Subject: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Subject) + "</i><br />";
+        //Category:
+        output += "Category: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Category) + "</i><br />";
+        //Keywords: Emergency Management,Damage Assessment,Public Safety
+        output += "Keywords: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Keywords) + "</i><br />";
+        //AntialiasingMode: None
+        output += "Antialiasing Mode: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.AntialiasingMode) + "</i><br />";
+        //TextAntialiasingMode: Force
+        output += "Text Antialiasing Mode: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.TextAntialiasingMode) + "</i><br />";
+    }
+    else {
+        output += " N/A";
+    };
     output += '</p>';
     return output;
 }
