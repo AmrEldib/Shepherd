@@ -7,17 +7,14 @@
 
     <link rel="shortcut icon" href="images/FavIcon.ico" type="image/png" />
 
-    <link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
-    
-    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
-    <link href="bootstrap-tree/css/bootstrap-tree.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link href="bootstrap-tree/css/bootstrap-tree.min.css" rel="stylesheet" />
 
     <style type="text/css">
         body
         {
             padding-top: 60px;
             padding-bottom: 20px;
-            /*background-color: #f5f5f5;*/
         }
     </style>
 
@@ -35,16 +32,13 @@
         <div id="body" class="container">
             <div id="serverUrl" class="row">
                 <div id="alertbox"></div>
-                <!--<div class="span1">
-                    <p>Server URL</p>
-                </div>-->
                 <div class="span10">
                     <div class="input-prepend">
                         <div class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">Esri Servers<span class="caret"></span></button>
                             <ul class="dropdown-menu">
                                 <li><a href="#" onclick="setServerUrl('http://sampleserver6.arcgisonline.com/arcgis/rest/services/'); return false;">
-                                    ArcGIS 10.1 SP1</a></li>
+                                    ArcGIS 10.1 SP1 - SampleServer 6</a></li>
                                 <li><a href="#" onclick="setServerUrl('http://psstldemo3.esri.com/arcgis/rest/services/'); return false;">
                                     ArcGIS 10.1 SP1 PSSTLDemo</a></li>
                                 
@@ -80,33 +74,17 @@
                 <div class="span5">
                     <div class="well">
                         <ul id="servicesTree" class="tree">
-                            <li>
-                                <a href="#" role="branch" class="tree-toggle" data-toggle="branch" data-value="Bootstrap_Tree">Bootstrap Tree</a>
-                                <ul id="sampleChildernNode" class="branch in">
-                                    <li><a href="#" role="leaf">Docs</a></li>
-                                    <li><a href="#" role="leaf">Examples</a></li>
-                                    <li><a href="#" role="leaf">Credits</a></li>
-                                    <li><a href="http://www.cutterscrossing.com" role="leaf">Cutter's Crossing</a></li>
-                                    <li><a href="http://twitter.github.com/bootstrap" role="leaf">Bootstrap</a></li>
-                                </ul>
-                            </li>
+                            <li>No server is selected</li>
                         </ul>
                     </div>
                 </div>
                 <div class="span7">
-                    <!--<div class="hero-unit" id="serverInfo"></div>-->
 
                     <div id="infoPanel"></div>
-                    
-                    <hr />
-                    <div><span class="label">Last JSON Response:</span></div>
-                    <div id="jsonDiv">
-                    </div>
+                                        
+                    <div id="jsonDiv"></div>
 
-                    <hr />
-                    <div><span class="label">Event Sequence:</span></div>
-                    <div id="reporter">
-                    </div>
+                    <div id="reporter"></div>
                 </div>
 
             </div>
@@ -114,15 +92,15 @@
 
         <div id="footer">
             <div class="container">
-                <p class="muted credit">Shepherd is an Open Source project hosted on <a href="https://github.com/AmrEldib/Shepherd" target="_blank">GitHub</a> and developer by <a href="http://AmrEldib.com" target="_blank">Amr Eldib</a>.</p>
+                <p class="muted credit">Shepherd is an Open Source project hosted on <a href="https://github.com/AmrEldib/Shepherd" target="_blank">GitHub</a> and developer by <a href="http://AmrEldib.com" target="_blank">Amr Eldib</a>. We would love to get <a href="https://docs.google.com/forms/d/1MwlUMQq7xXvzuljOjO_nnX_omJMlSxUCtCgpe_tIeNw/viewform" target="_blank">your feedback</a>.</p>
             </div>
         </div>
     </div>
 
-    <script src="scripts/jquery-1.9.1.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-    <script src="bootstrap-tree/js/bootstrap-tree.js"></script>
-    <script src="scripts/shepherd.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script src="bootstrap-tree/js/bootstrap-tree.min.js"></script>
+    <script src="scripts/shepherd.min.js"></script>
 
 </body>
 </html>

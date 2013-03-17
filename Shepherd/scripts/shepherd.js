@@ -23,7 +23,7 @@ $(function () {
 
         listServiceInfo(e.node.serviceurl, e.node.servicename, e.node.servicetype, "infoPanel");
 
-    })
+    });
 
     /**
      * This is a quick example of capturing the select event on tree branches, not leaves
@@ -44,7 +44,7 @@ $(function () {
 
         listFolderContent(e.node.metadataserviceurl, e.node.value + "_childNodes", "infoPanel");
 
-    })
+    });
 
     /**
      * Listening for the 'openbranch' event. Look for e.node, which is the
@@ -64,7 +64,7 @@ $(function () {
 
         //listServiceInfo(e.node.serviceurl, e.node.servicename, e.node.servicetype, "infoPanel");
 
-    })
+    });
 
     /**
      * Listening for the 'closebranch' event. Look for e.node, which is the
@@ -83,12 +83,12 @@ $(function () {
 
         }
 
-    })
+    });
 
-})
+});
 
 function btnGetServerInfo_Click(serverUrl) {
-    if (serverUrl == "") {
+    if (serverUrl === "") {
         $("#alertbox").append('<div class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Oops!</strong> Please enter a Server URL.</div>');
     }
     else {
@@ -128,7 +128,7 @@ function btnGetServerInfo_Click(serverUrl) {
 
 function listFolderContent(folderUrl, treeName, infoDivName) {
     var requestUrl = folderUrl + "?f=json&callback=?";
-    
+
     $.getJSON(requestUrl, function (json) {
 
         var folderContents = "";
@@ -238,8 +238,13 @@ function listServiceInfo(serviceUrl, serviceName, serviceType, infoDivName) {
             debugHtml += '<span class="label label-info">JSON String: </span><br/>';
             debugHtml += JSON.stringify(json);
 
+            debugHtml = '<hr/><span class="label">Last JSON Response:</span><br/>'
+                    + debugHtml
+                    + '<hr/><span class="label">Event Sequence:</span>';
+
             $("#jsonDiv").empty();
             $("#jsonDiv").append(debugHtml);
+
         }
 
         // Clear div
@@ -250,12 +255,11 @@ function listServiceInfo(serviceUrl, serviceName, serviceType, infoDivName) {
         htmlOutput += '<div class="text-right"><p><h2>' + serviceName + '</h2>';
         htmlOutput += '<i>' + serviceType + '</i>  ';
         htmlOutput += '<a href="' + serviceUrl + '" target="_blank"><img src="images/OpenLinkInNewTabSmall.png" alt="View service in Services Directory" /></a></p></div>';
-        // '<img src="images/GreenCheckMark.png" alt="True" />'
         htmlOutput += '<hr />';
 
         // Service description
         htmlOutput += '<p><b>Service Description: </b>';
-        if (json.serviceDescription != "") {
+        if (json.serviceDescription !== "") {
             htmlOutput += json.serviceDescription + '</p>';
         }
         else {
@@ -317,7 +321,7 @@ function listMobileServerServiceInfo(json, infoDivName) {
     serviceInfoHtml += writeExtentObjectMetadataEntryToHtml("Full Extent", json.fullExtent);
     //units: esriMeters
     serviceInfoHtml += writeUnitsObjectMetadataEntryToHtml("Units", json.units);
-    
+
     $("#" + infoDivName).append(serviceInfoHtml);
 
 }
@@ -401,7 +405,7 @@ function listMapServerServiceInfo(json, infoDivName) {
 
     //documentInfo: [object Object]
     serviceInfoHtml += writeDocumentInfoObjectMetadataEntryToHtml("Document Info", json.documentInfo);
-    
+
     //capabilities: Map,Query,Data
     serviceInfoHtml += writeCommaSeparatedListMetadataEntryToHtml("Capabilities", json.capabilities);
 
@@ -427,13 +431,13 @@ function listImageServerServiceInfo(json, infoDivName) {
 
     var serviceInfoHtml = "";
 
-    //serviceDescription: This image service contains 9 LAS files covering North Carolina’s, City of Charlotte downtown area. The lidar data was collected in 2007. First return points are used to generate an on-the-fly seamless elevation surface with a 10-foot pixel resolution. The elevation unit is foot. LAS files were provided by Mecklenburg County, NC and are managed using a mosaic dataset. Esri reserves the right to change or remove this service at any time and without notice.
+    //serviceDescription: This image service contains 9 LAS files covering North Carolina, City of Charlotte downtown area. The lidar data was collected in 2007. First return points are used to generate an on-the-fly seamless elevation surface with a 10-foot pixel resolution. The elevation unit is foot. LAS files were provided by Mecklenburg County, NC and are managed using a mosaic dataset. Esri reserves the right to change or remove this service at any time and without notice.
     // serviceDescription is already displayed.
 
     //    name: CharlotteLAS
     serviceInfoHtml += writeStringMetadataEntryToHtml("Name", json.name);
 
-    //description: This image service contains 9 LAS files covering North Carolina’s, City of Charlotte downtown area. The lidar data was collected in 2007. First return points are used to generate an on-the-fly seamless elevation surface with a 10-foot pixel resolution. The elevation unit is foot. LAS files were provided by Mecklenburg County, NC and are managed using a mosaic dataset. Esri reserves the right to change or remove this service at any time and without notice.
+    //description: This image service contains 9 LAS files covering North Carolina, City of Charlotte downtown area. The lidar data was collected in 2007. First return points are used to generate an on-the-fly seamless elevation surface with a 10-foot pixel resolution. The elevation unit is foot. LAS files were provided by Mecklenburg County, NC and are managed using a mosaic dataset. Esri reserves the right to change or remove this service at any time and without notice.
     serviceInfoHtml += writeStringMetadataEntryToHtml("Description", json.description);
 
     //    extent: [object Object]
@@ -463,7 +467,7 @@ function listImageServerServiceInfo(json, infoDivName) {
     //maxPixelSize: 0
     serviceInfoHtml += writeNumberMetadataEntryToHtml("Maximum Pixel Size", json.maxPixelSize);
 
-    //copyrightText: Copyright © 2007 Mecklenburg County
+    //copyrightText: Copyright 2007 Mecklenburg County
     serviceInfoHtml += writeStringMetadataEntryToHtml("Copyright Text", json.copyrightText);
 
     //serviceDataType: esriImageServiceDataTypeElevation
@@ -537,7 +541,7 @@ function listImageServerServiceInfo(json, infoDivName) {
 
     //rasterTypeInfos: [object Object]
     serviceInfoHtml += writeRasterTypeInfosObjectMetadataEntryToHtml("Raster Type Infos", json.rasterTypeInfos);
-    
+
     //mensurationCapabilities: Basic
     serviceInfoHtml += writeStringMetadataEntryToHtml("Mensuration Capabilities", json.mensurationCapabilities);
 
@@ -655,14 +659,14 @@ function writeStringValueOrEmptyAlt(stringValue, altText) {
     /// <summary>Writes the value of a string variable or an alternative "Not specified" if the string is empty.</summary>
     /// <param name="stringValue" type="String">Value of a string variable.</param>
     /// <returns type="String">Html value.</returns>
-    
+
     altText = altText || "Not specified";
     if (stringValue) {
-        return ((stringValue != "") ? stringValue : altText);
+        return ((stringValue !== "") ? stringValue : altText);
     }
     else {
         return altText;
-    };
+    }
 }
 
 function writeStringMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) {
@@ -679,7 +683,7 @@ function writeNumberMetadataEntryToHtml(metadataEntryTitle, metadataEntryValue) 
     /// <param name="metadataEntryTitle" type="String">The title that will appear in the info div.</param>
     /// <param name="metadataEntryValue" type="String">Value of the metadata entry.</param>
     /// <returns type="String">Html value.</returns>
-    
+
     return '<p><b>' + metadataEntryTitle + ':</b> ' + (metadataEntryValue ? metadataEntryValue : "Not specified") + '</p>';
 }
 
@@ -704,7 +708,7 @@ function writeCommaSeparatedListMetadataEntryToHtml(metadataEntryTitle, metadata
 
     if (metadataEntryValue) {
         var listItems = metadataEntryValue.split(',');
-        if (listItems.length == 0) {
+        if (listItems.length === 0) {
             return '<p><b>' + metadataEntryTitle + ':</b> ' + "Not specified" + '</p>';
         }
         else {
@@ -735,7 +739,7 @@ function writeSpatialReferenceObjectMetadataEntryToHtml(metadataEntryTitle, meta
     }
     else {
         output += "N/A </p>";
-    };
+    }
     return output;
 }
 
@@ -762,7 +766,7 @@ function writeExtentObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
     }
     else {
         output += "N/A";
-    };
+    }
 
     output += '</p>';
     return output;
@@ -820,15 +824,15 @@ function writeLayersObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
                 output += "<td>" + (layerObject.maxScale ? layerObject.maxScale : "N/A") + "</td>";
                 output += "</tr>";
                 listHtml += output;
-            };
+            }
             metadataEntryValue.forEach(writeLayerObjectMetadataEntryToHtml);
             listHtml += "</tbody>";
             listHtml += '</table></p>';
-        };
+        }
     }
     else {
         listHtml += ' N/A </p>';
-    };
+    }
 
     return listHtml;
 }
@@ -859,16 +863,16 @@ function writeTablesObjectMetadataEntryToHtml(metadataEntryTitle, metadataEntryV
                 output += "<td>" + tableObject.name + "</td>";
                 output += "</tr>";
                 listHtml += output;
-            };
+            }
             metadataEntryValue.forEach(writeTableObjectMetadataEntryToHtml);
             listHtml += "</tbody>";
             listHtml += '</table></p>';
-        };
+        }
     }
     else {
         listHtml += ' N/A </p>';
-    };
-    
+    }
+
     return listHtml;
 }
 
@@ -879,7 +883,7 @@ function writeDocumentInfoObjectMetadataEntryToHtml(metadataEntryTitle, metadata
     /// <returns type="String">Html value.</returns>
 
     var output = '<p><b>' + metadataEntryTitle + ':</b><br/> ';
-    
+
     if (metadataEntryValue) {
         //Title: Damage Assessment
         output += "Title: <i>" + writeStringValueOrEmptyAlt(metadataEntryValue.Title) + "</i><br />";
@@ -900,7 +904,7 @@ function writeDocumentInfoObjectMetadataEntryToHtml(metadataEntryTitle, metadata
     }
     else {
         output += " N/A";
-    };
+    }
     output += '</p>';
     return output;
 }
@@ -982,14 +986,14 @@ function writeFieldsListMetadataEntryToHtml(metadataEntryTitle, metadataEntryVal
             }
             output += "</tr>";
             listHtml += output;
-        };
+        }
         metadataEntryValue.forEach(writeFieldObjectMetadataEntryToHtml);
         listHtml += "</tbody>";
         listHtml += '</table></p>';
     }
     else {
         listHtml += ' N/A </p>';
-    };
+    }
 
     return listHtml;
 }
