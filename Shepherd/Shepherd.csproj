@@ -55,10 +55,12 @@
     <Content Include="images\QuestionMark.png" />
     <Content Include="images\RedXMark.png" />
     <Content Include="index.html" />
+    <Content Include="index2.html" />
     <Content Include="packages.config" />
     <Content Include="bootstrap-tree\js\bootstrap-tree.min.js.map">
       <DependentUpon>bootstrap-tree.js</DependentUpon>
     </Content>
+    <Content Include="scripts\handlebars.runtime-v1.3.0.js" />
     <Content Include="scripts\jsapi_vsdoc12_v33.js" />
     <Content Include="scripts\shepherd.min.js">
       <DependentUpon>shepherd.js</DependentUpon>

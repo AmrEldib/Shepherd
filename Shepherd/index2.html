@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shepherd: ArcGIS Server Browser</title>
+    <meta name="description" content="An ArcCatalog-Style alternative to ArcGIS Server Services Directory. Shepherd will guide you through the content of your ArcGIS Server." />
+    <meta name="author" content="Amr Eldib" />
+
+    <link rel="shortcut icon" href="images/FavIcon.ico" type="image/png" />
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">-->
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 20px;
+        }
+    </style>
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="scripts/handlebars.runtime-v1.3.0.js"></script>
+</head>
+<body>
+
+
+    <div id="holder">
+        <div id="header" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="brand" href="##">Shepherd</a>
+                </div>
+            </div>
+        </div>
+        <div id="body" class="container">
+            <div id="serverUrl" class="row">
+                <div id="alertbox"></div>
+                <div class="span10">
+                    <div class="input-prepend">
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">Esri Servers<span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://sampleserver6.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 10.1 SP1 - SampleServer 6
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://psstldemo3.esri.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 10.1 SP1 PSSTLDemo
+                                    </a>
+                                </li>
+
+                                <li class="divider"></li>
+
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://sampleserver3.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 10 - SampleServer 3
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://sampleserver5.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 10 - SampleServer 5
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://sampleserver1.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 10 SP1 - SampleServer1
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://services.arcgisonline.com/ArcGIS/rest/services/'); return false;">
+                                        ArcGIS 10 SP1 - Services - World Basemaps
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://sampleserver4.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 10 SP2 - SampleServer4
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://tasks.arcgisonline.com/ArcGIS/rest/services'); return false;">
+                                        ArcGIS 10 SP4 - Tasks
+                                    </a>
+                                </li>
+
+                                <li class="divider"></li>
+
+                                <li>
+                                    <a href="#" onclick="setServerUrl('http://sampleserver2.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                        ArcGIS 9.3 SP1 - SampleServer2
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <input class="span9" id="txtServerUrl" placeholder="Enter Server URL of ArcGIS Server Services Directory" type="text" />
+                    </div>
+                </div>
+                <div class="span2">
+                    <button class="btn btn-primary" id="btnGetServerInfo" data-dojo-type="dijit.form.Button" onclick="btnGetServerInfo_Click(txtServerUrl.value)">Get Server Info</button>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span5">
+                    <div class="well">
+                        <ul id="servicesTree" class="tree">
+                            <li>No server is selected</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="span7">
+
+                    <div id="infoPanel"></div>
+
+                    <div id="jsonDiv"></div>
+
+                    <div id="reporter"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">Shepherd is an Open Source project hosted on <a href="https://github.com/AmrEldib/Shepherd" target="_blank">GitHub</a> and developer by <a href="http://AmrEldib.com" target="_blank">Amr Eldib</a>. We would love to get <a href="https://docs.google.com/forms/d/1MwlUMQq7xXvzuljOjO_nnX_omJMlSxUCtCgpe_tIeNw/viewform" target="_blank">your feedback</a>.</p>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
