@@ -1,0 +1,15 @@
+﻿<h1 class="page-header">
+    <img src="{{getServiceIconFromUrl itemUrl}}" /> {{getServiceName itemUrl}}
+    <small>
+        <a href="{{itemUrl}}?f=help" target="_blank"><span title="Help" class="glyphicon glyphicon-question-sign"></span></a>
+        <a href="{{itemUrl}}" target="_blank"><span title="Open Services Directory Page" class="glyphicon glyphicon-new-window"></span></a>
+    </small>
+</h1>
+
+<p><a href="#sectionGeneral">General</a></p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Execution Type: </b>{{convertEnumerationValueToString "esriExecutionType" itemJson.executionType}}</p>
+<p><b>Result Map Server Name: </b>{{displayTextOrNA itemJson.resultMapServerName}}</p>
+<p><b>Maximum Records: </b>{{displayNumberOrNA itemJson.maximumRecords}}</p>

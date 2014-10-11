@@ -1,0 +1,18 @@
+﻿<p>
+    {{#if .}}
+    <b>XMin: </b> {{xmin}}<br />
+    <b>YMin: </b> {{ymin}}<br />
+    <b>XMax: </b> {{xmax}}<br />
+    <b>YMax: </b> {{ymax}}<br />
+    <b>Spatial Reference: </b> {{spatialReference.wkid}} ({{spatialReference.latestWkid}})<br />
+    {{else}}
+    N/A
+    {{/if}}
+</p>
+<p>
+    <ul class="list">
+        <li>
+            <a class="mapExtentFrame" data-fancybox-type="iframe" href='mapExtent.html?extent={"xmin":{{xmin}},"ymin":{{ymin}},"xmax":{{xmax}},"ymax":{{ymax}},"spatialreference":{"wkid":{{spatialReference.wkid}},"latestwkid":{{spatialReference.latestWkid}} }}'>Show in Map</a>
+        </li>
+    </ul>
+</p>

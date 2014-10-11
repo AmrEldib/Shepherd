@@ -1,0 +1,74 @@
+﻿{{>serviceInfoHeader itemUrl}}
+
+<p><a href="#sectionGeneral">General</a> - <a href="#sectionDataUpdates">Data Updates</a> - <a href="#sectionExtent">Extent</a> - <a href="#sectionLayers">Layers</a> - <a href="#sectionTables">Tables</a> - <a href="#sectionDocumentInfo">Document Info</a> - <a href="#sectionMisc">Misc.</a></p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Service Description: </b>{{displayTextOrNA itemJson.serviceDescription}}</p>
+<p><b>Description: </b>{{displayTextOrNA itemJson.description}}</p>
+<p><b>Copyright Text: </b>{{displayTextOrNA itemJson.copyrightText}}</p>
+
+<!-- Data Updates -->
+<h3><a name="sectionDataUpdates">Data Updates</a></h3>
+<p>
+    <b>Has Versioned Data  </b>{{{displayBooleanAsImage itemJson.hasVersionedData "True" "False"}}}
+</p>
+<p>
+    <b>Supports Disconnected Editing  </b>{{{displayBooleanAsImage itemJson.supportsDisconnectedEditing "True" "False"}}}
+</p>
+<p>
+    <b>Sync Enabled  </b>{{{displayBooleanAsImage itemJson.syncEnabled "True" "False"}}}
+</p>
+<p>
+    <b>Allow Geometry Updates </b>{{{displayBooleanAsImage itemJson.allowGeometryUpdates "True" "False"}}}
+</p>
+
+<!-- Extent -->
+<h3><a name="sectionExtent">Extent</a></h3>
+<p>
+    <!--Spatial Reference -->
+    <b>Spatial Reference: </b>
+    {{#if itemJson.spatialReference}}
+    {{itemJson.spatialReference.wkid}} ({{itemJson.spatialReference.latestWkid}})<br />
+    {{else}}
+    N/A
+    {{/if}}
+</p>
+<p>
+    <!--Units-->
+    <b>Units: </b>{{displayTextOrNA itemJson.units}}
+</p>
+<!--Initial Extent-->
+<h4>Initial Extent </h4>
+{{> extentDetails itemJson.initialExtent}}
+<!--Full Extent-->
+<h4>Full Extent </h4>
+{{> extentDetails itemJson.fullExtent}}
+
+<!--Layers-->
+<h3><a name="sectionLayers">Layers</a></h3>
+    {{{generateTable itemJson.layers '{"tableDescription":[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}],"naValue":"No Layers."}' }}}
+
+<!--Table-->
+<h3><a name="sectionTables">Tables</a></h3>
+    {{{generateTable itemJson.tables '{"tableDescription":[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}],"naValue":"No Tables."}'}}}
+
+<!--Document Info-->
+<h3><a name="sectionDocumentInfo">Document Info</a></h3>
+<p>
+    <b>Title: </b> <i>{{displayTextOrNA itemJson.documentInfo.Title}}</i><br />
+    <b>Author: </b> <i>{{displayTextOrNA itemJson.documentInfo.Author}}</i><br />
+    <b>Comments: </b> <i>{{displayTextOrNA itemJson.documentInfo.Comments}}</i><br />
+    <b>Subject: </b> <i>{{displayTextOrNA itemJson.documentInfo.Subject}}</i><br />
+    <b>Category: </b> <i>{{displayTextOrNA itemJson.documentInfo.Category}}</i><br />
+    <b>Keywords: </b> <i>{{displayTextOrNA itemJson.documentInfo.Keywords}}</i><br />
+</p>
+
+<!-- Misc -->
+<h3><a name="sectionMisc">Misc.</a></h3>
+<p><b>Capabilities: </b>{{{convertCommaSeparatedTextToList itemJson.capabilities}}}</p>
+<p><b>Supported Query Formats: </b>{{displayTextOrNA itemJson.supportedQueryFormats}}</p>
+<p><b>Maximum Record Count: </b>{{displayNumberOrNA itemJson.maxRecordCount}}</p>
+<p>
+    <b>Enable Z Defaults  </b>{{{displayBooleanAsImage itemJson.enableZDefaults "True" "False"}}}
+</p>

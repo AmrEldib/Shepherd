@@ -1,0 +1,81 @@
+﻿{{>serviceInfoHeader itemUrl}}
+
+<p>
+    <a href="#sectionGeneral">General</a> - 
+    <a href="#sectionLayers">Layers</a> - 
+    <a href="#sectionTables">Tables</a> - 
+    <a href="#sectionExtent">Extent</a> - 
+    <a href="#sectionCache">Cache and Tiles</a> - 
+    <a href="#sectionDocumentInfo">Document Info</a> - 
+    <a href="#sectionMisc">Misc.</a>
+</p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Map Name: </b>{{displayTextOrNA itemJson.mapName}}</p>
+<p><b>Description: </b>{{displayTextOrNA itemJson.description}}</p>
+<p><b>Copyright Text: </b>{{displayTextOrNA itemJson.copyrightText}}</p>
+
+<!--Layers-->
+<h3><a name="sectionLayers">Layers</a></h3>
+    {{{generateTable itemJson.layers '{"tableDescription":[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"},{"name":"parentLayerId","title":"Parent Layer ID","type":"text"},{"name":"defaultVisibility","title":"Default Visibility","type":"boolean","trueValue":"True","falseValue":"False"},{"name":"subLayerIds","title":"Sub Layer IDs","type":"text"},{"name":"minScale","title":"Min Scale","type":"number"},{"name":"maxScale","title":"Max Scale","type":"number"}],"naValue":"No Layers."}' }}}
+
+<!--Table-->
+<h3><a name="sectionTables">Tables</a></h3>
+    {{{generateTable itemJson.tables '{"tableDescription":[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}],"naValue":"No Tables."}'}}}
+
+<!-- Extent -->
+<h3><a name="sectionExtent">Extent</a></h3>
+<p>
+    <!--Spatial Reference -->
+    <b>Spatial Reference: </b>
+    {{#if itemJson.spatialReference}}
+    {{itemJson.spatialReference.wkid}} ({{itemJson.spatialReference.latestWkid}})<br />
+    {{else}}
+    N/A
+    {{/if}}
+</p>
+<p><b>Minimum Scale: </b>{{displayNumberOrNA itemJson.minScale}}</p>
+<p><b>Maxmum Scale: </b>{{displayNumberOrNA itemJson.maxScale}}</p>
+<p>
+    <!--Units-->
+    <b>Units: </b>{{displayTextOrNA itemJson.units}}
+</p>
+<!--Initial Extent-->
+<h4>Initial Extent </h4>
+{{> extentDetails itemJson.initialExtent}}
+<!--Full Extent-->
+<h4>Full Extent </h4>
+{{> extentDetails itemJson.fullExtent}}
+
+<!-- Cache and Tiles -->
+<h3><a name="sectionCache">Cache and Tiles</a></h3>
+<p>
+    <b>Single Fused Map Cache </b>
+    {{{displayBooleanAsImage itemJson.singleFusedMapCache "True" "False"}}}
+</p>
+<p><b>Supported Image Format Types: </b>{{{convertCommaSeparatedTextToList itemJson.supportedImageFormatTypes}}}</p>
+<p>
+    <b>Supports Dynamic Layers  </b>{{{displayBooleanAsImage itemJson.supportsDyanmicLayers "True" "False"}}}
+</p>
+
+<!--Document Info-->
+<h3><a name="sectionDocumentInfo">Document Info</a></h3>
+<p>
+    <b>Title: </b> <i>{{displayTextOrNA itemJson.documentInfo.Title}}</i><br />
+    <b>Author: </b> <i>{{displayTextOrNA itemJson.documentInfo.Author}}</i><br />
+    <b>Comments: </b> <i>{{displayTextOrNA itemJson.documentInfo.Comments}}</i><br />
+    <b>Subject: </b> <i>{{displayTextOrNA itemJson.documentInfo.Subject}}</i><br />
+    <b>Category: </b> <i>{{displayTextOrNA itemJson.documentInfo.Category}}</i><br />
+    <b>Keywords: </b> <i>{{displayTextOrNA itemJson.documentInfo.Keywords}}</i><br />
+    <b>AntialiasingMode: </b> <i>{{displayTextOrNA itemJson.documentInfo.AntialiasingMode}}</i><br />
+    <b>TextAntialiasingMode: </b> <i>{{displayTextOrNA itemJson.documentInfo.TextAntialiasingMode}}</i><br />
+</p>
+
+<!-- Misc -->
+<h3><a name="sectionMisc">Misc.</a></h3>
+<p><b>Capabilities: </b>{{{convertCommaSeparatedTextToList itemJson.capabilities}}}</p>
+<p><b>Supported Query Formats: </b>{{{convertCommaSeparatedTextToList itemJson.supportedQueryFormats}}}</p>
+<p><b>Maximum Record Count: </b>{{displayNumberOrNA itemJson.maxRecordCount}}</p>
+<p><b>Maximum Image Height: </b>{{displayNumberOrNA itemJson.maxImageHeight}}</p>
+<p><b>Maximum Image Width: </b>{{displayNumberOrNA itemJson.maxImageWidth}}</p>

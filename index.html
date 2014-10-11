@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shepherd: ArcGIS Server Browser</title>
+    <meta name="description" content="An ArcCatalog-Style alternative to ArcGIS Server Services Directory. Shepherd will guide you through the content of your ArcGIS Server." />
+    <meta name="author" content="Amr Eldib" />
+
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/png" />
+
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Scripts/jsTree3/themes/default/style.css" rel="stylesheet" />
+    <link href="Content/jquery.fancybox.css" rel="stylesheet" />
+
+    <style type="text/css">
+        body {
+            padding-top: 80px;
+            padding-bottom: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="header" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="##">Shepherd</a>
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li class="active"><a href="#">Link</a></li>-->
+                    <li><a id="aboutDialogButton" href="#aboutDialog"><span class="glyphicon glyphicon-info-sign"></span></a></li>
+
+                    <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="body" class="container-fluid">
+        <div id="serverUrl" class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Esri Servers<span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://sampleserver6.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10.1 SP1 - SampleServer 6
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://psstldemo3.esri.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10.1 SP1 PSSTLDemo
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://sampleserver3.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 - SampleServer 3
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://sampleserver5.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 - SampleServer 5
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://sampleserver1.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 SP1 - SampleServer1
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://services.arcgisonline.com/ArcGIS/rest/services/'); return false;">
+                                    ArcGIS 10 SP1 - Services - World Basemaps
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://sampleserver4.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 10 SP2 - SampleServer4
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://tasks.arcgisonline.com/ArcGIS/rest/services'); return false;">
+                                    ArcGIS 10 SP4 - Tasks
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="#" onclick="setServerUrl('http://sampleserver2.arcgisonline.com/arcgis/rest/services/'); return false;">
+                                    ArcGIS 9.3 SP1 - SampleServer2
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <input id="txtServerUrl"
+                           type="text"
+                           class="form-control"
+                           placeholder="Enter Server URL of ArcGIS Server Services Directory" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-default"
+                                id="btnGetServerInfo"
+                                onclick="btnGetServerInfo_Click(txtServerUrl.value)">
+                            Browse
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div id="treeDiv"></div>
+            </div>
+            <div class="col-md-8">
+                <div id="infoPanel"></div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none">
+        <div id="aboutDialog" class="container">
+            <p>Shepherd is an ArcCatalog-Style alternative to ArcGIS Server Services Directory.</p>
+            <p>This is an Open Source project hosted on <a href="https://github.com/AmrEldib/Shepherd" target="_blank">GitHub</a> and developer by <a href="http://AmrEldib.com" target="_blank">Amr Eldib</a>.</p>
+            <p>If you have any ideas, found bugs, suggestions or any feedback, please fill out <a href="https://docs.google.com/forms/d/1MwlUMQq7xXvzuljOjO_nnX_omJMlSxUCtCgpe_tIeNw/viewform" target="_blank">this form</a>, or <a href="https://github.com/AmrEldib/Shepherd/issues/new" target="_blank">submit an issue on GitHub</a>.</p>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-2.1.1.min.js"></script>
+    <script src="Scripts/jsTree3/jstree.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/handlebars.min.js"></script>
+    <script src="Scripts/jquery.fancybox.js"></script>
+    <script src="Scripts/shepherd.js"></script>
+</body>
+</html>
+
