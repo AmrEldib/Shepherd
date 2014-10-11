@@ -21,7 +21,7 @@ Quickly access Esri's Sample Servers.
 
 
 ## Use It Now ##
-- Just [Try It here](http://amreldib.github.com/Shepherd/demo/index.html "Shepherd Live Demo").
+- Just [Try It here](http://amreldib.github.com/Shepherd/index.html "Shepherd Live Demo").
 - Shepherd runs with no server-side code. All access from your machine to the ArcGIS Server directly.
 
 ## Set it up on your own server ##
