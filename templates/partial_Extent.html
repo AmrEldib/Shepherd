@@ -1,18 +1,23 @@
 ﻿<p>
     {{#if .}}
-    <b>XMin: </b> {{xmin}}<br />
-    <b>YMin: </b> {{ymin}}<br />
-    <b>XMax: </b> {{xmax}}<br />
-    <b>YMax: </b> {{ymax}}<br />
-    <b>Spatial Reference: </b> {{spatialReference.wkid}} ({{spatialReference.latestWkid}})<br />
+    <p>
+        <b>XMin: </b> {{xmin}}<br />
+        <b>YMin: </b> {{ymin}}<br />
+        <b>XMax: </b> {{xmax}}<br />
+        <b>YMax: </b> {{ymax}}<br />
+    </p>
+    <p>
+        <b>Spatial Reference </b>
+        <a class="mapExtentFrame" data-fancybox-type="iframe" href='mapExtent.html?extent={"xmin":{{xmin}},"ymin":{{ymin}},"xmax":{{xmax}},"ymax":{{ymax}},"spatialReference":{"wkid":{{spatialReference.wkid}} }}'>
+            <span title="Preview Extent in Map" class="glyphicon glyphicon-map-marker infoHeaderIcon"></span>
+        </a>
+        <br />
+        <ul>
+            <li><b>WKID: </b> {{getSpatialReferenceInfo spatialReference.wkid}}</li>
+            <li><b>Latest WKID: </b> {{getSpatialReferenceInfo spatialReference.latestWkid}}</li>
+        </ul>
+    </p>
     {{else}}
     N/A
     {{/if}}
-</p>
-<p>
-    <ul class="list">
-        <li>
-            <a class="mapExtentFrame" data-fancybox-type="iframe" href='mapExtent.html?extent={"xmin":{{xmin}},"ymin":{{ymin}},"xmax":{{xmax}},"ymax":{{ymax}},"spatialReference":{"wkid":{{spatialReference.wkid}} }}'>Show in Map</a>
-        </li>
-    </ul>
 </p>

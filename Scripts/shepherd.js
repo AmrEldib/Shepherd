@@ -262,6 +262,24 @@ function displayNumberOrNA(numberValue) {
     }
 }
 
+function getSpatialReferenceInfo(wkid) {
+    if (wkid === undefined) {
+        return "N/A";
+    }
+    else {
+        // Set the global configs to synchronous.
+        $.ajaxSetup({ async: false });
+        var srName;
+        // $.getJSON() request is now synchronous.
+        $.getJSON('data/SRs/' + wkid + '.json', function(sr) {
+            srName = sr.name + " (" + wkid + ")";
+        }).fail(function () { srName = wkid; });
+        // Set the global configs back to asynchronous.
+        $.ajaxSetup({ async: true });
+        return srName;
+    }
+}
+
 function generateTable(jsonArray, tableDescriptionString, naValue) {
     var tableDescription = JSON.parse(tableDescriptionString);
     
@@ -376,6 +394,9 @@ function setupHandlebarsHelpers() {
 
     // convertEnumToString: converts an enumeration value to text.
     Handlebars.registerHelper('convertEnumToString', convertEnumToString);
+
+    // getSpatialReferenceInfo: gets the full name of a spatial reference given its WKID.
+    Handlebars.registerHelper('getSpatialReferenceInfo', getSpatialReferenceInfo);
 
     // generateTable: generate Table from a JSON array and a Description.
     // If the array is empty, the output is the N/A value.
