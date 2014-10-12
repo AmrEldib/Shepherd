@@ -30,7 +30,7 @@ function addFolderToTree(folder, treeObject, parentNode) {
     treeObject.create_node(parentNode,
         {
             text: folder,
-            icon: getItemIcon("Folder"),
+            icon: getItemIcon("Folder", "16"),
             state: {
                 opened: true
             },
@@ -42,13 +42,7 @@ function addFolderToTree(folder, treeObject, parentNode) {
         }, "last", null, null);
 }
 
-function getServiceType(serviceUrl) {
-    var serviceTypeArray = serviceUrl.split('/');
-    var serviceType = serviceTypeArray[serviceTypeArray.length - 1];
-    return serviceType;
-}
-
-function getItemIcon(itemType) {
+function getItemIcon(itemType, iconSize) {
     switch (itemType) {
         case "Folder":
         case "MapServer":
@@ -57,17 +51,17 @@ function getItemIcon(itemType) {
         case "ImageServer":
         case "MobileServer":
         case "Server":
-            return "img/TreeIcons/treeicon_" + itemType + ".png";
         case "GeocodeServer":
         case "NAServer":
         case "GeometryServer":
+            return "img/TreeIcons/treeicon_" + itemType + "_" + iconSize + ".png";
         default:
             return "img/TreeIcons/treeicon_other.png";
     }
 }
 
-function getServiceIconFromUrl(serviceUrl) {
-    return getItemIcon(getServiceType(serviceUrl));
+function getServiceIconFromUrl(serviceUrl, iconSize) {
+    return getItemIcon(getServiceType(serviceUrl), iconSize);
 }
 
 function getTemplatePath(itemType) {
@@ -92,15 +86,28 @@ function getTemplatePath(itemType) {
     }
 }
 
+function getServiceType(serviceUrl) {
+    var serviceTypeArray = serviceUrl.split('/');
+    var serviceType = serviceTypeArray[serviceTypeArray.length - 1];
+    return serviceType;
+}
+
+function getServiceNameFromUrl(serviceUrl) {
+    var serviceNameArray = serviceUrl.split('/');
+    return serviceNameArray[serviceNameArray.length - 2];
+}
+
+function getServiceNameFromAgsServiceName(agsServiceName) {
+    var serviceNameArray = agsServiceName.split('/');
+    return serviceNameArray[serviceNameArray.length - 1];
+}
+
 function addServiceToTree(service, treeObject, parentNode) {
-
-    var serviceNameArray = service.name.split('/');
-    var serviceName = serviceNameArray[serviceNameArray.length - 1];
-
+    var serviceName = getServiceNameFromAgsServiceName(service.name);
     treeObject.create_node(parentNode,
         {
             text: serviceName + " (" + service.type + ")",
-            icon: getItemIcon(service.type),
+            icon: getItemIcon(service.type, "16"),
             data: {
                 itemType: service.type,
                 itemUrl: parentNode.data.itemUrl + serviceName + "/" + service.type,
@@ -143,7 +150,7 @@ function btnGetServerInfo_Click(serverUrl) {
     var serverNodeName = treeObject.create_node("#",
                 {
                     text: baseUrl,
-                    icon: getItemIcon("Server"),
+                    icon: getItemIcon("Server", "16"),
                     state: {
                         opened: true
                     },
@@ -263,12 +270,16 @@ function setupHandlebarsHelpers() {
         return folderName;
     });
 
-    // extractServiceName: extracts name of service from the service URL.
-    // "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/WorldElevations/MapServer/" ---> "ESRI_Elevation_World"
-    Handlebars.registerHelper('getServiceName', function (serviceUrl) {
-        var serviceNameArray = serviceUrl.split('/');
-        var serviceName = serviceNameArray[serviceNameArray.length - 2];
-        return serviceName;
+    // getServiceNameFromUrl: extracts name of service from the service URL.
+    // "http://sampleserver5.arcgisonline.com/arcgis/rest/services/Elevation/ESRI_Elevation_World/MapServer" ---> "ESRI_Elevation_World"
+    Handlebars.registerHelper('getServiceNameFromUrl', function (serviceUrl) {
+        return getServiceNameFromUrl(serviceUrl);
+    });
+
+    // getServiceNameFromAgsServiceName: extracts name of service from AGS service name.
+    // "folder/ESRI_Elevation_World" ---> "ESRI_Elevation_World"
+    Handlebars.registerHelper('getServiceNameFromAgsServiceName', function (agsServiceName) {
+        return getServiceNameFromAgsServiceName(agsServiceName);
     });
 
     // getServiceType: extracts name of service from the name returned from AGS.
@@ -277,14 +288,24 @@ function setupHandlebarsHelpers() {
         return getServiceType(serviceUrl);
     });
 
-    // getItemIcon: gets an image that represents the service based on its type.
-    Handlebars.registerHelper('getItemIcon', function (itemType) {
-        return getItemIcon(itemType);
+    // getSmallItemIcon: gets a 16x16 image that represents the service based on its type.
+    Handlebars.registerHelper('getSmallItemIcon', function (itemType) {
+        return getItemIcon(itemType, "16");
     });
 
-    // getServiceIconFromUrl: gets an image that represents the service based on its URL.
-    Handlebars.registerHelper('getServiceIconFromUrl', function (serviceUrl) {
-        return getServiceIconFromUrl(serviceUrl);
+    // getLargeItemIcon: gets a 16x16 image that represents the service based on its type.
+    Handlebars.registerHelper('getLargeItemIcon', function (itemType) {
+        return getItemIcon(itemType, "32");
+    });
+
+    //getSmallServiceIconFromUrl: gets a 16x16 image that represents the service based on its URL.
+    Handlebars.registerHelper('getSmallServiceIconFromUrl', function (serviceUrl) {
+        return getServiceIconFromUrl(serviceUrl, "16");
+    });
+
+    // getLargeServiceIconFromUrl: gets a 32x32 image that represents the service based on its URL.
+    Handlebars.registerHelper('getLargeServiceIconFromUrl', function (serviceUrl) {
+        return getServiceIconFromUrl(serviceUrl, "32");
     });
 
     // displayBooleanAsImage: Writes the HTML of an image that represents a Boolean value.
@@ -370,6 +391,11 @@ function setupHandlebarsPartials() {
     // serviceInfoHeader: Writes out the header of a service.
     $.get("templates/partial_ServiceInfoHeader.html", function (template) {
         Handlebars.registerPartial("serviceInfoHeader", template)
+    });
+
+    // serviceInfoHeaderNoMap: Writes out the header of a service (with no map).
+    $.get("templates/partial_ServiceInfoHeaderNoMap.html", function (template) {
+        Handlebars.registerPartial("serviceInfoHeaderNoMap", template)
     });
 
     // TODO: Try turning generateTable to Partial.

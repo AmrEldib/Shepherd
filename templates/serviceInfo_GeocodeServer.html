@@ -1,9 +1,47 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+﻿{{>serviceInfoHeaderNoMap itemUrl}}
 
-</body>
-</html>
+<p>
+    <a href="#sectionGeneral">General</a> - 
+    <a href="#sectionAddressFields">Address Fields</a> -
+    <a href="#sectionCandidateFields">Candidate Fields</a> -
+    <a href="#sectionIntersectionCandidateFields">Intersection Candidate Fields</a> -
+    <a href="#sectionSpatialReference">Spatial Reference</a> -
+    <a href="#sectionLocatorProperties">Locator Properties</a>    
+</p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Service Description: </b>{{displayTextOrNA itemJson.serviceDescription}}</p>
+
+<!-- Address Fields -->
+<h3><a name="sectionAddressFields">Address Fields</a></h3>
+    {{{generateTable itemJson.addressFields '{"tableDescription":[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}],"naValue":"No Fields."}'}}}
+
+<!-- Candidate Fields -->
+<h3><a name="sectionCandidateFields">Candidate Fields</a></h3>
+    {{{generateTable itemJson.candidateFields '{"tableDescription":[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}],"naValue":"No Fields."}'}}}
+
+<!-- Intersection Candidate Fields -->
+<h3><a name="sectionIntersectionCandidateFields">Intersection Candidate Fields</a></h3>
+    {{{generateTable itemJson.intersectionCandidateFields '{"tableDescription":[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}],"naValue":"No Fields."}'}}}
+
+<!-- Spatial Reference -->
+<h3><a name="sectionSpatialReference">Spatial Reference</a></h3>
+<p><b>WKID: </b>{{displayNumberOrNA itemJson.spatialReference.wkid}}</p>
+
+<!-- Locator Properties -->
+<h3><a name="sectionLocatorProperties">Locator Properties</a></h3>
+<p><b>Minimum Candidate Score: </b>{{displayTextOrNA itemJson.locatorProperties.MinimumCandidateScore}}</p>
+<p><b>Side Offset Units: </b>{{displayTextOrNA itemJson.locatorProperties.SideOffsetUnits}}</p>
+<p><b>UICLSID: </b>{{displayTextOrNA itemJson.locatorProperties.UICLSID}}</p>
+<p><b>Spelling Sensitivity: </b>{{displayTextOrNA itemJson.locatorProperties.SpellingSensitivity}}</p>
+<p><b>Minimum Match Score: </b>{{displayTextOrNA itemJson.locatorProperties.MinimumMatchScore}}</p>
+<p><b>End Offset: </b>{{displayTextOrNA itemJson.locatorProperties.EndOffset}}</p>
+<p><b>Intersection Connectors: </b>{{displayTextOrNA itemJson.locatorProperties.IntersectionConnectors}}</p>
+<p><b>Match if Scores Tie: </b>{{{displayBooleanAsImage itemJson.locatorProperties.MatchIfScoresTie "True" "False"}}}</p>
+<p><b>Side Offset: </b>{{displayTextOrNA itemJson.locatorProperties.SideOffset}}</p>
+<p><b>SuggestedBatchSize: </b>{{displayNumberOrNA itemJson.locatorProperties.SuggestedBatchSize}}</p>
+<p><b>WriteXYCoordFields: </b>{{{displayBooleanAsImage itemJson.locatorProperties.WriteXYCoordFields "True" "False"}}}</p>
+<p><b>WriteStandardizedAddressField: </b>{{{displayBooleanAsImage itemJson.locatorProperties.WriteStandardizedAddressField "True" "False"}}}</p>
+<p><b>WriteReferenceIDField: </b>{{{displayBooleanAsImage itemJson.locatorProperties.WriteReferenceIDField "True" "False"}}}</p>
+<p><b>WritePercentAlongField: </b>{{{displayBooleanAsImage itemJson.locatorProperties.WritePercentAlongField "True" "False"}}}</p>

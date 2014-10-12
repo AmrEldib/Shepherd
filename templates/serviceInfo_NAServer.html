@@ -1,1 +1,45 @@
-﻿
+﻿{{>serviceInfoHeaderNoMap itemUrl}}
+
+<p><a href="#sectionGeneral">General</a></p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Service Description: </b>{{displayTextOrNA itemJson.serviceDescription}}</p>
+<p>
+    <b>Route Layers: </b>
+    <ul>
+        {{#each itemJson.routeLayers}}
+            <li>
+                <a href="{{../itemUrl}}/{{.}}/" target="_blank">{{.}}</a>
+            </li>
+        {{else}}
+            <li>No Route Layers.</li>
+        {{/each}}
+    </ul>
+</p>
+<p>
+    <b>Service Area Layers: </b>
+    <ul>
+        {{#each itemJson.serviceAreaLayers}}
+            <li>
+                <a href="{{../itemUrl}}/{{.}}/" target="_blank">{{.}}</a>
+            </li>
+        {{else}}
+            <li>No Service Area Layers.</li>
+        {{/each}}
+    </ul>
+</p>
+<p>
+    <b>Closest Facility Layers: </b>
+    <ul>
+        {{#each itemJson.closestFacilityLayers}}
+            <li>
+                <a href="{{../itemUrl}}/{{.}}/" target="_blank">{{.}}</a>
+            </li>
+        {{else}}
+            <li>No Closest Facility Layers.</li>
+        {{/each}}
+    </ul>
+</p>
+
+
