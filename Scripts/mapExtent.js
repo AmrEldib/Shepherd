@@ -19,17 +19,19 @@ function (Map,
     Graphic,
     Polygon,
     Extent) {
+    
+    var extent = new Extent(JSON.parse(getURLParameter('extent')));
+    console.log(extent);
 
     map = new Map("map", {
         basemap: "topo",
+        extent: extent,
         center: [-122.45, 37.75], // longitude, latitude
         zoom: 13
     });
 
     map.on("load", function () {
 
-        var extent = new Extent(JSON.parse(getURLParameter('extent')));
-        console.log(extent);
         extentPolygon = new Polygon([
                         [
                             [extent.xmin, extent.ymin],
@@ -43,14 +45,13 @@ function (Map,
         extentPolygon.spatialReference = extent.spatialReference;
 
         var symbol = new SimpleFillSymbol().setColor("blue").outline.setColor("blue");
-        var gl = new GraphicsLayer({ id: "extents" });
+        var gl = new GraphicsLayer({ id: "extents" });        
         map.addLayer(gl);
 
         var attr = { "field1": "Initial Extent" };
         var graphic = new Graphic(extentPolygon, symbol, attr);
         gl.add(graphic);
 
-        //map.setExtent(initialExtent);
         map.setExtent(extentPolygon.getExtent().expand(1.5));
     });
 
