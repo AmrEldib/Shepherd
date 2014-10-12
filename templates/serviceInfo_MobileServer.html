@@ -1,1 +1,37 @@
-﻿
+﻿{{>serviceInfoHeaderNoMap itemUrl}}
+
+<p>
+    <a href="#sectionGeneral">General</a> -
+    <a href="#sectionLayers">Layers</a> -
+    <a href="#sectionExtent">Extent</a>
+</p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Service Description: </b>{{displayTextOrNA itemJson.description}}</p>
+
+<!-- Layers -->
+<h3><a name="sectionLayers">Layers</a></h3>
+    {{{generateTable itemJson.layers '[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}, {"name":"defaultVisibility","title":"Default Visibility","type":"boolean"}, {"name":"minScale","title":"Minimum Scale","type":"number"}, {"name":"maxScale","title":"Maximum Scale","type":"number"}]' "No Layers." }}}
+
+<!-- Extent -->
+<h3><a name="sectionExtent">Extent</a></h3>
+<p>
+    <!--Spatial Reference -->
+    <b>Spatial Reference: </b>
+    {{#if itemJson.spatialReference}}
+    {{itemJson.spatialReference.wkid}} ({{itemJson.spatialReference.latestWkid}})<br />
+    {{else}}
+    N/A
+    {{/if}}
+</p>
+<p>
+    <!--Units-->
+    <b>Units: </b>{{convertEnumToString "esriUnits" itemJson.units}}
+</p>
+<!--Initial Extent-->
+<h4>Initial Extent </h4>
+{{> extentDetails itemJson.initialExtent}}
+<!--Full Extent-->
+<h4>Full Extent </h4>
+{{> extentDetails itemJson.fullExtent}}

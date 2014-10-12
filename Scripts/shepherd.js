@@ -262,6 +262,59 @@ function displayNumberOrNA(numberValue) {
     }
 }
 
+function generateTable(jsonArray, tableDescriptionString, naValue) {
+    var tableDescription = JSON.parse(tableDescriptionString);
+    
+    if (jsonArray.length === 0) {
+        return naValue;
+    }
+    else {
+        var headerHtml = "<tr>";
+        tableDescription.forEach(function (tableItem) {
+            headerHtml += "<th>" + tableItem.title + "</th>";
+        });
+        headerHtml += "</tr>";
+
+        var rowsHtml = "";
+        jsonArray.forEach(function (dataItem) {
+            rowsHtml += "<tr>";
+            tableDescription.forEach(function (tableItem) {
+                rowsHtml += "<td>";
+                var cellValue;
+                switch (tableItem.type) {
+                    case "text":
+                        cellValue = displayTextOrNA(dataItem[tableItem.name]);
+                        break;
+                    case "boolean":
+                        cellValue = displayBooleanAsImage(dataItem[tableItem.name], tableItem.trueTitle, tableItem.falseTitle);
+                        break;
+                    case "number":
+                        cellValue = displayNumberOrNA(dataItem[tableItem.name]);
+                        break;
+                    case "enum":
+                        cellValue = convertEnumToString(tableItem.enumType, dataItem[tableItem.name]);
+                        break;
+                    case "esriDomain":
+                        cellValue = convertEsriDomainToList(dataItem[tableItem.name]);
+                        break;
+                    default:
+                        cellValue = displayTextOrNA(dataItem[tableItem.name]);
+                        break;
+                }
+                rowsHtml += cellValue;
+                rowsHtml += "</td>"
+            });
+            rowsHtml += "</tr>";
+        });
+
+        return "<table class='table table-striped table-hover'><thead>"
+                + headerHtml
+                + "</thead><tbody>"
+                + rowsHtml
+                + "</tbody></table>";
+    }
+}
+
 function setupHandlebarsHelpers() {
     // getFolderName: gets name of folder from URL.
     Handlebars.registerHelper('getFolderName', function (url) {
@@ -326,60 +379,7 @@ function setupHandlebarsHelpers() {
 
     // generateTable: generate Table from a JSON array and a Description.
     // If the array is empty, the output is the N/A value.
-    Handlebars.registerHelper('generateTable', function (jsonArray, block) {
-        var blockObject = JSON.parse(block);
-        var tableDescription = blockObject.tableDescription;
-        var naValue = blockObject.naValue;
-
-        if (jsonArray.length === 0) {
-            return naValue;
-        }
-        else {
-            var headerHtml = "<tr>";
-            tableDescription.forEach(function (tableItem) {
-                headerHtml += "<th>" + tableItem.title + "</th>";
-            });
-            headerHtml += "</tr>";
-
-            var rowsHtml = "";
-            jsonArray.forEach(function (dataItem) {
-                rowsHtml += "<tr>";
-                tableDescription.forEach(function (tableItem) {
-                    rowsHtml += "<td>";
-                    var cellValue;
-                    switch (tableItem.type) {
-                        case "text":
-                            cellValue = displayTextOrNA(dataItem[tableItem.name]);
-                            break;
-                        case "boolean":
-                            cellValue = displayBooleanAsImage(dataItem[tableItem.name], tableItem.trueTitle, tableItem.falseTitle);
-                            break;
-                        case "number":
-                            cellValue = displayNumberOrNA(dataItem[tableItem.name]);
-                            break;
-                        case "enum":
-                            cellValue = convertEnumToString(tableItem.enumType, dataItem[tableItem.name]);
-                            break;
-                        case "esriDomain":
-                            cellValue = convertEsriDomainToList(dataItem[tableItem.name]);
-                            break;
-                        default:
-                            cellValue = displayTextOrNA(dataItem[tableItem.name]);
-                            break;
-                    }
-                    rowsHtml += cellValue;
-                    rowsHtml += "</td>"
-                });
-                rowsHtml += "</tr>";
-            });
-
-            return "<table class='table table-hover'><thead>"
-                    + headerHtml
-                    + "</thead><tbody>"
-                    + rowsHtml
-                    + "</tbody></table>";
-        }
-    });
+    Handlebars.registerHelper('generateTable', generateTable);
 }
 
 function setupHandlebarsPartials() {

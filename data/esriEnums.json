@@ -93,5 +93,62 @@
                 "title": "Synchronous"
             }
         ]
+    },
+    {
+        "type": "esriUnits",
+        "values": [
+            {
+                "value": "esriCentimeters",
+                "title": "Centimeters"
+            },
+            {
+                "value": "esriDecimalDegrees",
+                "title": "Decimal Degrees"
+            },
+            {
+                "value": "esriDecimeters",
+                "title": "Decimeters"
+            },
+            {
+                "value": "esriFeet",
+                "title": "Feet"
+            },
+            {
+                "value": "esriInches",
+                "title": "Inches"
+            },
+            {
+                "value": "esriKilometers",
+                "title": "Kilometers"
+            },
+            {
+                "value": "esriMeters",
+                "title": "Meters"
+            },
+            {
+                "value": "esriMiles",
+                "title": "Miles"
+            },
+            {
+                "value": "esriMillimeters",
+                "title": "Millimeters"
+            },
+            {
+                "value": "esriNauticalMiles",
+                "title": "Nautical Miles"
+            },
+            {
+                "value": "esriPoints",
+                "title": "Points"
+            },
+            {
+                "value": "esriUnknownUnits",
+                "title": "Unknown Units"
+            },
+            {
+                "value": "esriYards",
+                "title": "Yards"
+            }
+        ]
     }
 ]

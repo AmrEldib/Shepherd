@@ -1,6 +1,14 @@
 ﻿{{>serviceInfoHeader itemUrl}}
 
-<p><a href="#sectionGeneral">General</a> - <a href="#sectionDataUpdates">Data Updates</a> - <a href="#sectionExtent">Extent</a> - <a href="#sectionLayers">Layers</a> - <a href="#sectionTables">Tables</a> - <a href="#sectionDocumentInfo">Document Info</a> - <a href="#sectionMisc">Misc.</a></p>
+<p>
+    <a href="#sectionGeneral">General</a> - 
+    <a href="#sectionDataUpdates">Data Updates</a> - 
+    <a href="#sectionExtent">Extent</a> - 
+    <a href="#sectionLayers">Layers</a> - 
+    <a href="#sectionTables">Tables</a> - 
+    <a href="#sectionDocumentInfo">Document Info</a> - 
+    <a href="#sectionMisc">Misc.</a>
+</p>
 
 <!-- General -->
 <h3><a name="sectionGeneral">General</a></h3>
@@ -47,11 +55,11 @@
 
 <!--Layers-->
 <h3><a name="sectionLayers">Layers</a></h3>
-    {{{generateTable itemJson.layers '{"tableDescription":[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}],"naValue":"No Layers."}' }}}
+    {{{generateTable itemJson.layers '[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}]' "No Layers." }}}
 
 <!--Table-->
 <h3><a name="sectionTables">Tables</a></h3>
-    {{{generateTable itemJson.tables '{"tableDescription":[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}],"naValue":"No Tables."}'}}}
+    {{{generateTable itemJson.tables '[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}]' "No Tables."}}}
 
 <!--Document Info-->
 <h3><a name="sectionDocumentInfo">Document Info</a></h3>

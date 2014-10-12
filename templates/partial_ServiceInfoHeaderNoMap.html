@@ -1,7 +1,11 @@
 ﻿<h1 class="page-header">
-    <img src="{{getLargeServiceIconFromUrl .}}" />{{getServiceNameFromUrl .}}
+    <img class="infoHeaderIcon" src="{{getLargeServiceIconFromUrl .}}" />{{getServiceNameFromUrl .}}
     <small>
-        <a href="{{.}}?f=help" target="_blank"><span title="Help" class="glyphicon glyphicon-question-sign"></span></a>
-        <a href="{{.}}" target="_blank"><span title="Open Services Directory Page" class="glyphicon glyphicon-new-window"></span></a>
+        <a href="{{.}}?f=help" target="_blank">
+            <span title="Help" class="glyphicon glyphicon-question-sign infoHeaderIcon"></span>
+        </a>
+        <a href="{{.}}" target="_blank">
+            <span title="Open Services Directory Page" class="glyphicon glyphicon-new-window infoHeaderIcon"></span>
+        </a>
     </small>
 </h1>

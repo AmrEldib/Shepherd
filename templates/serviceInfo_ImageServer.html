@@ -31,7 +31,7 @@
 <p><b>Object ID Field: </b>{{displayTextOrNA itemJson.objectIdField}}</p>
 <p><b>Sort Field: </b>{{displayTextOrNA itemJson.sortField}}</p>
 <p><b>Sort Value: </b>{{displayTextOrNA itemJson.sortValue}}</p>
-    {{{generateTable itemJson.fields '{"tableDescription":[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"domain","title":"Domain","type":"esriDomain"},{"name":"length","title":"Length","type":"number"}],"naValue":"No Fields."}'}}}
+    {{{generateTable itemJson.fields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"domain","title":"Domain","type":"esriDomain"},{"name":"length","title":"Length","type":"number"}]' "No Fields."}}}
 
 <!-- Image Info -->
 <h3><a name="sectionImageInfo">Image Info</a></h3>
@@ -56,7 +56,7 @@
 <h3><a name="sectionRasterInfo">Raster Info</a></h3>
 <p><b>Allow Raster Function: </b>{{{displayBooleanAsImage itemJson.allowRasterFunction "True" "False"}}}</p>
 <p><h4>Raster Function Infos</h4>
-{{{generateTable itemJson.rasterFunctionInfos '{"tableDescription":[{"name":"name","title":"Name","type":"text"},{"name":"description","title":"Description","type":"text"},{"name":"help","title":"Help","type":"text"}],"naValue":"N/A."}'}}}
+{{{generateTable itemJson.rasterFunctionInfos '[{"name":"name","title":"Name","type":"text"},{"name":"description","title":"Description","type":"text"},{"name":"help","title":"Help","type":"text"}]' "N/A"}}}
     </p>
 <p><b>Mensuration Capabilities: </b>{{{convertCommaSeparatedTextToList itemJson.mensurationCapabilities}}}</p>
 
