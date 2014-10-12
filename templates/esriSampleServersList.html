@@ -1,0 +1,11 @@
+﻿{{#each servers}}
+    {{#if name}}
+        <li>
+            <a href="#" class="esriSampleServerButton" data-serverurl="{{url}}">
+                {{name}}
+            </a>
+        </li>
+    {{else}}
+        <li class="divider"></li>
+    {{/if}}
+{{/each}}

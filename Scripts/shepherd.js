@@ -1,7 +1,15 @@
-﻿var treeObject;
+﻿/// <reference path="jquery-2.1.1.min.js" />
+/// <reference path="handlebars.min.js" />
+/// <reference path="bootstrap.min.js" />
+/// <reference path="jquery.fancybox.js" />
+
+var treeObject;
+var esriEnums;
 var name_divInfo = "infoPanel";
 var name_txtServerUrl = "txtServerUrl";
 var name_divTree = "treeDiv";
+var name_btnEsriSampleServer = "esriSampleServerButton";
+var name_ulEsriSampleServer = "esriSampleServersList";
 
 String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -201,69 +209,30 @@ function convertEsriDomainToList(esriDomainValue) {
     }
 }
 
-function convertEnumerationValueToString(enumerationType, enumerationValue) {
-    if (enumerationValue == undefined | enumerationValue === "") {
+function convertEnumToString(enumType, enumValue) {
+    if (enumValue == undefined | enumValue === "") {
         return "N/A";
     }
     else {
-        switch (enumerationType) {
-            case "esriFieldType":
-                switch (enumerationValue) {
-                    case "esriFieldTypeSmallInteger":
-                        return "Short Integer";
-                    case "esriFieldTypeInteger":
-                        return "Long Integer";
-                    case "esriFieldTypeSingle":
-                        return "Single";
-                    case "esriFieldTypeDouble":
-                        return "Double";
-                    case "esriFieldTypeString":
-                        return "String";
-                    case "esriFieldTypeDate":
-                        return "Date";
-                    case "esriFieldTypeOID":
-                        return "Unique Object Identifier";
-                    case "esriFieldTypeGeometry":
-                        return "Geometry";
-                    case "esriFieldTypeBlob":
-                        return "Binary Large Object";
-                    case "esriFieldTypeRaster":
-                        return "Raster";
-                    case "esriFieldTypeGUID":
-                        return "Globally Unique Identifier (GUID)";
-                    case "esriFieldTypeGlobalID":
-                        return "ESRI Global ID (GlobalID)";
-                    case "esriFieldTypeXML":
-                        return "XML Document";
-                    default:
-                        return "N/A";
-                }
-            case "esriImageServiceDataType":
-                switch (enumerationValue) {
-                    case "esriImageServiceDataTypeElevation":
-                        return "Elevation";
-                    case "esriImageServiceDataTypeGeneric":
-                        return "Generic";
-                    case "esriImageServiceDataTypeThematic":
-                        return "Thematic";
-                    case "esriImageServiceDataTypeProcessed":
-                        return "Processed";
-                    case "esriImageServiceDataTypeRGB":
-                        return "RGB";
-                    default:
-                        return "N/A";
-                }
-            case "esriExecutionType":
-                switch (enumerationValue) {
-                    case "esriExecutionTypeAsynchronous":
-                        return "Asynchronous";
-                    case "esriExecutionTypeSynchronous":
-                        return "Synchronous";
-                    default:
-                        return "N/A";
-                }
-            default:
+        try {
+            var targetEnumList = $.grep(esriEnums, function (enumList) {
+                return enumList.type === enumType;
+            });
+            if (targetEnumList.length === 0) {
                 return "N/A";
+            }
+            var targetEnumItem = $.grep(targetEnumList[0].values, function (enumItem) {
+                return enumItem.value === enumValue;
+            });
+            if (!targetEnumItem.length === 0) {
+                return "N/A";
+            }
+            if (!targetEnumItem[0].title) {
+                return "N/A";
+            }
+            return targetEnumItem[0].title;
+        } catch (e) {
+            console.log(e);
         }
     }
 }
@@ -331,8 +300,8 @@ function setupHandlebarsHelpers() {
     // convertCommaSeparatedTextToList: converts a comma-separated text to an HTML list.
     Handlebars.registerHelper('convertCommaSeparatedTextToList', convertCommaSeparatedTextToList);
 
-    // convertEnumerationValueToString: converts an enumeration value to text.
-    Handlebars.registerHelper('convertEnumerationValueToString', convertEnumerationValueToString);
+    // convertEnumToString: converts an enumeration value to text.
+    Handlebars.registerHelper('convertEnumToString', convertEnumToString);
 
     // generateTable: generate Table from a JSON array and a Description.
     // If the array is empty, the output is the N/A value.
@@ -368,7 +337,7 @@ function setupHandlebarsHelpers() {
                             cellValue = displayNumberOrNA(dataItem[tableItem.name]);
                             break;
                         case "enum":
-                            cellValue = convertEnumerationValueToString(tableItem.enumType, dataItem[tableItem.name]);
+                            cellValue = convertEnumToString(tableItem.enumType, dataItem[tableItem.name]);
                             break;
                         case "esriDomain":
                             cellValue = convertEsriDomainToList(dataItem[tableItem.name]);
@@ -432,6 +401,25 @@ $(document).ready(function () {
             // Display item's info
             displayItemInfo(data.node.data);
         });
+    });
+
+    // Set up the buttons for Esri Sample Servers.
+    $.getJSON("data/esriSampleServers.json", function (esriSample) {
+        $.get("templates/esriSampleServersList.html", function (listTemplate) {
+            var listCompiledTemplate = Handlebars.compile(listTemplate);
+            var listHtml = listCompiledTemplate(esriSample);
+            $('#' + name_ulEsriSampleServer).html(listHtml);
+
+            // Set up event handlers for the buttons.
+            $("." + name_btnEsriSampleServer).click(function () {
+                setServerUrl($(this).attr("data-serverUrl"));
+            });
+        });
+    });
+
+    // Load Esri Enum values.
+    $.getJSON("data/esriEnums.json", function (esriEnumsJson) {
+        esriEnums = esriEnumsJson;
     });
 
     // Setup fancy box for map extent

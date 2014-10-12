@@ -76,5 +76,5 @@
 <!-- Misc -->
 <h3><a name="sectionMisc">Misc.</a></h3>
 <p><b>Copyright Text: </b>{{displayTextOrNA itemJson.copyrightText}}</p>
-<p><b>Service Data Type: </b>{{convertEnumerationValueToString "esriImageServiceDataType" itemJson.serviceDataType}}</p>
+<p><b>Service Data Type: </b>{{convertEnumToString "esriImageServiceDataType" itemJson.serviceDataType}}</p>
 <p><b>Capabilities: </b>{{{convertCommaSeparatedTextToList itemJson.capabilities}}}</p>

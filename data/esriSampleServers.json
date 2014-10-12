@@ -1,0 +1,46 @@
+﻿{
+    "servers": [
+        {
+            "name": "ArcGIS 10.1 SP1 - SampleServer 6",
+            "url": "http://sampleserver6.arcgisonline.com/arcgis/rest/services/"
+        },
+        {
+            "name": "ArcGIS 10.1 SP1 PSSTLDemo",
+            "url": "http://psstldemo3.esri.com/arcgis/rest/services/"
+        },
+        {
+            "name": ""
+        },
+        {
+            "name": "ArcGIS 10 - SampleServer 3",
+            "url": "http://sampleserver3.arcgisonline.com/arcgis/rest/services/"
+        },
+        {
+            "name": "ArcGIS 10 - SampleServer 5",
+            "url": "http://sampleserver5.arcgisonline.com/arcgis/rest/services/"
+        },
+        {
+            "name": "ArcGIS 10 SP1 - SampleServer1",
+            "url": "http://sampleserver1.arcgisonline.com/arcgis/rest/services/"
+        },
+        {
+            "name": "ArcGIS 10 SP1 - Services - World Basemaps",
+            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/"
+        },
+        {
+            "name": "ArcGIS 10 SP2 - SampleServer4",
+            "url": "http://sampleserver4.arcgisonline.com/arcgis/rest/services/"
+        },
+        {
+            "name": "ArcGIS 10 SP4 - Tasks",
+            "url": "http://tasks.arcgisonline.com/ArcGIS/rest/services"
+        },
+        {
+            "name": ""
+        },
+        {
+            "name": "ArcGIS 9.3 SP1 - SampleServer2",
+            "url": "http://sampleserver2.arcgisonline.com/arcgis/rest/services/"
+        }
+    ]
+}

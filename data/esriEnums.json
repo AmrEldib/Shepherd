@@ -1,0 +1,97 @@
+﻿[
+    {
+        "type": "esriFieldType",
+        "values": [
+            {
+                "value": "esriFieldTypeSmallInteger",
+                "title": "Short Integer"
+            },
+            {
+                "value": "esriFieldTypeInteger",
+                "title": "Long Integer"
+            },
+            {
+                "value": "esriFieldTypeSingle",
+                "title": "Single"
+            },
+            {
+                "value": "esriFieldTypeDouble",
+                "title": "Double"
+            },
+            {
+                "value": "esriFieldTypeString",
+                "title": "String"
+            },
+            {
+                "value": "esriFieldTypeDate",
+                "title": "Date"
+            },
+            {
+                "value": "esriFieldTypeOID",
+                "title": "Unique Object Identifier"
+            },
+            {
+                "value": "esriFieldTypeGeometry",
+                "title": "Geometry"
+            },
+            {
+                "value": "esriFieldTypeBlob",
+                "title": "Binary Large Object"
+            },
+            {
+                "value": "esriFieldTypeRaster",
+                "title": "Raster"
+            },
+            {
+                "value": "esriFieldTypeGUID",
+                "title": "Globally Unique Identifier (GUID)"
+            },
+            {
+                "value": "esriFieldTypeGlobalID",
+                "title": "ESRI Global ID (GlobalID)"
+            },
+            {
+                "value": "esriFieldTypeXML",
+                "title": "XML Document"
+            }
+        ]
+    },
+    {
+        "type": "esriImageServiceDataType",
+        "values": [
+            {
+                "value": "esriImageServiceDataTypeElevation",
+                "title": "Elevation"
+            },
+            {
+                "value": "esriImageServiceDataTypeGeneric",
+                "title": "Generic"
+            },
+            {
+                "value": "esriImageServiceDataTypeThematic",
+                "title": "Thematic"
+            },
+            {
+                "value": "esriImageServiceDataTypeProcessed",
+                "title": "Processed"
+            },
+            {
+                "value": "esriImageServiceDataTypeRGB",
+                "title": "RGB"
+            }
+        ]
+    },
+    {
+        "type": "esriExecutionType",
+        "values": [
+            {
+                "value": "esriExecutionTypeAsynchronous",
+                "title": "Asynchronous"
+            },
+            {
+                "value": "esriExecutionTypeSynchronous",
+                "title": "Synchronous"
+            }
+        ]
+    }
+]
