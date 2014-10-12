@@ -397,12 +397,6 @@ function setupHandlebarsPartials() {
     $.get("templates/partial_ServiceInfoHeaderNoMap.html", function (template) {
         Handlebars.registerPartial("serviceInfoHeaderNoMap", template)
     });
-
-    // TODO: Try turning generateTable to Partial.
-    //// tableDetails: Writes a JSON object to a Table.
-    //$.get("templates/partial_Table.html", function (tableTemplate) {
-    //    Handlebars.registerPartial("tableDetails", tableTemplate)
-    //});
 }
 
 $(document).ready(function () {
@@ -456,17 +450,6 @@ $(document).ready(function () {
         width: '90%',
         height: '90%',
         autoSize: false,
-        closeClick: false,
-        openEffect: 'none',
-        closeEffect: 'none'
-    });
-
-    // Setup fancy box for map extent
-    $("#aboutDialogButton").fancybox({
-        maxWidth: '90%',
-        maxHeight: '90%',
-        fitToView: false,
-        autoSize: true,
         closeClick: false,
         openEffect: 'none',
         closeEffect: 'none'

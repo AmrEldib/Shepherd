@@ -11,7 +11,6 @@
     <link href="Scripts/jsTree3/themes/default/style.css" rel="stylesheet" />
     <link href="Content/jquery.fancybox.css" rel="stylesheet" />
     <link href="Content/shepherd.css" rel="stylesheet" />
-
 </head>
 <body>
     <div id="header" class="navbar navbar-default navbar-fixed-top">
@@ -22,9 +21,11 @@
 
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-
-                    <li><a id="aboutDialogButton" href="#aboutDialog"><span class="glyphicon glyphicon-info-sign"></span></a></li>
-
+                    <li>
+                        <a class="btn" data-toggle="modal" data-target="#aboutDialog">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -65,13 +66,21 @@
         </div>
     </div>
 
-    <div style="display: none">
-        <div id="aboutDialog" class="container">
-            <p>Shepherd is an ArcCatalog-Style alternative to ArcGIS Server Services Directory.</p>
-            <p>This is an Open Source project hosted on <a href="https://github.com/AmrEldib/Shepherd" target="_blank">GitHub</a> and developer by <a href="http://AmrEldib.com" target="_blank">Amr Eldib</a>.</p>
-            <p>If you have any ideas, found bugs, suggestions or any feedback, please fill out <a href="https://docs.google.com/forms/d/1MwlUMQq7xXvzuljOjO_nnX_omJMlSxUCtCgpe_tIeNw/viewform" target="_blank">this form</a>, or <a href="https://github.com/AmrEldib/Shepherd/issues/new" target="_blank">submit an issue on GitHub</a>.</p>
-            <br />
-            <p>Built using <a href="http://jquery.com/">jQuery</a>, <a href="http://jstree.com/">jsTree</a>, <a href="http://handlebarsjs.com/">Handlebars.js</a>, <a href="http://fancyapps.com/fancybox/">Fancybox</a>, <a href="https://developers.arcgis.com/javascript/">ArcGIS API for Javascript</a>, and Bootstrap <a href="http://bootswatch.com/flatly/">Flatly theme</a>.</p>
+    <div class="modal fade" id="aboutDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">Shepherd</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Shepherd is an ArcCatalog-Style alternative to ArcGIS Server Services Directory.</p>
+                    <p>This is an Open Source project hosted on <a href="https://github.com/AmrEldib/Shepherd" target="_blank">GitHub</a> and developer by <a href="http://AmrEldib.com" target="_blank">Amr Eldib</a>.</p>
+                    <p>If you have any ideas, found bugs, suggestions or any feedback, please fill out <a href="https://docs.google.com/forms/d/1MwlUMQq7xXvzuljOjO_nnX_omJMlSxUCtCgpe_tIeNw/viewform" target="_blank">this form</a>, or <a href="https://github.com/AmrEldib/Shepherd/issues/new" target="_blank">submit an issue on GitHub</a>.</p>
+                    <br />
+                    <p>Built using <a href="http://jquery.com/">jQuery</a>, <a href="http://jstree.com/">jsTree</a>, <a href="http://handlebarsjs.com/">Handlebars.js</a>, <a href="http://fancyapps.com/fancybox/">Fancybox</a>, <a href="https://developers.arcgis.com/javascript/">ArcGIS API for Javascript</a>, and Bootstrap <a href="http://bootswatch.com/flatly/">Flatly theme</a>.</p>
+                </div>
+            </div>
         </div>
     </div>
 
