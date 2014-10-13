@@ -18,9 +18,19 @@
 <h3><a name="sectionExtent">Extent</a></h3>
 <p>
     <!--Spatial Reference -->
-    <b>Spatial Reference: </b>
+    <b>Spatial Reference </b>
     {{#if itemJson.spatialReference}}
-    {{itemJson.spatialReference.wkid}} ({{itemJson.spatialReference.latestWkid}})<br />
+    <ul>
+        {{#if itemJson.spatialReference.wkid}}
+        <li><b>WKID: </b> {{getSpatialReferenceInfo itemJson.spatialReference.wkid}}</li>
+        {{/if}}
+        {{#if itemJson.spatialReference.latestWkid}}
+        <li><b>Latest WKID: </b> {{getSpatialReferenceInfo itemJson.spatialReference.latestWkid}}</li>
+        {{/if}}
+        {{#if itemJson.spatialReference.wkt}}
+        <li><b>WKT: </b> {{itemJson.spatialReference.wkt}}</li>
+        {{/if}}
+    </ul>
     {{else}}
     N/A
     {{/if}}

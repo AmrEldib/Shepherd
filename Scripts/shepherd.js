@@ -54,9 +54,10 @@ function getItemIcon(itemType, iconSize) {
         case "GeocodeServer":
         case "NAServer":
         case "GeometryServer":
+        case "Layer":
             return "img/TreeIcons/treeicon_" + itemType + "_" + iconSize + ".png";
         default:
-            return "img/TreeIcons/treeicon_other.png";
+            return "img/TreeIcons/treeicon_other" + iconSize + ".png";
     }
 }
 
@@ -65,24 +66,20 @@ function getServiceIconFromUrl(serviceUrl, iconSize) {
 }
 
 function getTemplatePath(itemType) {
-    if (itemType === "Folder") {
-        return "templates/folderInfo.html";
-    }
-    else {
-        switch (itemType) {
-            case "GPServer":
-            case "MapServer":
-            case "ImageServer":
-            case "MobileServer":
-            case "FeatureServer":
-            case "NAServer":
-            case "GeocodeServer":
-            case "GeometryServer":
-                return "templates/serviceInfo_" + itemType + ".html";
-            default:
-                return "templates/serviceInfo.html";
-        }
-
+    switch (itemType) {
+        case "Folder":
+            return "templates/folderInfo.html";
+        case "GPServer":
+        case "MapServer":
+        case "ImageServer":
+        case "MobileServer":
+        case "FeatureServer":
+        case "NAServer":
+        case "GeocodeServer":
+        case "GeometryServer":
+            return "templates/serviceInfo_" + itemType + ".html";
+        default:
+            return "templates/serviceInfo.html";
     }
 }
 
@@ -108,6 +105,9 @@ function addServiceToTree(service, treeObject, parentNode) {
         {
             text: serviceName + " (" + service.type + ")",
             icon: getItemIcon(service.type, "16"),
+            state: {
+                opened: true
+            },
             data: {
                 itemType: service.type,
                 itemUrl: parentNode.data.itemUrl + serviceName + "/" + service.type,
@@ -116,10 +116,38 @@ function addServiceToTree(service, treeObject, parentNode) {
         }, "last", null, null);
 }
 
+function addLayerToTree(layer, treeObject, parentNode) {
+    treeObject.create_node(parentNode,
+        {
+            text: layer.name + " (" + layer.id + ")",
+            icon: getItemIcon("Layer", "16"),
+            state: {
+                opened: true
+            },
+            data: {
+                itemType: "Layer",
+                itemUrl: parentNode.data.itemUrl + "/" + layer.id,
+                itemJson: undefined
+            }
+        }, "last", null, null);
+}
+
 function writeItemToTree(treeObject, treeNode) {
     try {
-        treeNode.data.itemJson.folders.forEach(function (folder) { addFolderToTree(folder, treeObject, treeNode); });
-        treeNode.data.itemJson.services.forEach(function (service) { addServiceToTree(service, treeObject, treeNode); });
+        console.log(treeNode.data.itemJson);
+        switch (treeNode.data.itemType) {
+            case "Server":
+            case "Folder":
+                treeNode.data.itemJson.folders.forEach(function (folder) { addFolderToTree(folder, treeObject, treeNode); });
+                treeNode.data.itemJson.services.forEach(function (service) { addServiceToTree(service, treeObject, treeNode); });
+                break;
+            case "MapServer":
+            case "FeatureServer":
+                treeNode.data.itemJson.layers.forEach(function (layer) { addLayerToTree(layer, treeObject, treeNode) });
+                break;
+            default:
+                break;
+        }        
     }
     catch (error) {
         console.log(error);
@@ -130,7 +158,6 @@ function getItemDetails(url, treeNode, callback) {
     // Go to the server only if the item's JSON wasn't retrieved before.
     if (!treeNode.data.itemJson) {
         $.getJSON(url + "?f=json&callback=?", function (json) {
-            console.log(json);
             // Write the JSON response to the node
             treeNode.data.itemJson = json;
             // Call callback function
@@ -433,9 +460,9 @@ $(document).ready(function () {
     $("#" + name_divTree).on("select_node.jstree", function (e, data) {
 
         getItemDetails(data.node.data.itemUrl, data.node, function () {
-            console.log(data);
             // Add folder's children to the tree if they're not already added.
-            if (data.node.data.itemType === "Folder" && data.node.children.length == 0) {
+            //if (data.node.data.itemType === "Folder" && data.node.children.length == 0) {
+            if (data.node.children.length == 0) {
                 writeItemToTree(treeObject, data.node);
                 data.node.state.opened = true;
             }

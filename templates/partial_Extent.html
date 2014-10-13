@@ -13,8 +13,15 @@
         </a>
         <br />
         <ul>
+            {{#if spatialReference.wkid}}
             <li><b>WKID: </b> {{getSpatialReferenceInfo spatialReference.wkid}}</li>
+            {{/if}}
+            {{#if spatialReference.latestWkid}}
             <li><b>Latest WKID: </b> {{getSpatialReferenceInfo spatialReference.latestWkid}}</li>
+            {{/if}}
+            {{#if spatialReference.wkt}}
+            <li><b>WKT: </b> {{spatialReference.wkt}}</li>
+            {{/if}}
         </ul>
     </p>
     {{else}}

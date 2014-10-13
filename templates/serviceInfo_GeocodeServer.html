@@ -27,7 +27,17 @@
 
 <!-- Spatial Reference -->
 <h3><a name="sectionSpatialReference">Spatial Reference</a></h3>
-<p><b>WKID: </b>{{displayNumberOrNA itemJson.spatialReference.wkid}}</p>
+<ul>
+    {{#if itemJson.spatialReference.wkid}}
+    <li><b>WKID: </b> {{getSpatialReferenceInfo itemJson.spatialReference.wkid}}</li>
+    {{/if}}
+    {{#if itemJson.spatialReference.latestWkid}}
+    <li><b>Latest WKID: </b> {{getSpatialReferenceInfo itemJson.spatialReference.latestWkid}}</li>
+    {{/if}}
+    {{#if itemJson.spatialReference.wkt}}
+    <li><b>WKT: </b> {{itemJson.spatialReference.wkt}}</li>
+    {{/if}}
+</ul>
 
 <!-- Locator Properties -->
 <h3><a name="sectionLocatorProperties">Locator Properties</a></h3>
