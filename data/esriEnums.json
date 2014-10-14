@@ -316,5 +316,30 @@
                 "title": "Vertical"
             }
         ]
+    },
+    {
+        "type": "esriClassifyMethod",
+        "values": [
+            {
+                "value": "esriClassifyNaturalBreaks",
+                "title": "Natural Breaks"
+            },
+            {
+                "value": "esriClassifyEqualInterval",
+                "title": "Equal Interval"
+            },
+            {
+                "value": "esriClassifyQuantile",
+                "title": "Quantile"
+            },
+            {
+                "value": "esriClassifyStandardDeviation",
+                "title": "Standard Deviation"
+            },
+            {
+                "value": "esriClassifyGeometricalInterval",
+                "title": "Geometrical Interval"
+            }
+        ]
     }
 ]

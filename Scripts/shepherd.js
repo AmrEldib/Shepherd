@@ -328,19 +328,41 @@ function getSymbolDetails(symbolJson) {
 
 function getColorDetails(colorArray) {
     if (colorArray) {
-        //var alpha = color[3];
-        return "<div id='circle' style='background-color:rgb("
-        + colorArray[0] + ","
-        + colorArray[1] + ","
-        + colorArray[2] + ")'></div>"
-        + "Red: " + colorArray[0]
-        + ", Green: " + colorArray[1]
-        + ", Blue: " + colorArray[2]
-        + ", Alpha: " + colorArray[3];
+        var rgb = "rgb(" + colorArray[0] + "," + colorArray[1] + "," + colorArray[2] + ")";
+        return "<span class='colorCircle' style='background-color:"
+            + rgb + ";"
+            + "color:"
+            + rgb + ";"
+            + "'>&bull;</span>"
+            + "Red: " + colorArray[0]
+            + ", Green: " + colorArray[1]
+            + ", Blue: " + colorArray[2]
+            + ", " + RgbToHex(colorArray[0], colorArray[1], colorArray[2])
+            + ", Alpha: " + colorArray[3];
     }
     else {
         return "N/A"
     }
+}
+
+function RgbToHex(rValue, gValue, bValue) {
+    var red = returnHex(rValue);
+    var green = returnHex(gValue);
+    var blue = returnHex(bValue);
+    return "#" + red + green + blue;
+}
+
+// Convert to Hex
+function returnHex(num) {
+    // Hex can store 16 different values in 1 character
+    if (num == null) return "00";
+    num = num.length < 2 ? "0" + num : num
+    return num.toString(16);
+}
+
+function getFullUrlOfSelectedNode(relativeUrl) {
+    console.log(treeObject.get_selected("#" + name_divTree, true)[0]);
+    return treeObject.get_selected("#" + name_divTree, true)[0].data.itemUrl + relativeUrl;
 }
 
 function ifequal(val1, val2, equalValue) {
@@ -470,6 +492,9 @@ function setupHandlebarsHelpers() {
     // ifequal: Block-helper that executes the inner-block if the two arguments test as strict equal (===). 
     // This also supports else blocks.
     Handlebars.registerHelper('ifequal', ifequal);
+
+    // getFullUrlOfSelectedNode
+    Handlebars.registerHelper('getFullUrlOfSelectedNode', getFullUrlOfSelectedNode);
 }
 
 function setupHandlebarsPartials() {

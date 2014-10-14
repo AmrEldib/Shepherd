@@ -1,90 +1,90 @@
 ﻿<!-- Simple Marker Symbol -->
 {{#ifequal type "esriSMS"}}
-    <p><b>Type: </b>{{convertEnumToString "esriSymbolType" type}}</p>
-    <p><b>Style: </b>{{convertEnumToString "esriSMSStyle" style}}</p>
-    <p><b>Color </b>{{{getColorDetails color}}}</p>
-    <p><b>Size: </b>{{displayNumberOrNA size}}</p>
-    <p><b>Angle: </b>{{displayNumberOrNA angle}}</p>
-    <p><b>X-Offset: </b>{{displayNumberOrNA xoffset}}</p>
-    <p><b>Y-Offset: </b>{{displayNumberOrNA yoffset}}</p>
+    <b>Type: </b>{{convertEnumToString "esriSymbolType" type}}<br/>
+    <b>Style: </b>{{convertEnumToString "esriSMSStyle" style}}<br />
+    <b>Color </b>{{{getColorDetails color}}}<br />
+    <b>Size: </b>{{displayNumberOrNA size}}<br />
+    <b>Angle: </b>{{displayNumberOrNA angle}}<br />
+    <b>X-Offset: </b>{{displayNumberOrNA xoffset}}<br />
+    <b>Y-Offset: </b>{{displayNumberOrNA yoffset}}<br />
     {{#if outline}}
-        <p>
-            <b>Outline</b>
-            <ul>
-                <li><b>Color </b><p>{{{getColorDetails outline.color}}}</p></li>
-                <li><b>Width: </b>{{displayNumberOrNA outline.width}}</li>
-            </ul>
-        </p>
+    <b>Outline</b><br/>
+        <span class="paddedItem"><b>Color </b>{{{getColorDetails outline.color}}}</span><br />
+        <span class ="paddedItem"><b>Width: </b>{{displayNumberOrNA outline.width}}</span><br />
     {{/if}}
 {{/ifequal}}
 
 <!-- Simple Line Symbol -->
 {{#ifequal type "esriSLS"}}
-    <p><b>Type: </b>{{convertEnumToString "esriSymbolType" type}}</p>
-    <p><b>Style: </b>{{convertEnumToString "esriSLSStyle" style}}</p>
-    <p><b>Color </b>{{{getColorDetails color}}}</p>
-    <p><b>Width: </b>{{displayNumberOrNA width}}</p>
+    <b>Type: </b>{{convertEnumToString "esriSymbolType" type}}<br />
+    <b>Style: </b>{{convertEnumToString "esriSLSStyle" style}}<br />
+    <b>Color </b>{{{getColorDetails color}}}<br />
+    <b>Width: </b>{{displayNumberOrNA width}}<br />
 {{/ifequal}}
 
 <!-- Simple Fill Symbol -->
 {{#ifequal type "esriSFS"}}
-    <p><b>Type: </b>{{convertEnumToString "esriSymbolType" type}}</p>
-    <p><b>Style: </b>{{convertEnumToString "esriSFSStyle" style}}</p>
-    <p><b>Color </b>{{{getColorDetails color}}}</p>
-    <p>
-        <b>Outline</b>
+    <b>Type: </b>{{convertEnumToString "esriSymbolType" type}}<br />
+    <b>Style: </b>{{convertEnumToString "esriSFSStyle" style}}<br />
+    <b>Color </b>{{{getColorDetails color}}}<br />
+    <p class="paddedItem">
+        <b>Outline</b><br/>
         {{> symbolDetails outline}}
     </p>
 {{/ifequal}}
 
 <!-- Picture Marker Symbol -->
 {{#ifequal type "esriPMS"}}
-    <p><b>Type: </b>{{convertEnumToString "esriSymbolType" type}}</p>
-    <!-- url -->
-    <!-- imageData -->
-    <!-- contentType -->
-    <p><b>Width: </b>{{displayNumberOrNA width}}</p>
-    <p><b>Height: </b>{{displayNumberOrNA height}}</p>
-    <p><b>Angle: </b>{{displayNumberOrNA angle}}</p>
-    <p><b>X-Offset: </b>{{displayNumberOrNA xoffset}}</p>
-    <p><b>Y-Offset: </b>{{displayNumberOrNA yoffset}}</p>
+    <b>Type: </b>{{convertEnumToString "esriSymbolType" type}}<br />
+    <span class="paddedItem">
+        <img src="data:{{contentType}};base64,{{imageData}}" />
+    </span>
+    <a href="{{getFullUrlOfSelectedNode '/images'}}/{{url}}">{{url}}</a><br />
+    <b>Content Type: </b>{{displayTextOrNA contentType}}<br />
+    <b>Width: </b>{{displayNumberOrNA width}}<br />
+    <b>Height: </b>{{displayNumberOrNA height}}<br />
+    <b>Angle: </b>{{displayNumberOrNA angle}}<br />
+    <b>X-Offset: </b>{{displayNumberOrNA xoffset}}<br />
+    <b>Y-Offset: </b>{{displayNumberOrNA yoffset}}<br />
 {{/ifequal}}
 
 <!-- Picture Fill Symbol -->
 {{#ifequal type "esriPFS"}}
-    <p><b>Type: </b>{{convertEnumToString "esriSymbolType" type}}</p>
-    <!-- url -->
-    <!-- imageData -->
-    <!-- contentType -->
-    <p>
+    <b>Type: </b>{{convertEnumToString "esriSymbolType" type}}<br />
+    <span class="paddedItem">
+        <img src="data:{{contentType}};base64,{{imageData}}" />
+    </span>
+    <a href="{{getFullUrlOfSelectedNode '/images'}}/{{url}}">{{url}}</a><br />
+    <b>Content Type: </b>{{displayTextOrNA contentType}}<br />
+    <p class="paddedItem">
         <b>Outline</b>
         {{> symbolDetails outline}}
     </p>
-    <p><b>Width: </b>{{displayNumberOrNA width}}</p>
-    <p><b>Height: </b>{{displayNumberOrNA height}}</p>
-    <p><b>Angle: </b>{{displayNumberOrNA angle}}</p>
-    <p><b>X-Offset: </b>{{displayNumberOrNA xoffset}}</p>
-    <p><b>Y-Offset: </b>{{displayNumberOrNA yoffset}}</p>
-    <p><b>X-Scale: </b>{{displayNumberOrNA xscale}}</p>
-    <p><b>Y-Scale: </b>{{displayNumberOrNA xscale}}</p>
+    <b>Width: </b>{{displayNumberOrNA width}}<br />
+    <b>Height: </b>{{displayNumberOrNA height}}<br />
+    <b>Angle: </b>{{displayNumberOrNA angle}}<br />
+    <b>X-Offset: </b>{{displayNumberOrNA xoffset}}<br />
+    <b>Y-Offset: </b>{{displayNumberOrNA yoffset}}<br />
+    <b>X-Scale: </b>{{displayNumberOrNA xscale}}<br />
+    <b>Y-Scale: </b>{{displayNumberOrNA xscale}}<br />
 {{/ifequal}}
 
 <!-- Text Symbol -->
 {{#ifequal type "esriTS"}}
-    <p><b>Type: </b>{{convertEnumToString "esriSymbolType" type}}</p>
-    <p><b>Color </b>{{{getColorDetails color}}}</p>
-    <p><b>Background Color </b>{{{getColorDetails backgroundColor}}}</p>
-    <p><b>Border Line Size: </b>{{displayNumberOrNA borderLineSize}}</p>
-    <p><b>Border Line Color </b>{{{getColorDetails borderLineColor}}}</p>
-    <p><b>Halo Size: </b>{{displayNumberOrNA haloSize}}</p>
-    <p><b>Halo Color </b>{{{getColorDetails haloColor}}}</p>
-    <p><b>Vertical Alignment: </b>{{displayTextOrNA verticalAlignment}}</p>
-    <p><b>Horizontal Alignment: </b>{{displayTextOrNA horizontalAlignment}}</p>
-    <p><b>Right to Left </b>{{{displayBooleanAsImage rightToLeft "True" "False"}}}</p>
-    <p><b>Angle: </b>{{displayNumberOrNA angle}}</p>
-    <p><b>X-Offset: </b>{{displayNumberOrNA xoffset}}</p>
-    <p><b>Y-Offset: </b>{{displayNumberOrNA yoffset}}</p>
-    <p><b>Kerning </b>{{{displayBooleanAsImage kerning "True" "False"}}}</p>
+    <b>Type: </b>{{convertEnumToString "esriSymbolType" type}}<br />
+    <b>Color </b>{{{getColorDetails color}}}<br />
+    <b>Background Color </b>{{{getColorDetails backgroundColor}}}<br />
+    <b>Border Line Size: </b>{{displayNumberOrNA borderLineSize}}<br />
+    <b>Border Line Color </b>{{{getColorDetails borderLineColor}}}<br />
+    <b>Halo Size: </b>{{displayNumberOrNA haloSize}}<br />
+    <b>Halo Color </b>{{{getColorDetails haloColor}}}<br />
+    <b>Vertical Alignment: </b>{{displayTextOrNA verticalAlignment}}<br />
+    <b>Horizontal Alignment: </b>{{displayTextOrNA horizontalAlignment}}<br />
+    <b>Right to Left </b>{{{displayBooleanAsImage rightToLeft "True" "False"}}}<br />
+    <b>Angle: </b>{{displayNumberOrNA angle}}<br />
+    <b>X-Offset: </b>{{displayNumberOrNA xoffset}}<br />
+    <b>Y-Offset: </b>{{displayNumberOrNA yoffset}}<br />
+    <b>Kerning </b>{{{displayBooleanAsImage kerning "True" "False"}}}<br />
     <!-- Font -->
     <!-- Text -->
 {{/ifequal}}
