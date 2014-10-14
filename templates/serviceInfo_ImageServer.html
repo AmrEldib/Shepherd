@@ -1,4 +1,4 @@
-﻿{{>serviceInfoHeader itemUrl}}
+﻿{{>serviceInfoHeader .}}
 
 <p class="well well-sm">
     <a href="#sectionGeneral">General</a> -
@@ -7,7 +7,7 @@
     <a href="#sectionImageInfo">Image Info</a> -
     <a href="#sectionRasterInfo">Raster Info</a> -
     <a href="#sectionStatistics">Statistics</a> -
-    <a href="#sectionMisc">Misc.</a>
+    <a href="#sectionMisc">Misc</a>
 </p>
 
 <!-- General -->
@@ -18,12 +18,12 @@
 <!-- Extent -->
 <h3><a name="sectionExtent">Extent</a></h3>
 <!--Extent-->
-<h4>Extent </h4>
+<h4>Extent  {{> extentPreviewIcon itemJson.extent}}</h4>
 {{> extentDetails itemJson.extent}}
-<h4>Initial Extent </h4>
+<h4>Initial Extent  {{> extentPreviewIcon itemJson.initialExtent}}</h4>
 {{> extentDetails itemJson.initialExtent}}
 <!--Full Extent-->
-<h4>Full Extent </h4>
+<h4>Full Extent  {{> extentPreviewIcon itemJson.fullExtent}}</h4>
 {{> extentDetails itemJson.fullExtent}}
 
 <!-- Fields -->

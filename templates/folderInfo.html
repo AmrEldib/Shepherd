@@ -1,5 +1,5 @@
 ﻿<h1 class="page-header">
-    <img src="{{getLargeItemIcon 'Folder'}}" /> {{getFolderName itemUrl}}
+    <img src="{{getItemIcon 'Folder' '32'}}" /> {{getFolderName itemUrl}}
     <small>
         <a href="{{itemUrl}}?f=help" target="_blank"><span title="Help" class="glyphicon glyphicon-question-sign"></span></a>
         <a href="{{itemUrl}}" target="_blank"><span title="Open Services Directory Page" class="glyphicon glyphicon-new-window"></span></a>
@@ -10,7 +10,7 @@
 <h3>Folders</h3>
 {{#each itemJson.folders}}
 <p>
-    <img src="{{getSmallItemIcon 'Folder'}}" /> <a href="{{../itemUrl}}{{.}}/" target="_blank">{{.}}</a>
+    <img src="{{getItemIcon 'Folder' '16'}}" /> <a href="{{../itemUrl}}{{.}}/" target="_blank">{{.}}</a>
 </p>
 {{else}}
     <p>No folders.</p>
@@ -19,7 +19,7 @@
 <h3>Services</h3>
 {{#each itemJson.services}}
 <p>
-    <img src="{{getSmallItemIcon type}}" /> <a href="{{../itemUrl}}{{getServiceNameFromAgsServiceName name}}/{{type}}" target="_blank">{{getServiceNameFromAgsServiceName name}}</a> ({{type}})
+    <img src="{{getItemIcon type '16'}}" /> <a href="{{../itemUrl}}{{getServiceNameFromAgsServiceName name}}/{{type}}" target="_blank">{{getServiceNameFromAgsServiceName name}}</a> ({{type}})
 </p>
 {{else}}
     <p>No services.</p>

@@ -1,5 +1,4 @@
-﻿<p>
-    {{#if .}}
+﻿{{#if .}}
     <p>
         <b>XMin: </b> {{xmin}}<br />
         <b>YMin: </b> {{ymin}}<br />
@@ -8,10 +7,6 @@
     </p>
     <p>
         <b>Spatial Reference </b>
-        <a class="mapExtentFrame" data-fancybox-type="iframe" href='mapExtent.html?extent={"xmin":{{xmin}},"ymin":{{ymin}},"xmax":{{xmax}},"ymax":{{ymax}},"spatialReference":{"wkid":{{spatialReference.wkid}} }}'>
-            <span title="Preview Extent in Map" class="glyphicon glyphicon-map-marker infoHeaderIcon"></span>
-        </a>
-        <br />
         <ul>
             {{#if spatialReference.wkid}}
             <li><b>WKID: </b> {{getSpatialReferenceInfo spatialReference.wkid}}</li>
@@ -24,7 +19,9 @@
             {{/if}}
         </ul>
     </p>
-    {{else}}
-    N/A
-    {{/if}}
-</p>
+{{else}}
+    <p>
+        N/A
+    </p>
+{{/if}}
+

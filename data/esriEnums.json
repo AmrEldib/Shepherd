@@ -150,5 +150,171 @@
                 "title": "Yards"
             }
         ]
+    },
+    {
+        "type": "esriServerHTMLPopupType",
+        "values": [
+            {
+                "value": "esriServerHTMLPopupTypeNone",
+                "title": "The layer does not support HTML popup"
+            },
+            {
+                "value": "esriServerHTMLPopupTypeAsURL",
+                "title": "The layer supports HTML Popup, but instead of returning HTML page as a result, it returns a URL"
+            },
+            {
+                "value": "esriServerHTMLPopupTypeAsHTMLText",
+                "title": "The layer supports HTML Popup and result comes from this layer is a valid HTML page"
+            }
+        ]
+    },
+    {
+        "type": "esriGeometryType",
+        "values": [
+            {
+                "value": "esriGeometryMultiPatch",
+                "title": "Multipatch"
+            },
+            {
+                "value": "esriGeometryMultipoint",
+                "title": "Multipoint"
+            },
+            {
+                "value": "esriGeometryPoint",
+                "title": "Point"
+            },
+            {
+                "value": "esriGeometryPolygon",
+                "title": "Polygon"
+            },
+            {
+                "value": "esriGeometryPolyline",
+                "title": "Polyline"
+            }
+        ]
+    },
+    {
+        "type": "esriSymbolType",
+        "values": [
+            {
+                "value": "esriSMS",
+                "title": "Simple Marker Symbol"
+            },
+            {
+                "value": "esriSLS",
+                "title": "Simple Line Symbol"
+            },
+            {
+                "value": "esriSFS",
+                "title": "Simple Fill Symbol"
+            },
+            {
+                "value": "esriPMS",
+                "title": "Picture Marker Symbol"
+            },
+            {
+                "value": "esriPFS",
+                "title": "Picture Fill Symbol"
+            },
+            {
+                "value": "esriTS",
+                "title": "Text Symbol"
+            }
+        ]
+    },
+    {
+        "type": "esriSMSStyle",
+        "values": [
+            {
+                "value": "esriSMSCircle",
+                "title": "Circle"
+            },
+            {
+                "value": "esriSMSCross",
+                "title": "Cross"
+            },
+            {
+                "value": "esriSMSDiamond",
+                "title": "Diamond"
+            },
+            {
+                "value": "esriSMSSquare",
+                "title": "Square"
+            },
+            {
+                "value": "esriSMSX",
+                "title": "X"
+            },
+            {
+                "value": "esriSMSTriangle",
+                "title": "Triangle"
+            }
+        ]
+    },
+    {
+        "type": "esriSLSStyle",
+        "values": [
+            {
+                "value": "esriSLSDash",
+                "title": "Dash"
+            },
+            {
+                "value": "esriSLSDashDot",
+                "title": "DashDot"
+            },
+            {
+                "value": "esriSLSDashDotDot",
+                "title": "DashDotDot"
+            },
+            {
+                "value": "esriSLSDot",
+                "title": "Dot"
+            },
+            {
+                "value": "esriSLSNull",
+                "title": "Null"
+            },
+            {
+                "value": "esriSLSSolid",
+                "title": "Solid"
+            }
+        ]
+    },
+    {
+        "type": "esriSFSStyle",
+        "values": [
+            {
+                "value": "esriSFSBackwardDiagonal",
+                "title": "Backward Diagonal"
+            },
+            {
+                "value": "esriSFSCross",
+                "title": "Cross"
+            },
+            {
+                "value": "esriSFSDiagonalCross",
+                "title": "Diagonal Cross"
+            },
+            {
+                "value": "esriSFSForwardDiagonal",
+                "title": "Forward Diagonal"
+            },
+            {
+                "value": "esriSFSHorizontal",
+                "title": "Horizontal"
+            },
+            {
+                "value": "esriSFSNull",
+                "title": "Null"
+            },
+            {
+                "value": "esriSFSSolid",
+                "title": "Solid"
+            },
+            {
+                "value": "esriSFSVertical",
+                "title": "Vertical"
+            }
+        ]
     }
 ]

@@ -1,0 +1,93 @@
+﻿{{>serviceInfoHeader .}}
+
+<p class="well well-sm">
+    <a href="#sectionGeneral">General</a> -
+    <a href="#sectionExtent">Extent</a> -
+    <a href="#sectionDrawingInfo">Drawing Info</a> -
+    <a href="#sectionTimeInfo">Time Info</a> -
+    <a href="#sectionFields">Fields</a> -
+    <a href="#sectionMisc">Misc</a>
+</p>
+
+<!-- General -->
+<h3><a name="sectionGeneral">General</a></h3>
+<p><b>Type: </b>{{displayTextOrNA itemJson.type}}</p>
+<p><b>Description: </b>{{displayTextOrNA itemJson.description}}</p>
+<p><b>Copyright Text: </b>{{displayTextOrNA itemJson.copyrightText}}</p>
+{{#if itemJson.geometryType}}
+    <p><b>Geometry Type: </b>{{convertEnumToString "esriGeometryType" itemJson.geometryType}}</p>
+{{/if}}
+{{#if itemJson.parentLayer}}
+    <p>
+        <b>Parent Layer: </b>{{itemJson.parentLayer.name}} ({{itemJson.parentLayer.id}})
+{{/if}}
+{{#if itemJson.subLayers}}
+<p>
+    <b>Sub Layers </b>
+    <ul>
+        {{#each itemJson.subLayers}}
+            <li>{{name}} ({{id}})</li>
+        {{/each}}
+    </ul>
+</p>
+{{/if}}
+<p><b>Default Visibility </b>{{{displayBooleanAsImage itemJson.defaultVisibility "Visible" "Hidden"}}}</p>
+
+<!-- Extent -->
+<h3><a name="sectionExtent">Extent</a> {{> extentPreviewIcon itemJson.extent}}</h3>
+{{> extentDetails itemJson.extent}}
+<p><b>Minimum Scale: </b>{{displayNumberOrNA itemJson.minScale}}</p>
+<p><b>Maxmum Scale: </b>{{displayNumberOrNA itemJson.maxScale}}</p>
+
+<!-- Drawing Info -->
+<h3><a name="sectionDrawingInfo">Drawing Info</a></h3>
+{{#if itemJson.drawingInfo}}
+    {{> rendererDetails itemJson.drawingInfo.renderer}}
+{{else}}
+    <p>No drawing info.</p>
+{{/if}}
+
+<!-- Time Info -->
+<h3><a name="sectionTimeInfo">Time Info</a></h3>
+{{#if itemJson.drawingInfo}}
+<p>
+    <b>Export Options </b><br />
+    <ul>
+        <li><b>Use Time </b>{{{displayBooleanAsImage itemJson.timeInfo.exportOptions.useTime "True" "False"}}}</li>
+    </ul>
+</p>
+<p><b>Has Live Data </b>{{{displayBooleanAsImage itemJson.timeInfo.hasLiveData "True" "False"}}}</p>
+{{else}}
+<p>No drawing info.</p>
+{{/if}}
+
+<!-- Fields -->
+<h3><a name="sectionFields">Fields</a></h3>
+{{#if itemJson.fields}}
+    <p><b>Display Field: </b>{{displayTextOrNA itemJson.displayField}}</p>
+    <p><b>Type ID Field: </b>{{displayTextOrNA itemJson.typeIdField}}</p>
+    <p>
+        {{{generateTable itemJson.fields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"domain","title":"Domain","type":"esriDomain"},{"name":"length","title":"Length","type":"number"}]' "No Fields."}}}
+    </p>
+{{else}}
+    <p>No field info.</p>
+{{/if}}
+
+<!-- Misc -->
+<h3><a name="sectionMisc">Misc.</a></h3>
+<p><b>Has Attachments </b>{{{displayBooleanAsImage itemJson.hasAttachments "True" "False"}}}</p>
+<p><b>HTML Popup Type: </b>{{convertEnumToString "esriServerHTMLPopupType" itemJson.htmlPopupType}}</p>
+<p><b>Can Modify Layer </b>{{{displayBooleanAsImage itemJson.canModifyLayer "True" "False"}}}</p>
+<p><b>Can Scale Symbols </b>{{{displayBooleanAsImage itemJson.canScaleSymbols "True" "False"}}}</p>
+<p><b>Has Labels </b>{{{displayBooleanAsImage itemJson.hasLabels "True" "False"}}}</p>
+<p><b>Capabilities: </b>{{{convertCommaSeparatedTextToList itemJson.capabilities}}}</p>
+<p><b>Supports Statistics </b>{{{displayBooleanAsImage itemJson.supportsStatistics "True" "False"}}}</p>
+<p><b>Supports Advanced Queries </b>{{{displayBooleanAsImage itemJson.supportsAdvancedQueries "True" "False"}}}</p>
+<p><b>Supported Query Formats: </b>{{{convertCommaSeparatedTextToList itemJson.supportedQueryFormats}}}</p>
+<p>
+    <b>Ownership Based Access Control for Features </b><br />
+    <ul>
+        <li><b>Allow Others to Query </b>{{{displayBooleanAsImage itemJson.ownershipBasedAccessControlForFeatures.allowOthersToQuery "True" "False"}}}</li>
+    </ul>
+</p>
+<p><b>Use Standardized Queries </b>{{{displayBooleanAsImage itemJson.useStandardizedQueries "True" "False"}}}</p>

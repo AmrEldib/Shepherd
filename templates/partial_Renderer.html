@@ -1,0 +1,39 @@
+﻿<!-- Unique Value Renderer -->
+{{#ifequal type "uniqueValue"}}
+    <b>Renderer </b><br />
+    <p><b>Type: </b>{{displayTextOrNA type}}</p>
+    <p><b>Field1: </b>{{displayTextOrNA field1}}</p>
+    <p><b>Field2: </b>{{displayTextOrNA field2}}</p>
+    <p><b>Field3: </b>{{displayTextOrNA field3}}</p>
+    <p><b>Field Delimiter: </b>{{displayTextOrNA fieldDelimiter}}</p>
+
+    <b>Default Symbol</b>
+    {{> symbolDetails defaultSymbol}}
+
+    {{#if rotationField}}
+        <p><b>Field Rotation: </b>{{displayTextOrNA rotationField}}</p>
+    {{/if}}
+    {{#if rotationType}}
+        <p><b>Field Type: </b>{{displayTextOrNA rotationType}}</p>
+    {{/if}}
+    {{#if rotationTypeSpecified}}
+        <p><b>Rotation Type Specified </b>{{{displayBooleanAsImage rotationTypeSpecified "True" "False"}}}</p>
+    {{/if}}
+
+    <p><b>Transparency Field: </b>{{displayTextOrNA transparencyField}}</p>
+
+    <b>Unique Value Infos</b>
+    <p>
+        {{{generateTable uniqueValueInfos '[{"name":"value","title":"Value","type":"number"},{"name":"label","title":"Label","type":"text"}, {"name":"description","title":"Description","type":"text"},{"name":"symbol","title":"Symbol","type":"esriSymbol"}]' "No Unique Value Infos."}}}
+    </p>
+{{/ifequal}}
+
+<!-- Simple Renderer -->
+{{#ifequal type "simple"}}
+
+{{/ifequal}}
+
+<!-- Class Breaks Renderer -->
+{{#ifequal type "classBreaks"}}
+
+{{/ifequal}}

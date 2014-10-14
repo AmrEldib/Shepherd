@@ -7,3 +7,11 @@
     padding-left: 5px;
     padding-right: 5px;
 }
+
+#circle {
+    width: 16px;
+    height: 16px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px; 
+}

@@ -1,13 +1,13 @@
 ﻿<h1 class="page-header">
-    <img class="infoHeaderIcon" src="{{getLargeServiceIconFromUrl .}}" />{{getServiceNameFromUrl .}}
+    <img class="infoHeaderIcon" src="{{getItemIcon itemType '32'}}" />{{itemName}}
     <small>
-        <a href="{{.}}?f=help" target="_blank">
+        <a href="{{itemUrl}}?f=help" target="_blank">
             <span title="Help" class="glyphicon glyphicon-question-sign infoHeaderIcon"></span>
         </a>
-        <a href="{{.}}" target="_blank">
+        <a href="{{itemUrl}}" target="_blank">
             <span title="Open Services Directory Page" class="glyphicon glyphicon-new-window infoHeaderIcon"></span>
         </a>
-        <a href="mapPreview.html?serviceUrl={{.}}&serviceType={{getServiceType .}}" target="_blank">
+        <a href="mapPreview.html?serviceUrl={{itemUrl}}&serviceType={{itemType}}" target="_blank">
             <span title="Open in Map" class="glyphicon glyphicon-map-marker infoHeaderIcon"></span>
         </a>
     </small>

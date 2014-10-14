@@ -37,6 +37,7 @@ function addFolderToTree(folder, treeObject, parentNode) {
             data: {
                 itemType: "Folder",
                 itemUrl: parentNode.data.itemUrl + folder + "/",
+                itemName: folder,
                 itemJson: undefined
             }
         }, "last", null, null);
@@ -57,7 +58,7 @@ function getItemIcon(itemType, iconSize) {
         case "Layer":
             return "img/TreeIcons/treeicon_" + itemType + "_" + iconSize + ".png";
         default:
-            return "img/TreeIcons/treeicon_other" + iconSize + ".png";
+            return "img/TreeIcons/treeicon_other_" + iconSize + ".png";
     }
 }
 
@@ -77,6 +78,7 @@ function getTemplatePath(itemType) {
         case "NAServer":
         case "GeocodeServer":
         case "GeometryServer":
+        case "Layer":
             return "templates/serviceInfo_" + itemType + ".html";
         default:
             return "templates/serviceInfo.html";
@@ -111,6 +113,7 @@ function addServiceToTree(service, treeObject, parentNode) {
             data: {
                 itemType: service.type,
                 itemUrl: parentNode.data.itemUrl + serviceName + "/" + service.type,
+                itemName: serviceName,
                 itemJson: undefined
             }
         }, "last", null, null);
@@ -127,6 +130,7 @@ function addLayerToTree(layer, treeObject, parentNode) {
             data: {
                 itemType: "Layer",
                 itemUrl: parentNode.data.itemUrl + "/" + layer.id,
+                itemName: layer.name,
                 itemJson: undefined
             }
         }, "last", null, null);
@@ -194,10 +198,10 @@ function btnGetServerInfo_Click(serverUrl) {
 
 function displayBooleanAsImage(boolValue, trueTitle, falseTitle) {
     if (boolValue) {
-        return "<img src='img/GreenCheckMark.png' alt='" + trueTitle + "' title='" + trueTitle + "' />";
+        return "<img class='infoHeaderIcon' src='img/GreenCheckMark.png' alt='" + trueTitle + "' title='" + trueTitle + "' />";
     }
     else {
-        return "<img src='img/RedXMark.png' alt='" + falseTitle + "' title='" + falseTitle + "' />";
+        return "<img class='infoHeaderIcon' src='img/RedXMark.png' alt='" + falseTitle + "' title='" + falseTitle + "' />";
     }
 }
 
@@ -272,7 +276,7 @@ function convertEnumToString(enumType, enumValue) {
 }
 
 function displayTextOrNA(textValue) {
-    if (textValue === undefined | textValue === "") {
+    if (textValue === undefined | textValue === null | textValue === "") {
         return "N/A";
     }
     else {
@@ -296,8 +300,8 @@ function getSpatialReferenceInfo(wkid) {
     else {
         // Set the global configs to synchronous.
         $.ajaxSetup({ async: false });
-        var srName;
         // $.getJSON() request is now synchronous.
+        var srName;
         $.getJSON('data/SRs/' + wkid + '.json', function(sr) {
             srName = sr.name + " (" + wkid + ")";
         }).fail(function () { srName = wkid; });
@@ -307,10 +311,48 @@ function getSpatialReferenceInfo(wkid) {
     }
 }
 
+function getSymbolDetails(symbolJson) {
+    // Set the global configs to synchronous.
+    $.ajaxSetup({ async: false });
+    var srName;
+    // $.getJSON() request is now synchronous.
+    var symbolHtml;
+    $.get("templates/partial_Symbol.html", function (symbolTemplate) {
+        var symbolCompiledTemplate = Handlebars.compile(symbolTemplate);
+        symbolHtml = symbolCompiledTemplate(symbolJson);
+    });
+    // Set the global configs back to asynchronous.
+    $.ajaxSetup({ async: true });
+    return symbolHtml;
+}
+
+function getColorDetails(colorArray) {
+    if (colorArray) {
+        //var alpha = color[3];
+        return "<div id='circle' style='background-color:rgb("
+        + colorArray[0] + ","
+        + colorArray[1] + ","
+        + colorArray[2] + ")'></div>"
+        + "Red: " + colorArray[0]
+        + ", Green: " + colorArray[1]
+        + ", Blue: " + colorArray[2]
+        + ", Alpha: " + colorArray[3];
+    }
+    else {
+        return "N/A"
+    }
+}
+
+function ifequal(val1, val2, equalValue) {
+    if (val1 === val2) {
+        return equalValue.fn(this);
+    }
+}
+
 function generateTable(jsonArray, tableDescriptionString, naValue) {
     var tableDescription = JSON.parse(tableDescriptionString);
-    
-    if (jsonArray.length === 0) {
+    console.log(jsonArray);
+    if (jsonArray == 'undefined' | jsonArray == 'null' | jsonArray.length === 0) {
         return naValue;
     }
     else {
@@ -341,6 +383,9 @@ function generateTable(jsonArray, tableDescriptionString, naValue) {
                         break;
                     case "esriDomain":
                         cellValue = convertEsriDomainToList(dataItem[tableItem.name]);
+                        break;
+                    case "esriSymbol":
+                        cellValue = getSymbolDetails(dataItem[tableItem.name]);
                         break;
                     default:
                         cellValue = displayTextOrNA(dataItem[tableItem.name]);
@@ -386,24 +431,14 @@ function setupHandlebarsHelpers() {
         return getServiceType(serviceUrl);
     });
 
-    // getSmallItemIcon: gets a 16x16 image that represents the service based on its type.
-    Handlebars.registerHelper('getSmallItemIcon', function (itemType) {
-        return getItemIcon(itemType, "16");
+    // getItemIcon: gets a image that represents the service based on its type.
+    Handlebars.registerHelper('getItemIcon', function (itemType, iconSize) {
+        return getItemIcon(itemType, iconSize);
     });
 
-    // getLargeItemIcon: gets a 16x16 image that represents the service based on its type.
-    Handlebars.registerHelper('getLargeItemIcon', function (itemType) {
-        return getItemIcon(itemType, "32");
-    });
-
-    //getSmallServiceIconFromUrl: gets a 16x16 image that represents the service based on its URL.
-    Handlebars.registerHelper('getSmallServiceIconFromUrl', function (serviceUrl) {
-        return getServiceIconFromUrl(serviceUrl, "16");
-    });
-
-    // getLargeServiceIconFromUrl: gets a 32x32 image that represents the service based on its URL.
-    Handlebars.registerHelper('getLargeServiceIconFromUrl', function (serviceUrl) {
-        return getServiceIconFromUrl(serviceUrl, "32");
+    // getServiceIconFromUrl: gets a image that represents the service based on its URL.
+    Handlebars.registerHelper('getServiceIconFromUrl', function (serviceUrl, iconSize) {
+        return getServiceIconFromUrl(serviceUrl, iconSize);
     });
 
     // displayBooleanAsImage: Writes the HTML of an image that represents a Boolean value.
@@ -425,15 +460,27 @@ function setupHandlebarsHelpers() {
     // getSpatialReferenceInfo: gets the full name of a spatial reference given its WKID.
     Handlebars.registerHelper('getSpatialReferenceInfo', getSpatialReferenceInfo);
 
+    // getColorDetails: Generates a circle with the input color
+    Handlebars.registerHelper('getColorDetails', getColorDetails);
+
     // generateTable: generate Table from a JSON array and a Description.
     // If the array is empty, the output is the N/A value.
     Handlebars.registerHelper('generateTable', generateTable);
+
+    // ifequal: Block-helper that executes the inner-block if the two arguments test as strict equal (===). 
+    // This also supports else blocks.
+    Handlebars.registerHelper('ifequal', ifequal);
 }
 
 function setupHandlebarsPartials() {
     // extentDetails: Writes out the details of an Extent.
     $.get("templates/partial_Extent.html", function (template) {
         Handlebars.registerPartial("extentDetails", template)
+    });
+
+    // extentPreviewIcon: Displays icon that shows a map with extent rectangle.
+    $.get("templates/partial_ExtentPreviewIcon.html", function (template) {
+        Handlebars.registerPartial("extentPreviewIcon", template)
     });
 
     // serviceInfoHeader: Writes out the header of a service.
@@ -444,6 +491,16 @@ function setupHandlebarsPartials() {
     // serviceInfoHeaderNoMap: Writes out the header of a service (with no map).
     $.get("templates/partial_ServiceInfoHeaderNoMap.html", function (template) {
         Handlebars.registerPartial("serviceInfoHeaderNoMap", template)
+    });
+
+    // rendererDetails: Writes out the details of a Renderer.
+    $.get("templates/partial_Renderer.html", function (template) {
+        Handlebars.registerPartial("rendererDetails", template)
+    });
+
+    // symbolDetails: Writes out the details of a Symbol.
+    $.get("templates/partial_Symbol.html", function (template) {
+        Handlebars.registerPartial("symbolDetails", template)
     });
 }
 
