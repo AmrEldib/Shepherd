@@ -1,0 +1,28 @@
+﻿<h4>Labeling Info </h4>
+{{#if .}}
+<table class='table table-striped table-hover'>
+    <thead>
+        <tr>
+            <th>Label Class Info</th>
+            <th>Symbol</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each .}}
+        <tr>
+            <td>
+                <b>Style: </b>{{convertEnumToString "esriLabelPlacement" labelPlacement}}<br />
+                <b>Label Expression: </b>{{displayTextOrNA labelExpression}}<br />
+                <b>Use Coded Values </b>{{{displayBooleanAsImage useCodedValues "True" "False"}}}<br />
+                <b>Minimum Scale: </b>{{displayNumberOrNA minScale}}<br />
+                <b>Maximum Scale: </b>{{displayNumberOrNA maxScale}}<br />
+                <b>Where: </b>{{displayTextOrNA where}}<br />
+            </td>
+            <td>{{> symbolDetails symbol}}</td>
+        </tr>
+        {{/each}}
+</tbody>
+</table>
+{{else}}
+No Labeling Info.
+{{/if}}

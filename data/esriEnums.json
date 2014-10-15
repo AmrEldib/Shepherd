@@ -341,5 +341,111 @@
                 "title": "Geometrical Interval"
             }
         ]
+    },
+    {
+        "type": "esriLabelPlacement",
+        "_comment": "This type is a merge of esriServerPointLabelPlacementType, esriServerLineLabelPlacementType, esriServerPolygonLabelPlacementType",
+        "values": [
+            {
+                "value": "esriServerPolygonPlacementAlwaysHorizontal",
+                "title": "Always horizontal"
+            },
+            {
+                "value": "esriServerPointLabelPlacementCenterRight",
+                "title": "Center Right"
+            },
+            {
+                "value": "esriServerPointLabelPlacementCenterLeft",
+                "title": "Center Left"
+            },
+            {
+                "value": "esriServerPointLabelPlacementCenterCenter",
+                "title": "Center Center"
+            },
+            {
+                "value": "esriServerPointLabelPlacementBelowRight",
+                "title": "Below Right"
+            },
+            {
+                "value": "esriServerPointLabelPlacementBelowLeft",
+                "title": "Below Left"
+            },
+            {
+                "value": "esriServerPointLabelPlacementBelowCenter",
+                "title": "Below Center"
+            },
+            {
+                "value": "esriServerPointLabelPlacementAboveRight",
+                "title": "Above Right"
+            },
+            {
+                "value": "esriServerPointLabelPlacementAboveLeft",
+                "title": "Above Left"
+            },
+            {
+                "value": "esriServerPointLabelPlacementAboveCenter",
+                "title": "Above Center"
+            },
+            {
+                "value": "esriServerLinePlacementAboveAfter",
+                "title": "Above After"
+            },
+            {
+                "value": "esriServerLinePlacementAboveAlong",
+                "title": "Above Along"
+            },
+            {
+                "value": "esriServerLinePlacementAboveBefore",
+                "title": "Above Before"
+            },
+            {
+                "value": "esriServerLinePlacementAboveEnd",
+                "title": "Above End"
+            },
+            {
+                "value": "esriServerLinePlacementAboveStart",
+                "title": "Above Start"
+            },
+            {
+                "value": "esriServerLinePlacementBelowAfter",
+                "title": "Below After"
+            },
+            {
+                "value": "esriServerLinePlacementBelowAlong",
+                "title": "Below Along"
+            },
+            {
+                "value": "esriServerLinePlacementBelowBefore",
+                "title": "Below Before"
+            },
+            {
+                "value": "esriServerLinePlacementBelowEnd",
+                "title": "Below End"
+            },
+            {
+                "value": "esriServerLinePlacementBelowStart",
+                "title": "Below Start"
+            },
+            {
+                "value": "esriServerLinePlacementCenterAfter",
+                "title": "Center After"
+            },
+            {
+                "value": "esriServerLinePlacementCenterAlong",
+                "title": "Center Along"
+            },
+            {
+                "value": "esriServerLinePlacementCenterBefore",
+                "title": "Center Before"
+            },
+            {
+                "value": "esriServerLinePlacementCenterEnd",
+                "title": "Center End"
+            },
+            {
+                "value": "esriServerLinePlacementCenterStart",
+                "title": "Center Start"
+            }
+        ]
     }
 ]

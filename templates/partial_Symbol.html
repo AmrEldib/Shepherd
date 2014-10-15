@@ -39,7 +39,7 @@
     <span class="paddedItem">
         <img src="data:{{contentType}};base64,{{imageData}}" />
     </span>
-    <a href="{{getFullUrlOfSelectedNode '/images'}}/{{url}}">{{url}}</a><br />
+    <a href="{{getFullUrlOfSelectedNode '/images'}}/{{url}}" target="_blank">{{url}}</a><br />
     <b>Content Type: </b>{{displayTextOrNA contentType}}<br />
     <b>Width: </b>{{displayNumberOrNA width}}<br />
     <b>Height: </b>{{displayNumberOrNA height}}<br />
@@ -54,7 +54,7 @@
     <span class="paddedItem">
         <img src="data:{{contentType}};base64,{{imageData}}" />
     </span>
-    <a href="{{getFullUrlOfSelectedNode '/images'}}/{{url}}">{{url}}</a><br />
+    <a href="{{getFullUrlOfSelectedNode '/images'}}/{{url}}" target="_blank">{{url}}</a><br />
     <b>Content Type: </b>{{displayTextOrNA contentType}}<br />
     <p class="paddedItem">
         <b>Outline</b>
@@ -85,6 +85,15 @@
     <b>X-Offset: </b>{{displayNumberOrNA xoffset}}<br />
     <b>Y-Offset: </b>{{displayNumberOrNA yoffset}}<br />
     <b>Kerning </b>{{{displayBooleanAsImage kerning "True" "False"}}}<br />
-    <!-- Font -->
-    <!-- Text -->
+    
+    <b>Font</b><br />
+    <p class="paddedItem">
+        <b>Family: </b>{{displayTextOrNA font.family}}<br />
+        <b>Size: </b>{{displayNumberOrNA font.size}}<br />
+        <b>Style: </b>{{displayTextOrNA font.style}}<br />
+        <b>Wight: </b>{{displayNumberOrNA font.weight}}<br />
+        <b>Decoration: </b>{{displayTextOrNA font.decoration}}<br />
+    </p>
+
+    <b>Text: </b>{{displayTextOrNA text}}<br />
 {{/ifequal}}

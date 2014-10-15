@@ -43,8 +43,12 @@
 <h3><a name="sectionDrawingInfo">Drawing Info</a></h3>
 {{#if itemJson.drawingInfo}}
     <p><b>Transparency: </b>{{displayNumberOrNA itemJson.drawingInfo.transparency}}</p>
-    {{> rendererDetails itemJson.drawingInfo.renderer}}
-    <!-- Labeling Info -->
+    <p>
+        {{> rendererDetails itemJson.drawingInfo.renderer}}
+    </p>
+    <p>
+        {{> labelingInfoDetails itemJson.drawingInfo.labelingInfo}}
+    </p>
 {{else}}
     <p>No drawing info.</p>
 {{/if}}

@@ -527,6 +527,11 @@ function setupHandlebarsPartials() {
     $.get("templates/partial_Symbol.html", function (template) {
         Handlebars.registerPartial("symbolDetails", template)
     });
+
+    // labelingInfoDetails: Writes out the details of a Symbol.
+    $.get("templates/partial_LabelingInfo.html", function (template) {
+        Handlebars.registerPartial("labelingInfoDetails", template)
+    });
 }
 
 $(document).ready(function () {
