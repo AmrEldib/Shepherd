@@ -80,6 +80,8 @@ function getTemplatePath(itemType) {
         case "GeometryServer":
         case "Layer":
             return "templates/serviceInfo_" + itemType + ".html";
+        case "Server":
+            return "templates/serviceInfo_Server.html";
         default:
             return "templates/serviceInfo.html";
     }
@@ -193,6 +195,7 @@ function btnGetServerInfo_Click(serverUrl) {
                 }, "last", null, null);
     getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
         writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
+        $("#" + name_divTree).jstree("select_node", serverNodeName);
     });
 }
 
