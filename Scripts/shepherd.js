@@ -140,7 +140,6 @@ function addLayerToTree(layer, treeObject, parentNode) {
 
 function writeItemToTree(treeObject, treeNode) {
     try {
-        console.log(treeNode.data.itemJson);
         switch (treeNode.data.itemType) {
             case "Server":
             case "Folder":
@@ -190,12 +189,13 @@ function btnGetServerInfo_Click(serverUrl) {
                     data: {
                         itemType: "Server",
                         itemUrl: serverUrl,
+                        itemName: baseUrl,
                         itemJson: undefined
                     }
                 }, "last", null, null);
     getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
         writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
-        $("#" + name_divTree).jstree("select_node", serverNodeName);
+        displayItemInfo(treeObject.get_node(serverNodeName).data);
     });
 }
 
@@ -408,7 +408,7 @@ function ifEqualToAny() {
 
 function generateTable(jsonArray, tableDescriptionString, naValue) {
     var tableDescription = JSON.parse(tableDescriptionString);
-    console.log(jsonArray);
+
     if (jsonArray == 'undefined' | jsonArray == 'null' | jsonArray.length === 0) {
         return naValue;
     }
@@ -555,11 +555,6 @@ function setupHandlebarsPartials() {
     // serviceInfoHeader: Writes out the header of a service.
     $.get("templates/partial_ServiceInfoHeader.html", function (template) {
         Handlebars.registerPartial("serviceInfoHeader", template)
-    });
-
-    // serviceInfoHeaderNoMap: Writes out the header of a service (with no map).
-    $.get("templates/partial_ServiceInfoHeaderNoMap.html", function (template) {
-        Handlebars.registerPartial("serviceInfoHeaderNoMap", template)
     });
 
     // rendererDetails: Writes out the details of a Renderer.
