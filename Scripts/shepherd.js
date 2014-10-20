@@ -153,7 +153,7 @@ function writeItemToTree(treeObject, treeNode) {
                 break;
             default:
                 break;
-        }        
+        }
     }
     catch (error) {
         console.log(error);
@@ -197,6 +197,18 @@ function btnGetServerInfo_Click(serverUrl) {
         writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
         $("#" + name_divTree).jstree("select_node", serverNodeName);
     });
+}
+
+function selectText(containerid) {
+    if (document.selection) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(document.getElementById(containerid));
+        range.select();
+    } else if (window.getSelection) {
+        var range = document.createRange();
+        range.selectNode(document.getElementById(containerid));
+        window.getSelection().addRange(range);
+    }
 }
 
 function displayBooleanAsImage(boolValue, trueTitle, falseTitle) {
@@ -305,7 +317,7 @@ function getSpatialReferenceInfo(wkid) {
         $.ajaxSetup({ async: false });
         // $.getJSON() request is now synchronous.
         var srName;
-        $.getJSON('data/SRs/' + wkid + '.json', function(sr) {
+        $.getJSON('data/SRs/' + wkid + '.json', function (sr) {
             srName = sr.name + " (" + wkid + ")";
         }).fail(function () { srName = wkid; });
         // Set the global configs back to asynchronous.
@@ -371,6 +383,26 @@ function getFullUrlOfSelectedNode(relativeUrl) {
 function ifequal(val1, val2, equalValue) {
     if (val1 === val2) {
         return equalValue.fn(this);
+    }
+}
+
+function beautifyJson(jsonObject) {
+    return JSON.stringify(jsonObject, null, "\t");
+}
+
+function construct(constructor, args) {
+    function F() {
+        return constructor.apply(this, args);
+    }
+    F.prototype = constructor.prototype;
+    return new F();
+}
+
+function ifEqualToAny() {
+    for (var i = 1; i < arguments.length - 2; i++) {
+        if (arguments[0] == arguments[i]) {
+            return arguments[arguments.length - 1].fn(this);
+        }
     }
 }
 
@@ -498,6 +530,15 @@ function setupHandlebarsHelpers() {
 
     // getFullUrlOfSelectedNode
     Handlebars.registerHelper('getFullUrlOfSelectedNode', getFullUrlOfSelectedNode);
+
+    // json-stringify: Converts JSON object to string.
+    Handlebars.registerHelper("json-stringify", JSON.stringify);
+
+    // json-beautify: Converts JSON object to string.
+    Handlebars.registerHelper("json-beautify", beautifyJson);
+
+    // ifEqualToAny: Returns true if the first value is equal to any of the other values.
+    Handlebars.registerHelper("ifEqualToAny", ifEqualToAny);
 }
 
 function setupHandlebarsPartials() {
@@ -599,5 +640,12 @@ function displayItemInfo(itemData) {
         var itemCompiledTemplate = Handlebars.compile(itemTemplate);
         var itemInfoHtml = itemCompiledTemplate(itemData);
         $('#' + name_divInfo).html(itemInfoHtml);
+
+        // Initialize highlighter.js
+        $('pre code').each(function (i, block) {
+            hljs.highlightBlock(block);
+        });
+        // Initialize tooltips
+        $('.bstooltip').tooltip();
     });
 }

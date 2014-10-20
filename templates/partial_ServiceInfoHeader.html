@@ -1,14 +1,66 @@
 ﻿<h1 class="page-header">
-    <img class="infoHeaderIcon" src="{{getItemIcon itemType '32'}}" />{{itemName}}
+    <img title="{{itemType}}"
+         data-toggle="tooltip"
+         data-placement="top"
+         class="bstooltip infoHeaderIcon"
+         src="{{getItemIcon itemType '32'}}" />{{itemName}}
     <small>
-        <a href="{{itemUrl}}?f=help" target="_blank">
-            <span title="Help" class="glyphicon glyphicon-question-sign infoHeaderIcon"></span>
+        <a href="{{itemUrl}}?f=help" target="_blank" class="no-underline">
+            <span title="Help" 
+                  data-toggle="tooltip" 
+                  data-placement="top" 
+                  class="bstooltip glyphicon glyphicon-question-sign infoHeaderIcon"></span>
         </a>
-        <a href="{{itemUrl}}" target="_blank">
-            <span title="Open Services Directory Page" class="glyphicon glyphicon-new-window infoHeaderIcon"></span>
+        <a href="{{itemUrl}}" target="_blank" class="no-underline">
+            <span title="Open Services Directory Page" 
+                  data-toggle="tooltip" 
+                  data-placement="top" 
+                  class="bstooltip glyphicon glyphicon-new-window infoHeaderIcon"></span>
         </a>
-        <a href="mapPreview.html?serviceUrl={{itemUrl}}&serviceType={{itemType}}" target="_blank">
-            <span title="Open in Map" class="glyphicon glyphicon-map-marker infoHeaderIcon"></span>
+
+        {{#ifEqualToAny itemType "MapServer" "FeatureServer" "ImageServer" "Layer"}}
+        <a href="mapPreview.html?serviceUrl={{itemUrl}}&serviceType={{itemType}}" target="_blank" class="no-underline">
+            <span title="Open in Map"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  class="bstooltip glyphicon glyphicon-map-marker infoHeaderIcon"></span>
+        </a>
+        {{/ifEqualToAny}}
+
+        <a href="#" class="no-underline" data-toggle="modal" data-target="#rawJsonDialog">
+            <span title="View Raw JSON"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  class="bstooltip glyphicon glyphicon-list-alt infoHeaderIcon"></span>
         </a>
     </small>
 </h1>
+
+<div class="modal fade" id="rawJsonDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" 
+                        title="Close"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        class="bstooltip close" 
+                        data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+                <button type="button"
+                        title="Select All Text" data-toggle="tooltip"
+                        data-placement="top"
+                        class="bstooltip close" 
+                        style="opacity:1;" 
+                        onclick=" selecttext('itemrawjson')">
+                    <img src="img/selectText.png" style="margin-right:5px;" />
+                </button>
+                <h4 class="modal-title">{{itemName}}</h4>
+            </div>
+            <div id="itemRawJson" class="modal-body">
+                <pre class="json"><code>{{json-beautify itemJson}}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>

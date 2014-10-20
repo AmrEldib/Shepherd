@@ -1,4 +1,4 @@
-﻿{{>serviceInfoHeaderNoMap .}}
+﻿{{>serviceInfoHeader .}}
 
 <p class="well well-sm">
     <a href="#sectionGeneral">General</a> -
@@ -15,15 +15,27 @@
 
 <!-- Address Fields -->
 <h3><a name="sectionAddressFields">Address Fields</a></h3>
+{{#if itemJson.addressFields}}
     {{{generateTable itemJson.addressFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
+{{else}}
+No Fields.
+{{/if}}
 
 <!-- Candidate Fields -->
 <h3><a name="sectionCandidateFields">Candidate Fields</a></h3>
+{{#if itemJson.candidateFields}}
     {{{generateTable itemJson.candidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
+{{else}}
+No Fields.
+{{/if}}
 
 <!-- Intersection Candidate Fields -->
 <h3><a name="sectionIntersectionCandidateFields">Intersection Candidate Fields</a></h3>
+{{#if itemJson.candidateFields}}
     {{{generateTable itemJson.intersectionCandidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
+{{else}}
+No Fields.
+{{/if}}
 
 <!-- Spatial Reference -->
 <h3><a name="sectionSpatialReference">Spatial Reference</a></h3>

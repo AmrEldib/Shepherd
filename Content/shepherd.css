@@ -8,6 +8,10 @@
     padding-right: 5px;
 }
 
+.infoHeaderIcon:hover {
+    text-decoration: none;
+}
+
 .colorCircle {
     min-width: 16px;
     min-height: 16px;
@@ -37,4 +41,19 @@ table thead tr {
     border-bottom-style: solid;
     border-bottom-color: #434343;
     border-bottom-width: 2px;
+}
+
+#itemRawJson {
+    padding: 0px;
+}
+
+    #itemRawJson pre {
+        background-color: #002B36;
+        border-width: 0px;
+        border-radius: 0px;
+        padding: 3px;
+    }
+
+.no-underline:hover {
+    text-decoration: none;
 }
