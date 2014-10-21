@@ -6,22 +6,17 @@
         <b>YMax: </b> {{ymax}}<br />
     </p>
     <p>
-        <b>Spatial Reference </b>
-        <ul>
-            {{#if spatialReference.wkid}}
-            <li><b>WKID: </b> {{getSpatialReferenceInfo spatialReference.wkid}}</li>
-            {{/if}}
-            {{#if spatialReference.latestWkid}}
-            <li><b>Latest WKID: </b> {{getSpatialReferenceInfo spatialReference.latestWkid}}</li>
-            {{/if}}
-            {{#if spatialReference.wkt}}
-            <li><b>WKT: </b> {{spatialReference.wkt}}</li>
-            {{/if}}
-        </ul>
+        {{> spatialReferenceDetails spatialReference}}
     </p>
 {{else}}
     <p>
         N/A
     </p>
 {{/if}}
+
+<script>
+    $('pre code').each(function (i, block) {
+        hljs.highlightBlock(block);
+    });
+</script>
 

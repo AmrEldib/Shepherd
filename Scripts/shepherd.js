@@ -535,6 +535,11 @@ function setupHandlebarsPartials() {
         Handlebars.registerPartial("extentDetails", template)
     });
 
+    // spatialReferenceDetails: Writes out the details of a Spatial Reference.
+    $.get("templates/partial_SpatialReference.html", function (template) {
+        Handlebars.registerPartial("spatialReferenceDetails", template)
+    });
+
     // extentPreviewIcon: Displays icon that shows a map with extent rectangle.
     $.get("templates/partial_ExtentPreviewIcon.html", function (template) {
         Handlebars.registerPartial("extentPreviewIcon", template)

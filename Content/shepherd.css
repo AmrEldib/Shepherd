@@ -8,9 +8,9 @@
     padding-right: 5px;
 }
 
-.infoHeaderIcon:hover {
-    text-decoration: none;
-}
+    .infoHeaderIcon:hover {
+        text-decoration: none;
+    }
 
 .colorCircle {
     min-width: 16px;
@@ -48,12 +48,29 @@ table thead tr {
 }
 
     #itemRawJson pre {
-        background-color: #002B36;
+        /*background-color: #002B36;*/
         border-width: 0px;
         border-radius: 0px;
-        padding: 3px;
+        padding: 0px;
     }
+
+        #itemRawJson pre code {
+            padding: 15px;
+        }
 
 .no-underline:hover {
     text-decoration: none;
 }
+
+.wkt {
+    width: 100%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    border-width: 0px;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+    .wkt code {
+        padding: 15px;
+    }

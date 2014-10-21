@@ -1,0 +1,22 @@
+﻿<b>Spatial Reference </b>
+    {{#if .}}
+    <ul>
+        {{#if wkid}}
+        <li><b>WKID: </b> {{getSpatialReferenceInfo wkid}}</li>
+        {{/if}}
+        {{#if latestWkid}}
+        <li><b>Latest WKID: </b> {{getSpatialReferenceInfo latestWkid}}</li>
+        {{/if}}
+        {{#if wkt}}
+        <li><b>WKT </b><pre class="wkt"><code class="javascript"> {{wkt}}</code></pre></li>
+        {{/if}}
+    </ul>
+    {{else}}
+    N/A
+    {{/if}}
+
+<script>
+    $('pre code').each(function (i, block) {
+        hljs.highlightBlock(block);
+    });
+</script>
