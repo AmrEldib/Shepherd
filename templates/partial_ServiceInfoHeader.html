@@ -48,12 +48,16 @@
                         data-dismiss="modal">
                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
-                <button type="button"
-                        title="Select All Text" data-toggle="tooltip"
+                <button id="copy-text-btn"
+						type="button"
+                        title="Copy to Clipboard" 
+						data-toggle="tooltip"
                         data-placement="top"
                         class="bstooltip close" 
-                        style="opacity:1;" 
-                        onclick="selectText('itemRawJson');">
+                        style="opacity:1;"                        
+						data-clipboard-target="itemRawJson"
+						data-clipboard-text="Copy to Clipboard"
+						data-copied-hint="Copied!">
                     <img src="img/selectText.png" style="margin-right:5px;" />
                 </button>
                 <h4 class="modal-title">{{itemName}}</h4>
@@ -63,4 +67,16 @@
             </div>
         </div>
     </div>
+	<script>
+		var clientTarget = new ZeroClipboard( $("#copy-text-btn"), {
+			moviePath: "./Scripts/ZeroClipboard/ZeroClipboards.swf",
+			debug: false
+		});		
+		clientTarget.on("load", function(clientTarget)
+		{
+			clientTarget.on("complete", function(clientTarget, args) {
+				clientTarget.setText(args.text);
+			});
+		});		
+	</script>
 </div>
