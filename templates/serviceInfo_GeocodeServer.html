@@ -10,7 +10,7 @@
 </p>
 
 <!-- General -->
-<h3><a name="sectionGeneral">General</a></h3>
+<h3><a name="sectionGeneral" class="serviceInfoSection">General</a></h3>
 <p><b>Service Description: </b>{{displayTextOrNA itemJson.serviceDescription}}</p>
 
 <!-- Address Fields -->
@@ -22,7 +22,7 @@ No Fields.
 {{/if}}
 
 <!-- Candidate Fields -->
-<h3><a name="sectionCandidateFields">Candidate Fields</a></h3>
+<h3><a name="sectionCandidateFields" class="serviceInfoSection">Candidate Fields</a></h3>
 {{#if itemJson.candidateFields}}
     {{{generateTable itemJson.candidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
 {{else}}
@@ -30,7 +30,7 @@ No Fields.
 {{/if}}
 
 <!-- Intersection Candidate Fields -->
-<h3><a name="sectionIntersectionCandidateFields">Intersection Candidate Fields</a></h3>
+<h3><a name="sectionIntersectionCandidateFields" class="serviceInfoSection">Intersection Candidate Fields</a></h3>
 {{#if itemJson.candidateFields}}
     {{{generateTable itemJson.intersectionCandidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
 {{else}}
@@ -38,7 +38,7 @@ No Fields.
 {{/if}}
 
 <!-- Spatial Reference -->
-<h3><a name="sectionSpatialReference">Spatial Reference</a></h3>
+<h3><a name="sectionSpatialReference" class="serviceInfoSection">Spatial Reference</a></h3>
 <ul>
     {{#if itemJson.spatialReference.wkid}}
     <li><b>WKID: </b> {{getSpatialReferenceInfo itemJson.spatialReference.wkid}}</li>
@@ -52,7 +52,7 @@ No Fields.
 </ul>
 
 <!-- Locator Properties -->
-<h3><a name="sectionLocatorProperties">Locator Properties</a></h3>
+<h3><a name="sectionLocatorProperties" class="serviceInfoSection">Locator Properties</a></h3>
 <p><b>Minimum Candidate Score: </b>{{displayTextOrNA itemJson.locatorProperties.MinimumCandidateScore}}</p>
 <p><b>Side Offset Units: </b>{{displayTextOrNA itemJson.locatorProperties.SideOffsetUnits}}</p>
 <p><b>UICLSID: </b>{{displayTextOrNA itemJson.locatorProperties.UICLSID}}</p>

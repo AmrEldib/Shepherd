@@ -10,7 +10,7 @@
 </p>
 
 <!-- General -->
-<h3><a name="sectionGeneral">General</a></h3>
+<h3><a name="sectionGeneral" class="serviceInfoSection">General</a></h3>
 <p><b>Type: </b>{{displayTextOrNA itemJson.type}}</p>
 <p><b>Description: </b>{{displayTextOrNA itemJson.description}}</p>
 <p><b>Copyright Text: </b>{{displayTextOrNA itemJson.copyrightText}}</p>
@@ -34,13 +34,13 @@
 <p><b>Default Visibility </b>{{{displayBooleanAsImage itemJson.defaultVisibility "Visible" "Hidden"}}}</p>
 
 <!-- Extent -->
-<h3><a name="sectionExtent">Extent</a> {{> extentPreviewIcon itemJson.extent}}</h3>
+<h3><a name="sectionExtent" class="serviceInfoSection">Extent</a> {{> extentPreviewIcon itemJson.extent}}</h3>
 {{> extentDetails itemJson.extent}}
 <p><b>Minimum Scale: </b>{{displayNumberOrNA itemJson.minScale}}</p>
 <p><b>Maxmum Scale: </b>{{displayNumberOrNA itemJson.maxScale}}</p>
 
 <!-- Drawing Info -->
-<h3><a name="sectionDrawingInfo">Drawing Info</a></h3>
+<h3><a name="sectionDrawingInfo" class="serviceInfoSection">Drawing Info</a></h3>
 {{#if itemJson.drawingInfo}}
     <p><b>Transparency: </b>{{displayNumberOrNA itemJson.drawingInfo.transparency}}</p>
     <p>
@@ -54,7 +54,7 @@
 {{/if}}
 
 <!-- Time Info -->
-<h3><a name="sectionTimeInfo">Time Info</a></h3>
+<h3><a name="sectionTimeInfo" class="serviceInfoSection">Time Info</a></h3>
 {{#if itemJson.drawingInfo}}
 <p>
     <b>Export Options </b><br />
@@ -68,7 +68,7 @@
 {{/if}}
 
 <!-- Fields -->
-<h3><a name="sectionFields">Fields</a></h3>
+<h3><a name="sectionFields" class="serviceInfoSection">Fields</a></h3>
 {{#if itemJson.fields}}
     <p><b>Display Field: </b>{{displayTextOrNA itemJson.displayField}}</p>
     <p><b>Type ID Field: </b>{{displayTextOrNA itemJson.typeIdField}}</p>
@@ -80,7 +80,7 @@
 {{/if}}
 
 <!-- Misc -->
-<h3><a name="sectionMisc">Misc.</a></h3>
+<h3><a name="sectionMisc" class="serviceInfoSection">Misc.</a></h3>
 <p><b>Has Attachments </b>{{{displayBooleanAsImage itemJson.hasAttachments "True" "False"}}}</p>
 <p><b>HTML Popup Type: </b>{{convertEnumToString "esriServerHTMLPopupType" itemJson.htmlPopupType}}</p>
 <p><b>Can Modify Layer </b>{{{displayBooleanAsImage itemJson.canModifyLayer "True" "False"}}}</p>

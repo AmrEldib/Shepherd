@@ -37,6 +37,14 @@
     padding: 1px 2px;
 }
 
+.serviceInfoSection:before { 
+    display: block; 
+    content: " "; 
+    margin-top: -80px; 
+    height: 80px;
+    visibility: hidden; 
+}
+
 table thead tr {
     border-bottom-style: solid;
     border-bottom-color: #434343;
@@ -48,7 +56,6 @@ table thead tr {
 }
 
     #itemRawJson pre {
-        /*background-color: #002B36;*/
         border-width: 0px;
         border-radius: 0px;
         padding: 0px;

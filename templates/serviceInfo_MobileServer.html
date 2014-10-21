@@ -7,15 +7,15 @@
 </p>
 
 <!-- General -->
-<h3><a name="sectionGeneral">General</a></h3>
+<h3><a name="sectionGeneral" class="serviceInfoSection">General</a></h3>
 <p><b>Service Description: </b>{{displayTextOrNA itemJson.description}}</p>
 
 <!-- Layers -->
-<h3><a name="sectionLayers">Layers</a></h3>
+<h3><a name="sectionLayers" class="serviceInfoSection">Layers</a></h3>
     {{{generateTable itemJson.layers '[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}, {"name":"defaultVisibility","title":"Default Visibility","type":"boolean"}, {"name":"minScale","title":"Minimum Scale","type":"number"}, {"name":"maxScale","title":"Maximum Scale","type":"number"}]' "No Layers." }}}
 
 <!-- Extent -->
-<h3><a name="sectionExtent">Extent</a></h3>
+<h3><a name="sectionExtent" class="serviceInfoSection">Extent</a></h3>
 <p>
     <!--Spatial Reference -->
     <b>Spatial Reference </b>

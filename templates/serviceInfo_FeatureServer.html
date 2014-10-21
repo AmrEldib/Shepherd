@@ -11,13 +11,13 @@
 </p>
 
 <!-- General -->
-<h3><a name="sectionGeneral">General</a></h3>
+<h3><a name="sectionGeneral" class="serviceInfoSection">General</a></h3>
 <p><b>Service Description: </b>{{displayTextOrNA itemJson.serviceDescription}}</p>
 <p><b>Description: </b>{{displayTextOrNA itemJson.description}}</p>
 <p><b>Copyright Text: </b>{{displayTextOrNA itemJson.copyrightText}}</p>
 
 <!-- Data Updates -->
-<h3><a name="sectionDataUpdates">Data Updates</a></h3>
+<h3><a name="sectionDataUpdates" class="serviceInfoSection">Data Updates</a></h3>
 <p>
     <b>Has Versioned Data  </b>{{{displayBooleanAsImage itemJson.hasVersionedData "True" "False"}}}
 </p>
@@ -32,7 +32,7 @@
 </p>
 
 <!-- Extent -->
-<h3><a name="sectionExtent">Extent</a></h3>
+<h3><a name="sectionExtent" class="serviceInfoSection">Extent</a></h3>
 <p>
     <!--Spatial Reference -->
     {{> spatialReferenceDetails itemJson.spatialReference}}
@@ -49,15 +49,15 @@
 {{> extentDetails itemJson.fullExtent}}
 
 <!--Layers-->
-<h3><a name="sectionLayers">Layers</a></h3>
+<h3><a name="sectionLayers" class="serviceInfoSection">Layers</a></h3>
     {{{generateTable itemJson.layers '[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}]' "No Layers." }}}
 
 <!--Table-->
-<h3><a name="sectionTables">Tables</a></h3>
+<h3><a name="sectionTables" class="serviceInfoSection">Tables</a></h3>
     {{{generateTable itemJson.tables '[{"name":"id","title":"ID","type":"number"},{"name":"name","title":"Name","type":"text"}]' "No Tables."}}}
 
 <!--Document Info-->
-<h3><a name="sectionDocumentInfo">Document Info</a></h3>
+<h3><a name="sectionDocumentInfo" class="serviceInfoSection">Document Info</a></h3>
 <p>
     <b>Title: </b> <i>{{displayTextOrNA itemJson.documentInfo.Title}}</i><br />
     <b>Author: </b> <i>{{displayTextOrNA itemJson.documentInfo.Author}}</i><br />
@@ -68,7 +68,7 @@
 </p>
 
 <!-- Misc -->
-<h3><a name="sectionMisc">Misc.</a></h3>
+<h3><a name="sectionMisc" class="serviceInfoSection">Misc.</a></h3>
 <p><b>Capabilities: </b>{{{convertCommaSeparatedTextToList itemJson.capabilities}}}</p>
 <p><b>Supported Query Formats: </b>{{displayTextOrNA itemJson.supportedQueryFormats}}</p>
 <p><b>Maximum Record Count: </b>{{displayNumberOrNA itemJson.maxRecordCount}}</p>
