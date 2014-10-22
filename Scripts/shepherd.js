@@ -10,6 +10,7 @@ var name_txtServerUrl = "txtServerUrl";
 var name_divTree = "treeDiv";
 var name_btnEsriSampleServer = "esriSampleServerButton";
 var name_ulEsriSampleServer = "esriSampleServersList";
+var url_localStorageList = [];
 
 String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -178,6 +179,10 @@ function btnGetServerInfo_Click(serverUrl) {
     if (!serverUrl.endsWith("/")) {
         serverUrl = serverUrl + "/";
     }
+
+    // Local Storage
+    addLocalStorage(serverUrl);
+
     var baseUrl = getBaseUrl(serverUrl);
     var serverNodeName = treeObject.create_node("#",
                 {
@@ -683,6 +688,22 @@ function displayItemInfo(itemData) {
         // Initialize tooltips
         $('.bstooltip').tooltip();
     });
+}
+
+function addLocalStorage(serverUrl) {
+  if(typeof(Storage) !== "undefined") {
+    // check if local storage item exists
+    if (!localStorage["AGS_servicesUrl"]) {
+      url_localStorageList.push(serverUrl);
+      localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+    } else {
+      if (JSON.parse(localStorage["AGS_servicesUrl"].indexOf(serverUrl)) == -1) {
+        url_localStorageList = JSON.parse(localStorage["AGS_servicesUrl"]);
+        url_localStorageList.push(serverUrl);
+        localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+      }
+    }
+  }
 }
 
 // prevent accidental closing of window
