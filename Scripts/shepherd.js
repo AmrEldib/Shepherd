@@ -167,6 +167,9 @@ function getItemDetails(url, treeNode, callback) {
             treeNode.data.itemJson = json;
             // Call callback function
             callback();
+        }).fail(function () {
+            treeObject.delete_node(treeNode);
+            $('#errorDialog').modal();
         });
     }
     else {

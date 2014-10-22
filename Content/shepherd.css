@@ -85,3 +85,11 @@ table thead tr {
 .infoPanelLoading {
     height: 30px;
 }
+
+.glyphiconRed {
+    color: red;
+}
+
+.glyphiconGreen {
+    color: green;
+}
