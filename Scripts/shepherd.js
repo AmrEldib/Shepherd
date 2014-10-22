@@ -175,28 +175,30 @@ function getItemDetails(url, treeNode, callback) {
 }
 
 function btnGetServerInfo_Click(serverUrl) {
-    if (!serverUrl.endsWith("/")) {
-        serverUrl = serverUrl + "/";
+    if (serverUrl) {
+        if (!serverUrl.endsWith("/")) {
+            serverUrl = serverUrl + "/";
+        }
+        var baseUrl = getBaseUrl(serverUrl);
+        var serverNodeName = treeObject.create_node("#",
+                    {
+                        text: baseUrl,
+                        icon: getItemIcon("Server", "16"),
+                        state: {
+                            opened: true
+                        },
+                        data: {
+                            itemType: "Server",
+                            itemUrl: serverUrl,
+                            itemName: baseUrl,
+                            itemJson: undefined
+                        }
+                    }, "last", null, null);
+        getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
+            writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
+            displayItemInfo(treeObject.get_node(serverNodeName).data);
+        });
     }
-    var baseUrl = getBaseUrl(serverUrl);
-    var serverNodeName = treeObject.create_node("#",
-                {
-                    text: baseUrl,
-                    icon: getItemIcon("Server", "16"),
-                    state: {
-                        opened: true
-                    },
-                    data: {
-                        itemType: "Server",
-                        itemUrl: serverUrl,
-                        itemName: baseUrl,
-                        itemJson: undefined
-                    }
-                }, "last", null, null);
-    getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
-        writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
-        displayItemInfo(treeObject.get_node(serverNodeName).data);
-    });
 }
 
 function displayBooleanAsImage(boolValue, trueTitle, falseTitle) {
