@@ -81,3 +81,7 @@ table thead tr {
     .wkt code {
         padding: 15px;
     }
+
+.infoPanelLoading {
+    height: 30px;
+}

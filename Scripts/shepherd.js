@@ -621,7 +621,10 @@ $(document).ready(function () {
     });
     // Listen to tree events
     $("#" + name_divTree).on("select_node.jstree", function (e, data) {
+        // Add loading indicator. It will be replaced after loading is compelete.
+        $('#' + name_divInfo).html("<h2>Loading...</h2><div class='progress infoPanelLoading'><div class='progress-bar progress-bar-striped active'  role='progressbar' aria-valuenow='95' aria-valuemin='0' aria-valuemax='100' style='width: 95%'><span class='sr-only'>Loading...</span></div></div>");
 
+        // Get item's details and loads them into view.
         getItemDetails(data.node.data.itemUrl, data.node, function () {
             // Add folder's children to the tree if they're not already added.
             //if (data.node.data.itemType === "Folder" && data.node.children.length == 0) {
