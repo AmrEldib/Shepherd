@@ -168,6 +168,9 @@ function getItemDetails(url, treeNode, callback) {
             treeNode.data.itemJson = json;
             // Call callback function
             callback();
+        }).fail(function () {
+            treeObject.delete_node(treeNode);
+            $('#errorDialog').modal();
         });
     }
     else {
@@ -176,40 +179,42 @@ function getItemDetails(url, treeNode, callback) {
 }
 
 function btnGetServerInfo_Click(serverUrl) {
-    if (!serverUrl.endsWith("/")) {
-        serverUrl = serverUrl + "/";
+    if (serverUrl) {
+        if (!serverUrl.endsWith("/")) {
+            serverUrl = serverUrl + "/";
+        }
+		
+		// Local Storage
+		addLocalStorage(serverUrl);
+		
+        var baseUrl = getBaseUrl(serverUrl);
+        var serverNodeName = treeObject.create_node("#",
+                    {
+                        text: baseUrl,
+                        icon: getItemIcon("Server", "16"),
+                        state: {
+                            opened: true
+                        },
+                        data: {
+                            itemType: "Server",
+                            itemUrl: serverUrl,
+                            itemName: baseUrl,
+                            itemJson: undefined
+                        }
+                    }, "last", null, null);
+        getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
+            writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
+            displayItemInfo(treeObject.get_node(serverNodeName).data);
+        });
     }
-
-    // Local Storage
-    addLocalStorage(serverUrl);
-
-    var baseUrl = getBaseUrl(serverUrl);
-    var serverNodeName = treeObject.create_node("#",
-                {
-                    text: baseUrl,
-                    icon: getItemIcon("Server", "16"),
-                    state: {
-                        opened: true
-                    },
-                    data: {
-                        itemType: "Server",
-                        itemUrl: serverUrl,
-                        itemName: baseUrl,
-                        itemJson: undefined
-                    }
-                }, "last", null, null);
-    getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
-        writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
-        displayItemInfo(treeObject.get_node(serverNodeName).data);
-    });
 }
 
 function displayBooleanAsImage(boolValue, trueTitle, falseTitle) {
     if (boolValue) {
-        return "<img class='infoHeaderIcon' src='img/GreenCheckMark.png' alt='" + trueTitle + "' title='" + trueTitle + "' />";
+        return "<span class='glyphicon glyphicon-ok-sign infoHeaderIcon glyphiconGreen' title='" + trueTitle + "'></span>";
     }
     else {
-        return "<img class='infoHeaderIcon' src='img/RedXMark.png' alt='" + falseTitle + "' title='" + falseTitle + "' />";
+        return "<span class='glyphicon glyphicon-remove-sign infoHeaderIcon glyphiconRed' title='" + falseTitle + "'></span>";
     }
 }
 
