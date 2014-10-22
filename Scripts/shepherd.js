@@ -637,3 +637,8 @@ function displayItemInfo(itemData) {
         $('.bstooltip').tooltip();
     });
 }
+
+// prevent accidental closing of window
+window.onbeforeunload = function () {
+    return "Are you sure you want to navigate away?";
+}
