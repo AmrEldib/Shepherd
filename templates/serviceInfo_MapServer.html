@@ -34,7 +34,7 @@
 <p><b>Maxmum Scale: </b>{{displayNumberOrNA itemJson.maxScale}}</p>
 <p>
     <!--Units-->
-    <b>Units: </b>{{displayTextOrNA itemJson.units}}
+    <b>Units: </b>{{convertEnumToString "esriUnits" itemJson.units}}
 </p>
 <!--Initial Extent-->
 <h4>Initial Extent {{> extentPreviewIcon itemJson.initialExtent}}</h4>
