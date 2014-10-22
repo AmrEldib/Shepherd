@@ -6,6 +6,7 @@
     <a href="#sectionDrawingInfo">Drawing Info</a> -
     <a href="#sectionTimeInfo">Time Info</a> -
     <a href="#sectionFields">Fields</a> -
+    <a href="#sectionSubtypes">Subtypes</a> -
     <a href="#sectionMisc">Misc</a>
 </p>
 
@@ -77,6 +78,14 @@
     </p>
 {{else}}
     <p>No field info.</p>
+{{/if}}
+
+<!-- Subtypes -->
+<h3><a name="sectionSubtypes" class="serviceInfoSection">Subtypes</a></h3>
+{{#if itemJson.types}}
+    {{{generateTable itemJson.types '[{"name":"id","title":"ID","type":"text"},{"name":"name","title":"Name","type":"text"}, {"name":"domains","title":"Domains","type":"subTypesDomain"},{"name":"templates","title":"Templates","type":"subTypesTemplates"}]' "No Subtypes." }}}
+{{else}}
+<p>No subtypes.</p>
 {{/if}}
 
 <!-- Misc -->

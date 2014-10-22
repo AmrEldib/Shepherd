@@ -250,6 +250,45 @@ function convertEsriDomainToList(esriDomainValue) {
     }
 }
 
+function convertSubTypesDomainsToList(subTypesDomains) {
+    if (subTypesDomains == undefined | subTypesDomains === "" | subTypesDomains === "null") {
+        return "N/A";
+    }
+    else {
+        var domainsList = "<ul>";
+        Object.keys(subTypesDomains).forEach(function (key) {
+            domainsList += "<li>";
+            domainsList += key + " (" + subTypesDomains[key].type + ")";
+            domainsList += "</li>";
+        });
+        domainsList += "</ul>";
+        return domainsList;
+    }
+}
+
+function convertSubTypesTemplatesToList(subTypesTemplates) {
+    if (subTypesTemplates == undefined | subTypesTemplates === "" | subTypesTemplates === "null") {
+        return "N/A";
+    }
+    else {
+        var templatesList = "<ul>";
+        subTypesTemplates.forEach(function (template) {
+            templatesList += "<li><b>Name: </b>" + template.name + "</li>";
+            templatesList += "<li><b>Description: </b>" + template.description + "</li>";
+            templatesList += "<li><b>Drawing Tool: </b>" + convertEnumToString("esriFeatureEditTool", template.drawingTool) + "</li>";
+            templatesList += "<li><b>Prototype Attributes: </b></li><ul>";
+            Object.keys(template.prototype.attributes).forEach(function (key) {
+                templatesList += "<li>";
+                templatesList += key + ": " + template.prototype.attributes[key];
+                templatesList += "</li>";
+            });
+            templatesList += "</ul>"
+        });
+        templatesList += "</ul>";
+        return templatesList;
+    }
+}
+
 function convertEnumToString(enumType, enumValue) {
     if (enumValue == undefined | enumValue === "") {
         return "N/A";
@@ -364,7 +403,6 @@ function returnHex(num) {
 }
 
 function getFullUrlOfSelectedNode(relativeUrl) {
-    console.log(treeObject.get_selected("#" + name_divTree, true)[0]);
     return treeObject.get_selected("#" + name_divTree, true)[0].data.itemUrl + relativeUrl;
 }
 
@@ -431,6 +469,12 @@ function generateTable(jsonArray, tableDescriptionString, naValue) {
                         break;
                     case "esriSymbol":
                         cellValue = getSymbolDetails(dataItem[tableItem.name]);
+                        break;
+                    case "subTypesDomain":
+                        cellValue = convertSubTypesDomainsToList(dataItem[tableItem.name]);
+                        break;
+                    case "subTypesTemplates":
+                        cellValue = convertSubTypesTemplatesToList(dataItem[tableItem.name]);
                         break;
                     default:
                         cellValue = displayTextOrNA(dataItem[tableItem.name]);

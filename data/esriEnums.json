@@ -447,5 +447,46 @@
                 "title": "Center Start"
             }
         ]
+    },
+    {
+        "type": "esriFeatureEditTool",
+        "values": [
+            {
+                "value": "esriFeatureEditToolAutoCompletePolygon",
+                "title": "Creates new polygons that share borders with existing polygons to form a continuous fabric (AutoCompelete Polygon)."
+            },
+            {
+                "value": "esriFeatureEditToolCircle",
+                "title": "Creates circles and can be associated with polygon or line based templates."
+            },
+            {
+                "value": "esriFeatureEditToolEllipse",
+                "title": "Creates ellipses and can be associated with polygon or line based templates."
+            },
+            {
+                "value": "esriFeatureEditToolFreehand",
+                "title": "Creates features by tracing mouse movements and can be associated with polygon or line based templates."
+            },
+            {
+                "value": "esriFeatureEditToolLine",
+                "title": "Creates lines using point locations defined by mouse clicks."
+            },
+            {
+                "value": "esriFeatureEditToolNone",
+                "title": "No tool defined in the template (i.e. non-spatial tables)."
+            },
+            {
+                "value": "esriFeatureEditToolPoint",
+                "title": "Creates points using point locations defined by mouse clicks."
+            },
+            {
+                "value": "esriFeatureEditToolPolygon",
+                "title": "Creates polygons using point locations defined by mouse clicks."
+            },
+            {
+                "value": "esriFeatureEditToolRectangle",
+                "title": "Creates rectangles and can be associated with polygon or line based templates."
+            }
+        ]
     }
 ]
