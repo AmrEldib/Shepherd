@@ -206,10 +206,10 @@ function btnGetServerInfo_Click(serverUrl) {
 
 function displayBooleanAsImage(boolValue, trueTitle, falseTitle) {
     if (boolValue) {
-        return "<img class='infoHeaderIcon' src='img/GreenCheckMark.png' alt='" + trueTitle + "' title='" + trueTitle + "' />";
+        return "<span class='glyphicon glyphicon-ok-sign infoHeaderIcon glyphiconGreen' title='" + trueTitle + "'></span>";
     }
     else {
-        return "<img class='infoHeaderIcon' src='img/RedXMark.png' alt='" + falseTitle + "' title='" + falseTitle + "' />";
+        return "<span class='glyphicon glyphicon-remove-sign infoHeaderIcon glyphiconRed' title='" + falseTitle + "'></span>";
     }
 }
 
