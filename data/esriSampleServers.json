@@ -33,7 +33,7 @@
         },
         {
             "name": "ArcGIS 10 SP4 - Tasks",
-            "url": "http://tasks.arcgisonline.com/ArcGIS/rest/services"
+            "url": "http://tasks.arcgisonline.com/ArcGIS/rest/services/"
         },
         {
             "name": ""
