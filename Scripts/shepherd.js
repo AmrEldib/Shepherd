@@ -17,6 +17,18 @@ String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+$('#treeDiv').on("hover_node.jstree", function (e, data) {
+  console.log(data.node.text);
+  console.log(data.node);
+  $('#' + data.node.id).attr("style", "color: red;"); 
+});
+
+$('#treeDiv').on("dehover_node.jstree", function (e, data) {
+  console.log(data.node.text);
+  console.log(data.node);
+  $('#' + data.node.id).removeAttr("style"); 
+});
+
 function getBaseUrl(url) {
     pathArray = url.split('/');
     host = pathArray[2];
