@@ -10,10 +10,23 @@ var name_txtServerUrl = "txtServerUrl";
 var name_divTree = "treeDiv";
 var name_btnEsriSampleServer = "esriSampleServerButton";
 var name_ulEsriSampleServer = "esriSampleServersList";
+var url_localStorageList = [];
 
 String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
+
+$('#treeDiv').on("hover_node.jstree", function (e, data) {
+    console.log(data.node.text);
+    console.log(data.node);
+    $('#' + data.node.id).attr("style", "color: red;");
+});
+
+$('#treeDiv').on("dehover_node.jstree", function (e, data) {
+    console.log(data.node.text);
+    console.log(data.node);
+    $('#' + data.node.id).removeAttr("style");
+});
 
 function getBaseUrl(url) {
     pathArray = url.split('/');
@@ -200,6 +213,9 @@ function btnGetServerInfo_Click(serverUrl) {
         getItemDetails(serverUrl, treeObject.get_node(serverNodeName), function () {
             writeItemToTree(treeObject, treeObject.get_node(serverNodeName));
             displayItemInfo(treeObject.get_node(serverNodeName).data);
+
+            // Local Storage
+            addLocalStorage(serverUrl);
         });
     }
 }
@@ -632,7 +648,6 @@ $(document).ready(function () {
         // Get item's details and loads them into view.
         getItemDetails(data.node.data.itemUrl, data.node, function () {
             // Add folder's children to the tree if they're not already added.
-            //if (data.node.data.itemType === "Folder" && data.node.children.length == 0) {
             if (data.node.children.length == 0) {
                 writeItemToTree(treeObject, data.node);
                 data.node.state.opened = true;
@@ -644,6 +659,7 @@ $(document).ready(function () {
 
     // Set up the buttons for Esri Sample Servers.
     $.getJSON("data/esriSampleServers.json", function (esriSample) {
+
         $.get("templates/esriSampleServersList.html", function (listTemplate) {
             var listCompiledTemplate = Handlebars.compile(listTemplate);
             var listHtml = listCompiledTemplate(esriSample);
@@ -673,6 +689,13 @@ $(document).ready(function () {
         openEffect: 'none',
         closeEffect: 'none'
     });
+
+    // add urls saved in local storage to tree
+    if (localStorage["AGS_servicesUrl"]) {
+        $.each(JSON.parse(localStorage["AGS_servicesUrl"]), function (index, value) {
+            btnGetServerInfo_Click(value);
+        });
+    }
 });
 
 function displayItemInfo(itemData) {
@@ -690,7 +713,25 @@ function displayItemInfo(itemData) {
     });
 }
 
-// prevent accidental closing of window
-window.onbeforeunload = function () {
-    return "Are you sure you want to navigate away?";
+function addLocalStorage(serverUrl) {
+    if (typeof (Storage) !== "undefined") {
+        // check if local storage item exists
+        if (!localStorage["AGS_servicesUrl"]) {
+            url_localStorageList.push(serverUrl);
+            localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+        } else {
+            if (JSON.parse(localStorage["AGS_servicesUrl"].indexOf(serverUrl)) == -1) {
+                url_localStorageList = JSON.parse(localStorage["AGS_servicesUrl"]);
+                url_localStorageList.push(serverUrl);
+                localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+            }
+        }
+    }
 }
+
+// enter key triggers browse button click
+$("#txtServerUrl").keyup(function (event) {
+    if (event.which == 13) {
+        $("#btnGetServerInfo").click();
+    }
+});
