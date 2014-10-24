@@ -217,6 +217,9 @@ function btnGetServerInfo_Click(serverUrl) {
 }
 
 function displayBooleanAsImage(boolValue, trueTitle, falseTitle) {
+    if (typeof boolValue === "undefined") {
+        return "N/A";
+    }
     if (boolValue) {
         return "<span class='glyphicon glyphicon-ok-sign infoHeaderIcon glyphiconGreen' title='" + trueTitle + "'></span>";
     }

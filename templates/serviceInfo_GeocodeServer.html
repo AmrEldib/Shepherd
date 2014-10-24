@@ -16,7 +16,7 @@
 <!-- Address Fields -->
 <h3><a name="sectionAddressFields">Address Fields</a></h3>
 {{#if itemJson.addressFields}}
-    {{{generateTable itemJson.addressFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
+    {{{generateTable itemJson.addressFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean", "trueTitle": "Required", "falseTitle": "Not Required"}]' "No Fields."}}}
 {{else}}
 No Fields.
 {{/if}}
@@ -24,7 +24,7 @@ No Fields.
 <!-- Candidate Fields -->
 <h3><a name="sectionCandidateFields" class="serviceInfoSection">Candidate Fields</a></h3>
 {{#if itemJson.candidateFields}}
-    {{{generateTable itemJson.candidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
+    {{{generateTable itemJson.candidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean", "trueTitle": "Required", "falseTitle": "Not Required"}]' "No Fields."}}}
 {{else}}
 No Fields.
 {{/if}}
@@ -32,7 +32,7 @@ No Fields.
 <!-- Intersection Candidate Fields -->
 <h3><a name="sectionIntersectionCandidateFields" class="serviceInfoSection">Intersection Candidate Fields</a></h3>
 {{#if itemJson.candidateFields}}
-    {{{generateTable itemJson.intersectionCandidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean"}]' "No Fields."}}}
+    {{{generateTable itemJson.intersectionCandidateFields '[{"name":"name","title":"Name","type":"text"},{"name":"type","title":"Type","type":"enum", "enumType": "esriFieldType"},{"name":"alias","title":"Alias","type":"text"},{"name":"required","title":"Required","type":"boolean", "trueTitle": "Required", "falseTitle": "Not Required"}]' "No Fields."}}}
 {{else}}
 No Fields.
 {{/if}}
