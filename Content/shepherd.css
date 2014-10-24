@@ -37,12 +37,12 @@
     padding: 1px 2px;
 }
 
-.serviceInfoSection:before { 
-    display: block; 
-    content: " "; 
-    margin-top: -80px; 
+.serviceInfoSection:before {
+    display: block;
+    content: " ";
+    margin-top: -80px;
     height: 80px;
-    visibility: hidden; 
+    visibility: hidden;
 }
 
 table thead tr {
@@ -83,7 +83,8 @@ table thead tr {
     }
 
 .infoPanelLoading {
-    height: 30px;
+    height: 23px;
+    margin-bottom: 0px;
 }
 
 .glyphiconRed {

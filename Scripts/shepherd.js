@@ -18,15 +18,15 @@ String.prototype.endsWith = function (suffix) {
 };
 
 $('#treeDiv').on("hover_node.jstree", function (e, data) {
-  console.log(data.node.text);
-  console.log(data.node);
-  $('#' + data.node.id).attr("style", "color: red;"); 
+    console.log(data.node.text);
+    console.log(data.node);
+    $('#' + data.node.id).attr("style", "color: red;");
 });
 
 $('#treeDiv').on("dehover_node.jstree", function (e, data) {
-  console.log(data.node.text);
-  console.log(data.node);
-  $('#' + data.node.id).removeAttr("style"); 
+    console.log(data.node.text);
+    console.log(data.node);
+    $('#' + data.node.id).removeAttr("style");
 });
 
 function getBaseUrl(url) {
@@ -643,8 +643,8 @@ $(document).ready(function () {
     });
     // Listen to tree events
     $("#" + name_divTree).on("select_node.jstree", function (e, data) {
-        // Add loading indicator. It will be replaced after loading is compelete.
-        $('#' + name_divInfo).html("<h2>Loading...</h2><div class='progress infoPanelLoading'><div class='progress-bar progress-bar-striped active'  role='progressbar' aria-valuenow='95' aria-valuemin='0' aria-valuemax='100' style='width: 95%'><span class='sr-only'>Loading...</span></div></div>");
+        // Add loading indicator. It will be replaced after loading is compelete. <h2>Loading...</h2>
+        $('#progressBar').html("<div class='progress infoPanelLoading'><div class='progress-bar progress-bar-info progress-bar-striped active'  role='progressbar' aria-valuenow='95' aria-valuemin='0' aria-valuemax='100' style='width: 95%'><span class='sr-only'>Loading...</span></div></div>");
 
         // Get item's details and loads them into view.
         getItemDetails(data.node.data.itemUrl, data.node, function () {
@@ -655,6 +655,7 @@ $(document).ready(function () {
             }
             // Display item's info
             displayItemInfo(data.node.data);
+
         });
     });
 
@@ -662,8 +663,8 @@ $(document).ready(function () {
     $.getJSON("data/esriSampleServers.json", function (esriSample) {
 
         // gather list of esri sample sites for use in local storage check
-        $.each(esriSample.servers, function(key, value) {
-          list_defaultSampleServers.push(value.url);
+        $.each(esriSample.servers, function (key, value) {
+            list_defaultSampleServers.push(value.url);
         });
         $.get("templates/esriSampleServersList.html", function (listTemplate) {
             var listCompiledTemplate = Handlebars.compile(listTemplate);
@@ -697,9 +698,9 @@ $(document).ready(function () {
 
     // add urls saved in local storage to tree
     if (localStorage["AGS_servicesUrl"]) {
-      $.each(JSON.parse(localStorage["AGS_servicesUrl"]), function(index, value) {
-        btnGetServerInfo_Click(value);
-      });
+        $.each(JSON.parse(localStorage["AGS_servicesUrl"]), function (index, value) {
+            btnGetServerInfo_Click(value);
+        });
     }
 });
 
@@ -715,29 +716,31 @@ function displayItemInfo(itemData) {
         });
         // Initialize tooltips
         $('.bstooltip').tooltip();
+        // Clear progress bar
+        $('#progressBar').html("");
     });
 }
 
 function addLocalStorage(serverUrl) {
-  if(typeof(Storage) !== "undefined") {
+    if (typeof (Storage) !== "undefined") {
 
-    // check if local storage item exists
-    if (!localStorage["AGS_servicesUrl"] && list_defaultSampleServers.indexOf(serverUrl) == -1) {
-      url_localStorageList.push(serverUrl);
-      localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
-    } else {
-      if (JSON.parse(localStorage["AGS_servicesUrl"].indexOf(serverUrl)) == -1 && list_defaultSampleServers.indexOf(serverUrl) == -1) {
-        url_localStorageList = JSON.parse(localStorage["AGS_servicesUrl"]);
-        url_localStorageList.push(serverUrl);
-        localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
-      }
+        // check if local storage item exists
+        if (!localStorage["AGS_servicesUrl"] && list_defaultSampleServers.indexOf(serverUrl) == -1) {
+            url_localStorageList.push(serverUrl);
+            localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+        } else {
+            if (JSON.parse(localStorage["AGS_servicesUrl"].indexOf(serverUrl)) == -1 && list_defaultSampleServers.indexOf(serverUrl) == -1) {
+                url_localStorageList = JSON.parse(localStorage["AGS_servicesUrl"]);
+                url_localStorageList.push(serverUrl);
+                localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+            }
+        }
     }
-  }
 }
 
 // enter key triggers browse button click
-$("#txtServerUrl").keyup(function(event){
-  if(event.which == 13){
-      $("#btnGetServerInfo").click();
-  }
+$("#txtServerUrl").keyup(function (event) {
+    if (event.which == 13) {
+        $("#btnGetServerInfo").click();
+    }
 });
