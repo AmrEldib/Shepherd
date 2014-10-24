@@ -1,7 +1,6 @@
 ﻿/// <reference path="jquery-2.1.1.min.js" />
 /// <reference path="handlebars.min.js" />
 /// <reference path="bootstrap.min.js" />
-/// <reference path="jquery.fancybox.js" />
 
 var treeObject;
 var esriEnums;
@@ -18,14 +17,10 @@ String.prototype.endsWith = function (suffix) {
 };
 
 $('#treeDiv').on("hover_node.jstree", function (e, data) {
-    console.log(data.node.text);
-    console.log(data.node);
     $('#' + data.node.id).attr("style", "color: red;");
 });
 
 $('#treeDiv').on("dehover_node.jstree", function (e, data) {
-    console.log(data.node.text);
-    console.log(data.node);
     $('#' + data.node.id).removeAttr("style");
 });
 
@@ -681,19 +676,6 @@ $(document).ready(function () {
     // Load Esri Enum values.
     $.getJSON("data/esriEnums.json", function (esriEnumsJson) {
         esriEnums = esriEnumsJson;
-    });
-
-    // Setup fancy box for map extent
-    $(".mapExtentFrame").fancybox({
-        maxWidth: '90%',
-        maxHeight: '90%',
-        fitToView: false,
-        width: '90%',
-        height: '90%',
-        autoSize: false,
-        closeClick: false,
-        openEffect: 'none',
-        closeEffect: 'none'
     });
 
     // add urls saved in local storage to tree

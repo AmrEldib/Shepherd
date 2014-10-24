@@ -94,3 +94,18 @@ table thead tr {
 .glyphiconGreen {
     color: green;
 }
+
+#mapExtentModal .modal-body {
+    padding: 0px;
+}
+
+    #mapExtentModal .modal-body iframe {
+        height: 600px;
+        width: 100%;
+        zoom: 0.60;
+    }
+
+#mapExtentModal .modal-dialog {
+    width: 80%;
+    height: 80%;
+}

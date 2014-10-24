@@ -1,5 +1,33 @@
 ﻿{{#if .}}
-    <a class="mapExtentFrame" data-fancybox-type="iframe" href='mapExtent.html?extent={"xmin":{{xmin}},"ymin":{{ymin}},"xmax":{{xmax}},"ymax":{{ymax}},"spatialReference":{"wkid":{{spatialReference.wkid}} }}'>
-        <span title="Preview Extent in Map" class="glyphicon glyphicon-map-marker infoHeaderIcon"></span>
-    </a>
+<a class="mapExtentFrame" href='mapExtent.html?extent={"xmin":{{xmin}},"ymin":{{ymin}},"xmax":{{xmax}},"ymax":{{ymax}},"spatialReference":{"wkid":{{spatialReference.wkid}} }}'>
+    <span title="Preview Extent in Map" class="glyphicon glyphicon-map-marker infoHeaderIcon"></span>
+</a>
+
+<div id="mapExtentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Extent Preview</h4>
+            </div>
+            <div class="modal-body">
+                <iframe id="mapPreviewIFrame" src="" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 {{/if}}
+
+<script>
+    $('.mapExtentFrame').unbind("click").bind("click", function (event) {
+        event.preventDefault();
+        var url = this.href;
+        $('#mapExtentModal').on('show.bs.modal', function () {
+            console.log(url);
+            $('#mapPreviewIFrame').attr("src", url);
+        });
+        $('#mapExtentModal').modal('show');
+    });
+</script>
