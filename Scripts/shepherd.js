@@ -10,6 +10,7 @@ var name_txtServerUrl = "txtServerUrl";
 var name_divTree = "treeDiv";
 var name_btnEsriSampleServer = "esriSampleServerButton";
 var name_ulEsriSampleServer = "esriSampleServersList";
+var list_defaultSampleServers = [];
 var url_localStorageList = [];
 
 String.prototype.endsWith = function (suffix) {
@@ -17,15 +18,15 @@ String.prototype.endsWith = function (suffix) {
 };
 
 $('#treeDiv').on("hover_node.jstree", function (e, data) {
-    console.log(data.node.text);
-    console.log(data.node);
-    $('#' + data.node.id).attr("style", "color: red;");
+  console.log(data.node.text);
+  console.log(data.node);
+  $('#' + data.node.id).attr("style", "color: red;"); 
 });
 
 $('#treeDiv').on("dehover_node.jstree", function (e, data) {
-    console.log(data.node.text);
-    console.log(data.node);
-    $('#' + data.node.id).removeAttr("style");
+  console.log(data.node.text);
+  console.log(data.node);
+  $('#' + data.node.id).removeAttr("style"); 
 });
 
 function getBaseUrl(url) {
@@ -660,6 +661,10 @@ $(document).ready(function () {
     // Set up the buttons for Esri Sample Servers.
     $.getJSON("data/esriSampleServers.json", function (esriSample) {
 
+        // gather list of esri sample sites for use in local storage check
+        $.each(esriSample.servers, function(key, value) {
+          list_defaultSampleServers.push(value.url);
+        });
         $.get("templates/esriSampleServersList.html", function (listTemplate) {
             var listCompiledTemplate = Handlebars.compile(listTemplate);
             var listHtml = listCompiledTemplate(esriSample);
@@ -692,9 +697,9 @@ $(document).ready(function () {
 
     // add urls saved in local storage to tree
     if (localStorage["AGS_servicesUrl"]) {
-        $.each(JSON.parse(localStorage["AGS_servicesUrl"]), function (index, value) {
-            btnGetServerInfo_Click(value);
-        });
+      $.each(JSON.parse(localStorage["AGS_servicesUrl"]), function(index, value) {
+        btnGetServerInfo_Click(value);
+      });
     }
 });
 
@@ -714,24 +719,25 @@ function displayItemInfo(itemData) {
 }
 
 function addLocalStorage(serverUrl) {
-    if (typeof (Storage) !== "undefined") {
-        // check if local storage item exists
-        if (!localStorage["AGS_servicesUrl"]) {
-            url_localStorageList.push(serverUrl);
-            localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
-        } else {
-            if (JSON.parse(localStorage["AGS_servicesUrl"].indexOf(serverUrl)) == -1) {
-                url_localStorageList = JSON.parse(localStorage["AGS_servicesUrl"]);
-                url_localStorageList.push(serverUrl);
-                localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
-            }
-        }
+  if(typeof(Storage) !== "undefined") {
+
+    // check if local storage item exists
+    if (!localStorage["AGS_servicesUrl"] && list_defaultSampleServers.indexOf(serverUrl) == -1) {
+      url_localStorageList.push(serverUrl);
+      localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+    } else {
+      if (JSON.parse(localStorage["AGS_servicesUrl"].indexOf(serverUrl)) == -1 && list_defaultSampleServers.indexOf(serverUrl) == -1) {
+        url_localStorageList = JSON.parse(localStorage["AGS_servicesUrl"]);
+        url_localStorageList.push(serverUrl);
+        localStorage.setItem("AGS_servicesUrl", JSON.stringify(url_localStorageList));
+      }
     }
+  }
 }
 
 // enter key triggers browse button click
-$("#txtServerUrl").keyup(function (event) {
-    if (event.which == 13) {
-        $("#btnGetServerInfo").click();
-    }
+$("#txtServerUrl").keyup(function(event){
+  if(event.which == 13){
+      $("#btnGetServerInfo").click();
+  }
 });
