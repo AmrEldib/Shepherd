@@ -46,6 +46,7 @@ function (Map,
 
         var symbol = new SimpleFillSymbol().setColor("blue").outline.setColor("blue");
         var gl = new GraphicsLayer({ id: "extents" });        
+        
         map.addLayer(gl);
 
         var attr = { "field1": "Initial Extent" };

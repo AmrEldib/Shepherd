@@ -455,7 +455,7 @@ function ifEqualToAny() {
 function generateTable(jsonArray, tableDescriptionString, naValue) {
     var tableDescription = JSON.parse(tableDescriptionString);
 
-    if (jsonArray == 'undefined' | jsonArray == 'null' | jsonArray.length === 0) {
+    if (jsonArray === 'undefined' | jsonArray == 'null' | jsonArray.length === 0) {
         return naValue;
     }
     else {
