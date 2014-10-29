@@ -11,10 +11,16 @@ var name_btnEsriSampleServer = "esriSampleServerButton";
 var name_ulEsriSampleServer = "esriSampleServersList";
 var list_defaultSampleServers = [];
 var url_localStorageList = [];
+var elementIdCounter = 1;
 
 String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
+
+function getUniqueElementName(prefix) {
+    elementIdCounter += 1;
+    return prefix + "elementId_" + elementIdCounter;
+}
 
 $('#treeDiv').on("hover_node.jstree", function (e, data) {
     $('#' + data.node.id).attr("style", "color: red;");
@@ -452,9 +458,29 @@ function ifEqualToAny() {
     }
 }
 
+function convertLegendObjectToString(legendObject) {
+    var legendString = "";
+    legendObject.forEach(function (legendItem) {        
+        legendString += "<img title=\"" + legendItem.contentType + "\" src=\"data:" + legendItem.contentType + ";base64," + legendItem.imageData + "\" /> " + displayTextOrNA(legendItem.label) + " (" + legendItem.width + ", " + legendItem.height + ")<br/>";        
+    });
+    return legendString;
+}
+
+function getMapLegendDetails(mapServiceUrl) {
+    var divId = getUniqueElementName("mapLegnedId");
+    var legenedDiv = "<div id=\"" + divId + "\"></div>";
+    // get legend info
+    $.getJSON(mapServiceUrl + "/legend?f=json&callback=?", function (legendJson) {
+        console.log(legendJson);
+        $("#" + divId).html(generateTable(legendJson.layers, "[{\"name\":\"layerId\", \"title\":\"ID\", \"type\":\"number\"}, {\"name\":\"layerName\",\"title\":\"Name\",\"type\":\"text\"}, {\"name\":\"layerType\", \"title\":\"Type\",\"type\":\"text\"}, {\"name\":\"minScale\", \"title\":\"Min Scale\", \"type\":\"number\"}, {\"name\":\"maxScale\", \"title\":\"Max Scale\", \"type\":\"number\"}, {\"name\":\"legend\", \"title\":\"Legend (width, height)\", \"type\":\"legend\"}]", "No legend items."));
+    }).fail(function () {
+        $("#" + divId).html("No legend items.");
+    });
+    return legenedDiv;
+}
+
 function generateTable(jsonArray, tableDescriptionString, naValue) {
     var tableDescription = JSON.parse(tableDescriptionString);
-
     if (jsonArray === 'undefined' | jsonArray == 'null' | jsonArray.length === 0) {
         return naValue;
     }
@@ -495,6 +521,9 @@ function generateTable(jsonArray, tableDescriptionString, naValue) {
                         break;
                     case "subTypesTemplates":
                         cellValue = convertSubTypesTemplatesToList(dataItem[tableItem.name]);
+                        break;
+                    case "legend":
+                        cellValue = convertLegendObjectToString(dataItem[tableItem.name]);
                         break;
                     default:
                         cellValue = displayTextOrNA(dataItem[tableItem.name]);
@@ -591,6 +620,9 @@ function setupHandlebarsHelpers() {
 
     // ifEqualToAny: Returns true if the first value is equal to any of the other values.
     Handlebars.registerHelper("ifEqualToAny", ifEqualToAny);
+
+    // getMapLegendDetails: Returns a table of legend items for map service.
+    Handlebars.registerHelper("getMapLegendDetails", getMapLegendDetails);
 }
 
 function setupHandlebarsPartials() {
@@ -628,6 +660,12 @@ function setupHandlebarsPartials() {
     $.get("templates/partial_LabelingInfo.html", function (template) {
         Handlebars.registerPartial("labelingInfoDetails", template)
     });
+
+    // mapLegendDetails: writes out a table of legend details for a map server.
+    $.get("templates/partial_MapLegend.html", function (template) {
+        Handlebars.registerPartial("mapLegendDetails", template)
+    });
+    
 }
 
 $(document).ready(function () {

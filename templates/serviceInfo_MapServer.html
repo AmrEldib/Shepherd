@@ -5,6 +5,7 @@
     <a href="#sectionLayers">Layers</a> -
     <a href="#sectionTables">Tables</a> -
     <a href="#sectionExtent">Extent</a> -
+    <a href="#sectionLegend">Legend</a> -
     <a href="#sectionCache">Cache and Tiles</a> -
     <a href="#sectionDocumentInfo">Document Info</a> -
     <a href="#sectionMisc">Misc</a>
@@ -42,6 +43,10 @@
 <!--Full Extent-->
 <h4>Full Extent {{> extentPreviewIcon itemJson.fullExtent}}</h4>
 {{> extentDetails itemJson.fullExtent}}
+
+<!-- Legend -->
+<h3><a name="sectionLegend" class="serviceInfoSection">Legend</a></h3>
+{{> mapLegendDetails .}}
 
 <!-- Cache and Tiles -->
 <h3><a name="sectionCache" class="serviceInfoSection">Cache and Tiles</a></h3>
