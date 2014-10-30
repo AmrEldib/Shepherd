@@ -660,11 +660,6 @@ function setupHandlebarsPartials() {
     $.get("templates/partial_LabelingInfo.html", function (template) {
         Handlebars.registerPartial("labelingInfoDetails", template)
     });
-
-    // mapLegendDetails: writes out a table of legend details for a map server.
-    $.get("templates/partial_MapLegend.html", function (template) {
-        Handlebars.registerPartial("mapLegendDetails", template)
-    });
     
 }
 
