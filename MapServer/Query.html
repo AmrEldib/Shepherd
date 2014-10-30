@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Shepherd - Query Map</title>
+    <meta name="description" content="An ArcCatalog-Style alternative to ArcGIS Server Services Directory. Shepherd will guide you through the content of your ArcGIS Server." />
+    <meta name="author" content="Amr Eldib" />
+
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/png" />
+
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Content/Highlight/github.css" rel="stylesheet" />
+    <link href="../Content/shepherd.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="##">Shepherd</a>
+            </div>
+
+            <div class="navbar-inner">
+                <div class="nav navbar-text" style="width: 85%;">
+                    <div id="progressBar"></div>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="btn" data-toggle="modal" data-target="#aboutDialog">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="body" class="container-fluid">
+        <div id="serverUrl" class="row">
+            <div class="col-md-12">
+                <div class="input-group">
+                    <input id="txtServiceUrl"
+                           type="text"
+                           class="form-control"
+                           placeholder="Enter URL to Map Service to Query" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-default"
+                                id="btnGetServerInfo"
+                                onclick="btnGetServiceInfo_Click(txtServiceUrl.value)">
+                            Load
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="paramPanel">
+                    <form class="well form-horizontal">
+                        <fieldset>
+                            <legend>Query Parameters</legend>
+                            <div class="form-group">
+                                <label for="txtWhere" class="col-lg-2 control-label">Where</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="txtWhere" placeholder="Where Clause" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtText" class="col-lg-2 control-label">Text</label>
+                                <div class="col-lg-10">
+                                    <input class="form-control" id="txtText" placeholder="Text" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtGeometry" class="col-lg-2 control-label">Input Geometry</label>
+                                <div class="col-lg-10">
+                                    <textarea class="form-control" rows="3" id="txtGeometry"></textarea>
+                                    <span class="help-block">Enter Geometry in form of valid Esri JSON or Draw on the map.</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cmbGeometryType" class="col-lg-2 control-label">Geometry Type</label>
+                                <div class="col-lg-10">
+                                    <select class="form-control" id="cmbGeometryType">
+                                        <option>Envelope</option>
+                                        <option>Point</option>
+                                        <option>Polyline</option>
+                                        <option>Polygon</option>
+                                        <option>Multipoint</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button class="btn btn-default">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-lg-2 control-label">Radios</label>
+                                <div class="col-lg-10">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+                                            Option one is this
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">
+                                            Option two can be something else
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="resultsPanel"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../Scripts/jquery-2.1.1.min.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/handlebars.min.js"></script>
+    <script src="../Scripts/Highlight/highlight.pack.js"></script>
+    <script src="../Scripts/ZeroClipboard/ZeroClipboard.js"></script>
+    <script src="../Scripts/mapQuery.js"></script>
+</body>
+</html>
+
