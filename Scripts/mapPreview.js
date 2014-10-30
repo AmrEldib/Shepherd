@@ -8,16 +8,26 @@ var extentPolygon;
 require(["esri/map",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/FeatureLayer",
+    "esri/tasks/GeometryService",
+    "esri/geometry/Extent",
+    "esri/request",
 
     "dojo/domReady!"],
 function (Map,
     ArcGISDynamicMapServiceLayer,
-    FeatureLayer) {
+    FeatureLayer,
+    GeometryService,
+    Extent,
+    esriRequest) {
+
+    esriConfig.defaults.geometryService = new GeometryService("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/Geometry/GeometryServer");
+
+    var extent = new Extent(JSON.parse(getURLParameter('extent')));
+    console.log(extent);
 
     map = new Map("map", {
         basemap: "topo",
-        center: [-122.45, 37.75], // longitude, latitude
-        zoom: 13
+        extent: extent.expand(1.5)
     });
 
     var serviceType = getURLParameter('serviceType');
@@ -28,21 +38,13 @@ function (Map,
     switch (serviceType) {
         case "MapServer":
             layer = new ArcGISDynamicMapServiceLayer(serviceUrl);
-            console.log(layer);
             map.addLayer(layer);
-            //map.setExtent(layer.initialExtent);
             break;
         case "FeatureServer":
             var layer = new FeatureLayer(serviceUrl + "/0", {
                 mode: FeatureLayer.MODE_AUTO
             });
-            console.log(layer);
             map.addLayer(layer);
-            //map.setExtent(layer.initialExtent);
             break;
     }
-
-    map.on("resize", function () {
-        //map.setExtent(extentPolygon.getExtent().expand(1.5));
-    });
 });

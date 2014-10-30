@@ -26,8 +26,8 @@ function (Map,
     map = new Map("map", {
         basemap: "topo",
         extent: extent,
-        center: [-122.45, 37.75], // longitude, latitude
-        zoom: 13
+        //center: [-122.45, 37.75], // longitude, latitude
+        //zoom: 13
     });
 
     map.on("load", function () {

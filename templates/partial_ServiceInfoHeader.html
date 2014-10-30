@@ -19,7 +19,7 @@
         </a>
 
         {{#ifEqualToAny itemType "MapServer" "FeatureServer" "ImageServer" "Layer"}}
-        <a href="mapPreview.html?serviceUrl={{itemUrl}}&serviceType={{itemType}}" target="_blank" class="no-underline">
+        <a href='mapPreview.html?serviceUrl={{itemUrl}}&serviceType={{itemType}}&extent={"xmin":{{itemJson.initialExtent.xmin}},"ymin":{{itemJson.initialExtent.ymin}},"xmax":{{itemJson.initialExtent.xmax}},"ymax":{{itemJson.initialExtent.ymax}},"spatialReference":{"wkid":{{itemJson.initialExtent.spatialReference.wkid}} }}' target="_blank" class="no-underline">
             <span title="Open in Map"
                   data-toggle="tooltip"
                   data-placement="top"
