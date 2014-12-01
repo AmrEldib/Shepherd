@@ -18,10 +18,20 @@ module.exports = function (grunt) {
                     drop_console: true
                   }
             }
+        },
+        cssmin: {
+            minify: {
+                expand: true,
+                cwd: './Content/',
+                src: ['bootstrap-theme.css', 'bootstrap.css', 'mapExtent.css', 'shepherd.css'],
+                dest: './Content/',
+                ext: '.min.css'
+            }
         }
     });
     
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     
-    grunt.registerTask("default", ['uglify']);
+    grunt.registerTask("default", ['uglify', 'cssmin']);
 };
